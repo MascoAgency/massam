@@ -1,0 +1,11 @@
+# Vercel'e yüklenmeyecek dosyalar (gizli bilgiler ve yerel veriler)
+.env
+.env.*
+!.env.example
+.local-db
+node_modules
+.next
+docs/ornek-rapor.pdf
+*.log
+YONETICI-GECICI-SIFRE.txt
+tasarim-onerileri

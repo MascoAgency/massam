@@ -1,0 +1,341 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DATABASE_URL_UNPOOLED") // Neon/Vercel bu adı otomatik verir
+}
+
+enum Role {
+  USER // üye araştırmacı (kendi anketleri)
+  ADMIN // yönetici: her şey
+  RESEARCHER // araştırma sorumlusu: platform anketleri, ham veri, analiz, yayın
+  EDITOR // editör: içerik, kategoriler, yayınlar, sonuç sayfaları (ham veri yok)
+  ANALYST // analist: sonuçlar, ham veri, analiz ve dışa aktarma
+}
+
+enum SurveyStatus {
+  draft
+  open
+  closed
+}
+
+enum UsageKind {
+  ai
+  pdf
+  assistant
+}
+
+model Plan {
+  id              String   @id // free | pro | corp
+  name            String
+  note            String   @default("")
+  priceTry        Int      @default(0) // aylık ücret (₺)
+  sortOrder       Int      @default(0)
+  // -1 = sınırsız
+  limitSurveys    Int
+  limitResponses  Int
+  limitAi         Int
+  limitPdf        Int
+  retentionMonths Int
+  stripePriceId   String?
+  users           User[]   @relation("UserPlan")
+  requestedBy     User[]   @relation("RequestedPlan")
+  updatedAt       DateTime @updatedAt
+}
+
+model User {
+  id                 String               @id @default(cuid())
+  email              String               @unique
+  name               String
+  passwordHash       String
+  role               Role                 @default(USER)
+  disabled           Boolean              @default(false)
+  institution        String               @default("")
+  title              String               @default("")
+  field              String               @default("")
+  planId             String               @default("free")
+  plan               Plan                 @relation("UserPlan", fields: [planId], references: [id])
+  requestedPlanId    String?
+  requestedPlan      Plan?                @relation("RequestedPlan", fields: [requestedPlanId], references: [id])
+  requestedAt        DateTime?
+  stripeCustomerId   String?              @unique
+  subscriptionId     String?              @unique
+  subscriptionStatus String?
+  currentPeriodEnd   DateTime?
+  createdAt          DateTime             @default(now())
+  updatedAt          DateTime             @updatedAt
+  surveys            Survey[]
+  analyses           Analysis[]
+  reports            Report[]
+  usage              UsageEvent[]
+  resetTokens        PasswordResetToken[]
+}
+
+model PasswordResetToken {
+  id        String    @id @default(cuid())
+  tokenHash String    @unique
+  userId    String
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  expiresAt DateTime
+  usedAt    DateTime?
+  createdAt DateTime  @default(now())
+}
+
+model Survey {
+  id          String       @id @default(cuid())
+  slug        String       @unique // herkese açık katılım bağlantısı: /s/{slug}
+  ownerId     String
+  owner       User         @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+  title       String
+  description String       @default("")
+  thankYou    String       @default("")
+  status      SurveyStatus @default(draft)
+  archived    Boolean      @default(false)
+  isPlatform  Boolean      @default(false)
+  example     Boolean      @default(false)
+  questions   Json // Question[]
+  categoryId  String?
+  category    Category?    @relation(fields: [categoryId], references: [id], onDelete: SetNull)
+  purpose     String       @default("") // araştırmanın amacı
+  targetGroup String       @default("") // hedef katılımcı grubu
+  consentText String       @default("") // katılım öncesi bilgilendirme ve onay metni
+  startsAt    DateTime?
+  endsAt      DateTime?
+  purgedAt    DateTime? // saklama süresi dolduğunda yanıtlar silindi
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+  responses   Response[]
+  analyses    Analysis[]
+  reports     Report[]
+
+  @@index([ownerId])
+}
+
+model Response {
+  id          String    @id @default(cuid())
+  surveyId    String
+  survey      Survey    @relation(fields: [surveyId], references: [id], onDelete: Cascade)
+  answers     Json // { [questionId]: string | string[] | number }
+  startedAt   DateTime?
+  submittedAt DateTime  @default(now())
+  durationSec Int?
+  source      String    @default("web") // web | kiosk | csv | ornek
+  ipHash      String?
+
+  @@index([surveyId, submittedAt])
+  @@index([surveyId, ipHash, submittedAt])
+}
+
+model Analysis {
+  id        String   @id @default(cuid())
+  surveyId  String
+  survey    Survey   @relation(fields: [surveyId], references: [id], onDelete: Cascade)
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  model     String
+  filter    String   @default("")
+  n         Int
+  isLocal   Boolean  @default(false)
+  result    Json
+  createdAt DateTime @default(now())
+
+  @@index([surveyId, createdAt])
+}
+
+model Report {
+  id           String        @id @default(cuid())
+  surveyId     String
+  survey       Survey        @relation(fields: [surveyId], references: [id], onDelete: Cascade)
+  userId       String
+  user         User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  filename     String
+  n            Int
+  filter       String        @default("")
+  model        String
+  snapshot     Json
+  published    Boolean       @default(false) // herkese açık sonuç sayfası yayımlandı
+  publishedAt  DateTime?
+  // Sonuç sayfası (Araştırma Sonuçları) içeriği
+  slug         String?       @unique
+  summary      String        @default("")
+  scope        String        @default("") // hedef kitle ve araştırma kapsamı
+  method       String        @default("") // veri toplama ve örneklem yöntemi
+  limitations  String        @default("")
+  evaluation   String        @default("")
+  highlights   String[] // Veri ve İstatistikler bölümünde öne çıkarılan soru kimlikleri
+  agenda       Boolean       @default(false) // Türkiye Gündemi bölümünde öne çıkar
+  publications Publication[]
+  createdAt    DateTime      @default(now())
+
+  @@index([surveyId, createdAt])
+}
+
+model UsageEvent {
+  id        String    @id @default(cuid())
+  userId    String
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  kind      UsageKind
+  surveyId  String?
+  createdAt DateTime  @default(now())
+
+  @@index([userId, kind, createdAt])
+}
+
+model SiteSetting {
+  key       String   @id // home
+  value     Json
+  updatedAt DateTime @updatedAt
+}
+
+/// Giriş denemeleri: kaba kuvvet saldırılarına karşı e-posta başına deneme sınırı
+model LoginAttempt {
+  id        String   @id @default(cuid())
+  email     String
+  success   Boolean
+  createdAt DateTime @default(now())
+
+  @@index([email, createdAt])
+}
+
+/// Araştırma alanları (kategori)
+model Category {
+  id           String        @id @default(cuid())
+  slug         String        @unique
+  name         String
+  description  String        @default("")
+  icon         String        @default("chart")
+  topics       String[]
+  sortOrder    Int           @default(0)
+  active       Boolean       @default(true)
+  surveys      Survey[]
+  publications Publication[]
+  findings     Finding[]
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+}
+
+/// Yayınlar ve Raporlar arşivi
+model Publication {
+  id          String    @id @default(cuid())
+  slug        String    @unique
+  title       String
+  type        String // rapor | kamuoyu | politika | veri | akademik | dosya
+  summary     String    @default("")
+  body        String    @default("")
+  authors     String    @default("")
+  categoryId  String?
+  category    Category? @relation(fields: [categoryId], references: [id], onDelete: SetNull)
+  reportId    String?
+  report      Report?   @relation(fields: [reportId], references: [id], onDelete: SetNull)
+  pdfUrl      String    @default("")
+  coverId     String?
+  cover       Media?    @relation("PublicationCover", fields: [coverId], references: [id], onDelete: SetNull)
+  pdfId       String?
+  pdf         Media?    @relation("PublicationPdf", fields: [pdfId], references: [id], onDelete: SetNull)
+  published   Boolean   @default(false)
+  publishedAt DateTime?
+  agenda      Boolean   @default(false)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+}
+
+/// Araştırma topluluğu: gelecekteki araştırmalara davet almak isteyen gönüllüler
+model Volunteer {
+  id               String    @id @default(cuid())
+  email            String    @unique
+  name             String    @default("")
+  city             String    @default("")
+  ageGroup         String    @default("")
+  interests        String[]
+  consentAt        DateTime
+  ipHash           String?
+  unsubscribeToken String    @unique
+  unsubscribedAt   DateTime?
+  createdAt        DateTime  @default(now())
+}
+
+/// Medya kütüphanesi: görseller ve PDF dosyaları (veritabanında saklanır, /medya/{id} adresinden sunulur)
+model Media {
+  id                String        @id @default(cuid())
+  filename          String
+  mime              String
+  size              Int
+  width             Int?
+  height            Int?
+  alt               String        @default("")
+  data              Bytes
+  uploadedById      String?
+  createdAt         DateTime      @default(now())
+  newsCovers        News[]        @relation("NewsCover")
+  pageCovers        Page[]        @relation("PageCover")
+  publicationCovers Publication[] @relation("PublicationCover")
+  publicationPdfs   Publication[] @relation("PublicationPdf")
+
+  @@index([createdAt])
+}
+
+/// Haberler ve duyurular
+model News {
+  id          String    @id @default(cuid())
+  slug        String    @unique
+  title       String
+  summary     String    @default("")
+  body        String    @default("")
+  authorName  String    @default("")
+  coverId     String?
+  cover       Media?    @relation("NewsCover", fields: [coverId], references: [id], onDelete: SetNull)
+  categoryId  String?
+  featured    Boolean   @default(false) // ana sayfada öne çıkar
+  published   Boolean   @default(false)
+  publishedAt DateTime? // ileri bir tarih verilirse o tarihte yayına girer
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  @@index([published, publishedAt])
+}
+
+/// Yönetimden oluşturulan serbest sayfalar (/sayfa/{slug})
+model Page {
+  id           String   @id @default(cuid())
+  slug         String   @unique
+  title        String
+  summary      String   @default("")
+  body         String   @default("")
+  coverId      String?
+  cover        Media?   @relation("PageCover", fields: [coverId], references: [id], onDelete: SetNull)
+  published    Boolean  @default(false)
+  showInFooter Boolean  @default(false)
+  sortOrder    Int      @default(0)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
+/// Yayımlanmış MASKDER raporlarından seçilmiş veriler (grafik + kısa metin + kaynakça)
+model Finding {
+  id           String    @id @default(cuid())
+  slug         String    @unique
+  title        String
+  summary      String    @default("")
+  body         String    @default("") // kısa değerlendirme (biçimli metin)
+  categoryId   String?
+  category     Category? @relation(fields: [categoryId], references: [id], onDelete: SetNull)
+  sourceTitle  String    @default("") // kaynak raporun adı
+  sourceUrl    String    @default("")
+  sourceSeries String    @default("") // örn. MASKDER Yayınları 03
+  sourceYear   Int?
+  isbn         String    @default("")
+  method       String    @default("") // yöntem ve örneklem özeti
+  stats        Json      @default("[]") // [{value,label}]
+  charts       Json      @default("[]") // [{title,question,kind,items:[{label,value}],insight}]
+  featured     Boolean   @default(false)
+  published    Boolean   @default(false)
+  sortOrder    Int       @default(0)
+  publishedAt  DateTime?
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+
+  @@index([published, sortOrder])
+}

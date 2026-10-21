@@ -1,0 +1,1735 @@
+<title>MASKDER Araştırma</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: MASKDER think-tank identity — frosted white header with the globe emblem, navy→cerulean gradient bands, soft rounded working cards */
+:root{
+  --bg:#f6f7fb; --surface:#ffffff; --surface-2:#eef2fa; --fg:#1b1b1d; --muted:#5b6474; --line:#e2e6ee; --line-2:#cbd5e1;
+  --accent:#006591; --accent-strong:#004666; --accent-fg:#ffffff; --accent-soft:#e3f1f8; --ink-2:#45464d;
+  --signal:#39b8fd; --navy:#131b2e; --navy-2:#0d2a45; --on-navy:#ffffff; --on-navy-muted:rgba(255,255,255,.72);
+  --grad:linear-gradient(125deg,#131b2e 0%,#0e3150 48%,#006591 100%);
+  --good:#0f8a5f; --good-soft:#dcf5ea; --warn:#b06a00; --warn-soft:#fdf0d9; --bad:#c2334a; --bad-soft:#fde4e8;
+  --header-bg:rgba(255,255,255,.82);
+  --shadow-sm:0 1px 2px rgba(19,27,46,.05),0 1px 3px rgba(19,27,46,.06);
+  --shadow:0 12px 32px -12px rgba(19,27,46,.18),0 2px 6px rgba(19,27,46,.05);
+  --f-display:"Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --f-body:"Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --f-mono:"JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+  --r:14px; --r-sm:10px;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0b1120; --surface:#121a2c; --surface-2:#19243b; --fg:#e8edf5; --muted:#9aa6ba; --line:#243049; --line-2:#33415e;
+  --accent:#39b8fd; --accent-strong:#7dd0ff; --accent-fg:#04131f; --accent-soft:#0f2d45; --ink-2:#cfd7e4;
+  --signal:#39b8fd; --navy:#0a1222; --navy-2:#0d2a45;
+  --grad:linear-gradient(125deg,#0a1222 0%,#0c2742 50%,#005479 100%);
+  --good:#41d39a; --good-soft:#0d3326; --warn:#f0b450; --warn-soft:#3a2b12; --bad:#ff7a90; --bad-soft:#3d1622;
+  --header-bg:rgba(18,26,44,.82);
+  --shadow-sm:0 1px 2px rgba(0,0,0,.3); --shadow:0 12px 32px -12px rgba(0,0,0,.55);
+  color-scheme:dark;
+}}
+:root[data-theme="dark"]{
+  --bg:#0b1120; --surface:#121a2c; --surface-2:#19243b; --fg:#e8edf5; --muted:#9aa6ba; --line:#243049; --line-2:#33415e;
+  --accent:#39b8fd; --accent-strong:#7dd0ff; --accent-fg:#04131f; --accent-soft:#0f2d45; --ink-2:#cfd7e4;
+  --signal:#39b8fd; --navy:#0a1222; --navy-2:#0d2a45;
+  --grad:linear-gradient(125deg,#0a1222 0%,#0c2742 50%,#005479 100%);
+  --good:#41d39a; --good-soft:#0d3326; --warn:#f0b450; --warn-soft:#3a2b12; --bad:#ff7a90; --bad-soft:#3d1622;
+  --header-bg:rgba(18,26,44,.82);
+  --shadow-sm:0 1px 2px rgba(0,0,0,.3); --shadow:0 12px 32px -12px rgba(0,0,0,.55);
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html,body{overflow-x:clip}
+body{background:var(--bg);color:var(--fg);font-family:var(--f-body);font-size:15px;line-height:1.6;-webkit-font-smoothing:antialiased;font-feature-settings:"cv11","ss01"}
+h1,h2,h3{font-family:var(--f-display);font-weight:700;line-height:1.15;text-wrap:balance;margin:0;letter-spacing:-.022em}
+h1{font-size:clamp(1.75rem,3.6vw,2.5rem)}
+h2{font-size:1.5rem}
+h3{font-size:1.06rem;letter-spacing:-.012em}
+p{margin:0}
+a{color:var(--accent)}
+button,input,select,textarea{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--signal);outline-offset:2px}
+.mono{font-family:var(--f-mono);font-variant-numeric:tabular-nums}
+.muted{color:var(--muted)}
+.small{font-size:.86rem}
+.eyebrow{font-size:.75rem;letter-spacing:.06em;text-transform:uppercase;color:var(--accent);font-weight:600}
+
+/* header */
+.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--header-bg);backdrop-filter:saturate(1.6) blur(14px);-webkit-backdrop-filter:saturate(1.6) blur(14px);border-bottom:1px solid var(--line)}
+.top-in{max-width:1200px;margin:0 auto;padding-inline:16px;display:flex;align-items:center;gap:20px;min-height:66px}
+.brand{display:flex;align-items:center;gap:12px;background:none;border:0;padding:0;cursor:pointer;color:var(--fg);white-space:nowrap}
+.brand-logo{width:40px;height:40px;border-radius:50%;display:block;box-shadow:0 2px 8px rgba(0,101,145,.25)}
+.brand-div{width:1px;height:28px;background:var(--line-2)}
+.brand-text{display:flex;flex-direction:column;align-items:flex-start;line-height:1.1}
+.brand-text b{font-size:1.12rem;font-weight:800;letter-spacing:-.01em}
+.brand-text small{font-size:.72rem;color:var(--muted);font-weight:500}
+.nav{display:flex;gap:2px;overflow-x:auto;flex:1;min-width:0;scrollbar-width:none;padding:4px}
+.nav::-webkit-scrollbar{display:none}
+.nav button:first-child{margin-left:auto}
+.nav button{background:none;border:0;padding:8px 13px;border-radius:9px;cursor:pointer;color:var(--ink-2);font-weight:500;font-size:.92rem;white-space:nowrap;transition:background .15s,color .15s}
+.nav button:hover{background:var(--surface-2);color:var(--fg)}
+.nav button[aria-current="page"]{background:var(--accent-soft);color:var(--accent);font-weight:600}
+.who{display:flex;align-items:center;gap:10px;font-size:.86rem;white-space:nowrap;color:var(--ink-2)}
+.avatar{width:34px;height:34px;border-radius:50%;background:var(--grad);display:grid;place-items:center;font-weight:700;font-size:.76rem;color:#fff}
+@media (max-width:1060px){.top-in{flex-wrap:wrap;gap:2px 12px;padding-top:10px}.nav{order:3;flex-basis:100%;margin-inline:-4px;padding-bottom:8px}.nav button:first-child{margin-left:0}.who{margin-left:auto}.who .who-name{display:none}}
+@media (max-width:420px){.brand-div,.brand-text small{display:none}}
+
+main{max-width:1200px;margin:0 auto;padding:28px 16px 72px}
+.stack{display:flex;flex-direction:column;gap:20px}
+.row{display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+.between{justify-content:space-between}
+.grid{display:grid;gap:16px}
+.g2{grid-template-columns:repeat(auto-fit,minmax(min(100%,340px),1fr))}
+.g3{grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr))}
+.g4{grid-template-columns:repeat(auto-fit,minmax(min(100%,190px),1fr))}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:22px;min-width:0;box-shadow:var(--shadow-sm)}
+.card.flat{background:transparent;box-shadow:none}
+
+/* gradient page band */
+.page-head{position:relative;isolation:isolate;overflow:hidden;display:flex;justify-content:space-between;align-items:flex-end;gap:16px;flex-wrap:wrap;
+  margin:-28px calc(50% - 50vw) 6px;padding:44px max(16px,calc(50vw - 584px)) 38px;background:var(--grad);color:var(--on-navy)}
+.page-head::before{content:"";position:absolute;inset:0;z-index:-1;opacity:.5;background-image:radial-gradient(rgba(255,255,255,.16) 1px,transparent 1px);background-size:22px 22px;-webkit-mask-image:linear-gradient(90deg,transparent,#000 70%);mask-image:linear-gradient(90deg,transparent,#000 70%)}
+.page-head::after{content:"";position:absolute;right:-120px;top:-160px;width:420px;height:420px;border-radius:50%;z-index:-1;background:radial-gradient(circle,rgba(57,184,253,.35),transparent 65%)}
+.page-head h1{color:#fff}
+.page-head .eyebrow{color:#9fdcff}
+.page-head p{max-width:62ch}
+.page-head .muted,.page-head .small.muted{color:var(--on-navy-muted)}
+.page-head .btn:not(.primary){background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.28);color:#fff}
+.page-head .btn:not(.primary):hover{background:rgba(255,255,255,.18)}
+.page-head .btn.primary{background:#fff;border-color:#fff;color:#0d3350}
+.page-head .pill{background:rgba(255,255,255,.14);color:#fff}
+.page-head .pill.open{background:rgba(65,211,154,.2);color:#9ff0c9}
+.page-head .pill.closed{background:rgba(255,122,144,.2);color:#ffc0cb}
+.page-head .pill.draft{background:rgba(240,180,80,.22);color:#ffd99a}
+
+/* buttons */
+.btn{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--line-2);background:var(--surface);padding:9px 16px;border-radius:var(--r-sm);cursor:pointer;font-weight:600;font-size:.9rem;text-decoration:none;color:var(--fg);white-space:nowrap;transition:background .15s,border-color .15s,box-shadow .15s,transform .15s}
+.btn:hover{border-color:var(--muted);box-shadow:var(--shadow-sm)}
+.btn:active{transform:translateY(1px)}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:var(--accent-fg);box-shadow:0 6px 16px -8px rgba(0,101,145,.7)}
+.btn.primary:hover{background:var(--accent-strong);border-color:var(--accent-strong)}
+.btn.onnavy{background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.3);color:#fff}
+.btn.onnavy:hover{background:rgba(255,255,255,.18)}
+.btn.ghost{border-color:transparent;background:transparent;box-shadow:none}
+.btn.ghost:hover{background:var(--surface-2)}
+.btn.danger{color:var(--bad)}
+.btn.sm{padding:6px 11px;font-size:.84rem;border-radius:8px}
+.btn[disabled]{opacity:.5;cursor:not-allowed;box-shadow:none}
+.btn svg{width:16px;height:16px;flex:none}
+
+/* pills */
+.pill{display:inline-flex;align-items:center;gap:6px;font-size:.75rem;font-weight:600;padding:3px 10px;border-radius:999px;background:var(--surface-2);color:var(--ink-2);white-space:nowrap}
+.pill::before{content:"";width:6px;height:6px;border-radius:50%;background:currentColor}
+.pill.open{background:var(--good-soft);color:var(--good)}
+.pill.closed{background:var(--bad-soft);color:var(--bad)}
+.pill.draft{background:var(--warn-soft);color:var(--warn)}
+.pill.plain::before{display:none}
+.pill.accent{background:var(--accent-soft);color:var(--accent)}
+
+/* forms */
+label.f{display:flex;flex-direction:column;gap:6px;font-size:.84rem;font-weight:600;color:var(--ink-2);min-width:0}
+input[type=text],input[type=number],input[type=url],input[type=date],input[type=search],select,textarea{background:var(--surface);border:1px solid var(--line-2);border-radius:var(--r-sm);padding:9px 12px;width:100%;font-weight:400;min-width:0;transition:border-color .15s,box-shadow .15s}
+textarea{resize:vertical;min-height:84px}
+input:focus,select:focus,textarea:focus{border-color:var(--accent);outline:none;box-shadow:0 0 0 4px var(--accent-soft)}
+.check{display:inline-flex;align-items:center;gap:8px;font-size:.9rem;cursor:pointer}
+.check input{accent-color:var(--accent);width:16px;height:16px}
+
+/* stat tiles */
+.stat{display:flex;flex-direction:column;gap:4px}
+.stat b{font-size:2rem;font-weight:700;font-variant-numeric:tabular-nums;line-height:1.1;letter-spacing:-.03em;color:var(--fg)}
+.stat span{font-size:.82rem;color:var(--muted);font-weight:500}
+.card.stat{position:relative;overflow:hidden}
+.card.stat::after{content:"";position:absolute;right:-30px;top:-30px;width:90px;height:90px;border-radius:50%;background:radial-gradient(circle,var(--accent-soft),transparent 70%)}
+
+/* tables */
+.tbl-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:var(--r-sm)}
+table{border-collapse:collapse;width:100%;font-size:.88rem}
+th,td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-size:.74rem;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);font-weight:600;background:var(--surface-2);white-space:nowrap}
+tr:last-child td{border-bottom:0}
+tbody tr:hover td{background:color-mix(in srgb,var(--surface-2) 45%,transparent)}
+td.num,th.num{text-align:right;font-variant-numeric:tabular-nums}
+
+/* survey list */
+.slist{display:flex;flex-direction:column}
+.sitem{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:6px 16px;padding:16px 10px;margin-inline:-10px;border-radius:var(--r-sm);border-bottom:1px solid var(--line);align-items:center;transition:background .15s}
+.sitem:hover{background:var(--surface-2)}
+.sitem:last-child{border-bottom:0}
+.sitem h3{font-size:1.05rem}
+.sitem .meta{display:flex;gap:14px;flex-wrap:wrap;font-size:.82rem;color:var(--muted)}
+.sitem .acts{display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end}
+@media (max-width:640px){.sitem{grid-template-columns:1fr}.sitem .acts{justify-content:flex-start}}
+
+/* tabs */
+.tabs{display:flex;gap:4px;overflow-x:auto;scrollbar-width:thin;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:4px;box-shadow:var(--shadow-sm);width:fit-content;max-width:100%}
+.tabs button{background:none;border:0;padding:8px 14px;border-radius:9px;cursor:pointer;color:var(--muted);font-weight:500;white-space:nowrap;transition:background .15s,color .15s}
+.tabs button:hover{color:var(--fg)}
+.tabs button[aria-selected="true"]{background:var(--accent);color:var(--accent-fg);font-weight:600}
+
+/* builder */
+.qcard{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:18px;display:flex;flex-direction:column;gap:12px;box-shadow:var(--shadow-sm)}
+.qcard:focus-within{border-color:var(--accent);box-shadow:0 0 0 4px var(--accent-soft)}
+.qcard-head{display:flex;gap:10px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+.qnum{font-family:var(--f-mono);font-size:.78rem;color:var(--muted)}
+.qtools{display:flex;gap:2px}
+.iconbtn{background:none;border:1px solid transparent;border-radius:8px;width:32px;height:32px;display:grid;place-items:center;cursor:pointer;color:var(--muted)}
+.iconbtn:hover{background:var(--surface-2);color:var(--fg)}
+.iconbtn[disabled]{opacity:.35;cursor:not-allowed}
+.iconbtn svg{width:16px;height:16px}
+.opt-row{display:flex;gap:6px;align-items:center}
+.opt-row input{flex:1}
+.addq{display:flex;gap:8px;flex-wrap:wrap;padding:16px;border:1.5px dashed var(--line-2);border-radius:var(--r);background:color-mix(in srgb,var(--surface) 60%,transparent)}
+.qrow{display:grid;grid-template-columns:minmax(0,2fr) minmax(160px,1fr);gap:10px}
+@media (max-width:560px){.qrow{grid-template-columns:1fr}}
+
+/* participant form */
+.take{max-width:740px;margin:0 auto}
+.take-head{position:relative;overflow:hidden;isolation:isolate;padding:30px 28px;border-radius:18px;background:var(--grad);color:var(--on-navy);box-shadow:var(--shadow)}
+.take-head::after{content:"";position:absolute;right:-90px;bottom:-120px;width:300px;height:300px;border-radius:50%;z-index:-1;background:radial-gradient(circle,rgba(57,184,253,.4),transparent 65%)}
+.take-head h1{color:#fff}
+.take-head .eyebrow{color:#9fdcff;display:flex;align-items:center;gap:10px}
+.take-head .eyebrow img{width:28px;height:28px;border-radius:50%}
+.take-head .muted{color:var(--on-navy-muted)}
+.take-head .progress{background:rgba(255,255,255,.18)}
+.take-head .progress i{background:#fff}
+.take-head .btn{background:rgba(255,255,255,.12);border-color:rgba(255,255,255,.3);color:#fff}
+.tq{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:22px;display:flex;flex-direction:column;gap:12px;box-shadow:var(--shadow-sm)}
+.tq.err{border-color:var(--bad);box-shadow:0 0 0 4px var(--bad-soft)}
+.tq .req{color:var(--bad)}
+.choice{display:flex;align-items:flex-start;gap:10px;padding:11px 14px;border:1px solid var(--line-2);border-radius:var(--r-sm);cursor:pointer;transition:border-color .15s,background .15s}
+.choice:hover{border-color:var(--accent)}
+.choice input{accent-color:var(--accent);margin-top:3px;width:17px;height:17px;flex:none}
+.choice:has(input:checked){border-color:var(--accent);background:var(--accent-soft)}
+.scale{display:grid;gap:8px}
+.scale label{display:flex;flex-direction:column;align-items:center;gap:6px;text-align:center;font-size:.78rem;padding:12px 4px;border:1px solid var(--line-2);border-radius:var(--r-sm);cursor:pointer;color:var(--muted);transition:border-color .15s,background .15s}
+.scale label:hover{border-color:var(--accent)}
+.scale label b{font-size:1.05rem;color:var(--fg);font-weight:700}
+.scale input{position:absolute;opacity:0;pointer-events:none}
+.scale label:has(input:checked){border-color:var(--accent);background:var(--accent);color:var(--accent-fg)}
+.scale label:has(input:checked) b{color:var(--accent-fg)}
+.scale label:has(input:focus-visible){outline:2px solid var(--signal);outline-offset:2px}
+@media (max-width:560px){.scale.likert{grid-template-columns:1fr!important}.scale.likert label{flex-direction:row;justify-content:flex-start;text-align:left;padding:11px 14px}}
+.progress{height:6px;background:var(--surface-2);border-radius:3px;overflow:hidden}
+.progress i{display:block;height:100%;background:var(--accent);border-radius:3px;transition:width .25s}
+
+/* results */
+.qres{display:flex;flex-direction:column;gap:16px}
+.qres-head{display:flex;justify-content:space-between;gap:12px;align-items:flex-start;flex-wrap:wrap}
+.chart-box{position:relative;height:280px;min-width:0}
+.seg{display:inline-flex;background:var(--surface-2);border-radius:10px;padding:3px;gap:2px}
+.seg button{background:transparent;border:0;border-radius:8px;padding:5px 11px;font-size:.8rem;cursor:pointer;color:var(--muted);font-weight:500}
+.seg button[aria-pressed="true"]{background:var(--surface);color:var(--accent);font-weight:600;box-shadow:var(--shadow-sm)}
+.answers{max-height:300px;overflow:auto;display:flex;flex-direction:column;gap:8px;padding-right:4px}
+.answers blockquote{margin:0;padding:10px 14px;background:var(--surface-2);border-radius:var(--r-sm);font-size:.9rem;border-left:3px solid var(--signal)}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{font-size:.8rem;padding:4px 10px;border-radius:999px;border:1px solid var(--line);background:var(--surface)}
+.chip b{font-variant-numeric:tabular-nums;font-weight:600;color:var(--accent);margin-left:5px}
+.filterbar{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,180px),1fr));gap:12px;align-items:end}
+.callout{padding:14px 16px;border-radius:var(--r-sm);background:var(--accent-soft);color:var(--fg);font-size:.9rem;display:flex;gap:10px;align-items:flex-start}
+.callout.warn{background:var(--warn-soft)}
+.callout.bad{background:var(--bad-soft)}
+.callout svg{width:18px;height:18px;flex:none;margin-top:2px;color:var(--accent)}
+.callout.warn svg{color:var(--warn)}
+.ai-out{display:flex;flex-direction:column;gap:20px}
+.ai-out h3{font-size:1rem}
+.ai-out ul{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:6px}
+.ai-out p{max-width:75ch}
+.theme-row{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:4px 12px;padding:9px 0;border-bottom:1px solid var(--line)}
+
+/* home */
+.hero-band{position:relative;margin:-28px calc(50% - 50vw) 0;background:var(--grad);color:var(--on-navy);overflow:hidden;isolation:isolate}
+.hero-band::before{content:"";position:absolute;inset:0;z-index:-1;background:radial-gradient(ellipse 70% 60% at 70% 115%,rgba(57,184,253,.45),transparent 70%),radial-gradient(ellipse 45% 55% at 0% 0%,rgba(19,27,46,.7),transparent 70%)}
+.hero-band canvas{position:absolute;inset:0;width:100%;height:100%;z-index:-1}
+.hero{max-width:1200px;margin:0 auto;padding:76px 16px 84px;display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:52px;align-items:center}
+.hero h1{font-weight:800;font-size:clamp(2.1rem,4.8vw,3.5rem);letter-spacing:-.035em;line-height:1.05;color:#fff}
+.hero h1 strong{display:block;font-weight:800;background:linear-gradient(90deg,#ffffff 10%,#39b8fd 90%);-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero .eyebrow{color:#9fdcff;display:inline-flex;align-items:center;gap:10px;padding:5px 12px 5px 5px;border-radius:999px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.16);text-transform:none;letter-spacing:0;font-size:.82rem}
+.hero .eyebrow img{width:24px;height:24px;border-radius:50%}
+.hero p.lead{font-size:1.08rem;color:var(--on-navy-muted);max-width:54ch;margin-top:18px}
+.hero-visual{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.16);border-radius:18px;padding:24px;display:flex;flex-direction:column;gap:12px;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);box-shadow:0 24px 60px -24px rgba(0,0,0,.5)}
+.hero-visual .eyebrow{color:#9fdcff}
+.hero-visual .muted{color:var(--on-navy-muted)}
+.hero-visual hr.sep{border-top-color:rgba(255,255,255,.16)}
+@media (max-width:820px){.hero{grid-template-columns:1fr;gap:30px;padding:52px 16px 60px}}
+.bar-demo{display:grid;grid-template-columns:minmax(0,9rem) minmax(0,1fr) 3rem;gap:10px;align-items:center;font-size:.8rem}
+.bar-demo i{display:block;height:8px;border-radius:4px;background:linear-gradient(90deg,#39b8fd,#9fdcff)}
+.section-title{display:flex;flex-direction:column;gap:8px;max-width:720px}
+.section-title h2{display:flex;flex-direction:column-reverse;gap:6px;font-size:clamp(1.6rem,3vw,2.1rem);font-weight:800;letter-spacing:-.03em}
+.section-title h2 small{font-size:.75rem;letter-spacing:.06em;text-transform:uppercase;font-weight:600;color:var(--accent)}
+.section-title p{color:var(--muted);max-width:62ch}
+.steps{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:14px}
+@media (max-width:980px){.steps{grid-template-columns:repeat(auto-fit,minmax(min(100%,240px),1fr))}}
+.step{padding:20px;display:flex;flex-direction:column;gap:8px;min-width:0;background:var(--surface);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow-sm);transition:transform .2s,box-shadow .2s}
+.step:hover{transform:translateY(-2px);box-shadow:var(--shadow)}
+.step .mono{align-self:flex-start;font-family:var(--f-body);font-size:.74rem;font-weight:600;color:var(--accent);background:var(--accent-soft);padding:3px 9px;border-radius:999px}
+.announce{padding:12px 16px;border-radius:var(--r-sm);background:var(--surface);border:1px solid var(--line);box-shadow:var(--shadow-sm);display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+.navy-band{margin-inline:calc(50% - 50vw);padding:60px max(16px,calc(50vw - 584px));background:var(--grad);color:var(--on-navy)}
+.navy-band .section-title h2{color:#fff}
+.navy-band .section-title h2 small{color:#9fdcff}
+.navy-band .section-title p{color:var(--on-navy-muted)}
+.navy-band .card{background:rgba(255,255,255,.07);border-color:rgba(255,255,255,.16);color:#fff;box-shadow:none}
+.navy-band .card .muted{color:var(--on-navy-muted)}
+.navy-band .btn:not(.primary){background:#fff;border-color:#fff;color:#0d3350}
+@media (prefers-reduced-motion:reduce){.step,.btn{transition:none}.step:hover{transform:none}}
+
+/* plans */
+.plan{display:flex;flex-direction:column;gap:14px}
+.plan.current{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft),var(--shadow)}
+.price{font-size:2.2rem;font-weight:800;letter-spacing:-.035em;font-variant-numeric:tabular-nums}
+.price small{font-size:.86rem;color:var(--muted);font-weight:500;letter-spacing:0}
+.plan ul{margin:0;padding-left:0;list-style:none;display:flex;flex-direction:column;gap:7px;font-size:.9rem;flex:1}
+.plan li{display:flex;gap:8px}
+.plan li::before{content:"";flex:none;width:16px;height:16px;margin-top:3px;border-radius:50%;background:var(--accent-soft) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M4.5 8.2l2.2 2.2 4.8-4.8' fill='none' stroke='%23006591' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/12px no-repeat}
+.navy-band .plan li::before,.page-head .plan li::before{background-color:rgba(255,255,255,.15)}
+.meter{display:flex;flex-direction:column;gap:6px}
+.meter .bar{height:8px;border-radius:4px;background:var(--surface-2);overflow:hidden}
+.meter .bar i{display:block;height:100%;border-radius:4px;background:var(--accent)}
+.meter .bar i.hi{background:var(--warn)}
+.meter .bar i.full{background:var(--bad)}
+
+/* modal + toast */
+.modal{position:fixed;inset:0;background:rgba(10,16,32,.55);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);z-index:50;display:flex;align-items:flex-start;justify-content:center;padding:max(24px,env(safe-area-inset-top,0px)) 16px 24px;overflow:auto}
+.modal-in{background:var(--bg);border-radius:18px;width:min(880px,100%);display:flex;flex-direction:column;box-shadow:0 30px 80px -20px rgba(0,0,0,.5);overflow:hidden}
+.modal-head{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:14px 20px;border-bottom:1px solid var(--line);background:var(--surface);position:sticky;top:0;z-index:1}
+.modal-body{padding:22px 20px}
+.toast{position:fixed;left:50%;bottom:calc(22px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--navy);color:#fff;padding:11px 18px;border-radius:12px;font-size:.9rem;z-index:60;max-width:calc(100% - 32px);box-shadow:0 12px 32px rgba(0,0,0,.25)}
+.empty{text-align:center;padding:44px 20px;display:flex;flex-direction:column;align-items:center;gap:12px}
+.empty p{max-width:52ch;color:var(--muted)}
+.spinner{width:18px;height:18px;border:2px solid var(--line);border-top-color:var(--accent);border-radius:50%;animation:spin .8s linear infinite;display:inline-block;vertical-align:middle}
+@keyframes spin{to{transform:rotate(360deg)}}
+@media (prefers-reduced-motion:reduce){.spinner{animation-duration:2.4s}.progress i{transition:none}}
+.qr-box{background:#fff;padding:14px;border-radius:14px;display:inline-block;border:1px solid var(--line);box-shadow:var(--shadow-sm)}
+.qr-box img{display:block;width:180px;height:180px;image-rendering:pixelated}
+.linkbox{display:flex;gap:6px}
+.linkbox input{font-family:var(--f-mono);font-size:.82rem}
+hr.sep{border:0;border-top:1px solid var(--line);margin:4px 0}
+#reportStage{position:fixed;left:-12000px;top:0;width:794px;pointer-events:none}
+
+/* report (always light: it is a printed document) */
+.rpt{width:794px;background:#fff;color:#1b1b1d;font-family:"Inter",Arial,sans-serif;font-size:12.5px;line-height:1.55;padding:0 8px}
+.rpt h1{font-family:"Inter",Arial,sans-serif;font-weight:800;letter-spacing:-.02em;font-size:28px;color:#131b2e;margin:0 0 8px}
+.rpt h2{font-family:"Inter",Arial,sans-serif;font-weight:700;font-size:18px;color:#131b2e;margin:22px 0 8px;padding-bottom:5px;border-bottom:2px solid #006591}
+.rpt h3{font-family:"Inter",Arial,sans-serif;font-weight:700;font-size:13.5px;margin:0 0 6px;color:#1b1b1d}
+.rpt p{margin:0 0 8px}
+.rpt ul{margin:0 0 8px;padding-left:18px}
+.rpt li{margin-bottom:4px}
+.rpt .cover{padding:28px 28px 24px;margin:0 -8px 14px;background:linear-gradient(125deg,#131b2e 0%,#0e3150 48%,#006591 100%);color:#fff;border-radius:0 0 14px 14px}
+.rpt .cover h1{color:#fff}
+.rpt .cover .brandline{display:flex;align-items:center;gap:10px;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:#9fdcff;font-weight:600}
+.rpt .cover .brandline img{width:34px;height:34px;border-radius:50%}
+.rpt .kv{display:grid;grid-template-columns:150px 1fr;gap:4px 12px;font-size:12px;margin-top:16px}
+.rpt .kv b{color:#9fdcff;font-weight:600}
+.rpt .q{padding:10px 0 14px;border-bottom:1px solid #e2e6ee;page-break-inside:avoid}
+.rpt .q img{width:100%;max-width:640px;display:block;margin:6px 0}
+.rpt table{width:100%;border-collapse:collapse;font-size:11.5px;margin:6px 0}
+.rpt th,.rpt td{border:1px solid #e2e6ee;padding:4px 7px;text-align:left}
+.rpt th{background:#eef2fa;color:#45464d;text-transform:none;letter-spacing:0;font-size:11px}
+.rpt td.n{text-align:right;font-variant-numeric:tabular-nums}
+.rpt .comment{background:#e3f1f8;border-left:3px solid #006591;padding:7px 10px;margin-top:6px;border-radius:0 6px 6px 0}
+.rpt .foot{margin-top:24px;font-size:10.5px;color:#5b6474;border-top:1px solid #e2e6ee;padding-top:8px}
+</style>
+
+<header class="top" id="top">
+  <div class="top-in">
+    <button class="brand" data-act="go" data-view="home" aria-label="Ana sayfa">
+      <img class="brand-logo" src="data:image/png;base64,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" alt="MASKDER logosu" width="40" height="40"><span class="brand-div" aria-hidden="true"></span><span class="brand-text"><b>MASKDER</b><small>Araştırma Platformu</small></span>
+    </button>
+    <nav class="nav" id="nav" aria-label="Ana menü"></nav>
+    <div class="who" id="who"></div>
+  </div>
+</header>
+<main id="app">
+  <div class="empty"><span class="spinner"></span><p>Platform yükleniyor…</p></div>
+</main>
+<div id="modal" class="modal" hidden></div>
+<div id="toast" class="toast" hidden role="status" aria-live="polite"></div>
+<div id="reportStage" aria-hidden="true"></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+<script>
+"use strict";
+/* ============================================================
+   MASKDER Anket ve Araştırma Platformu — prototip
+   Veri: claude.ai artifact db  |  AI: sample  |  PDF: html2pdf + downloads
+   ============================================================ */
+
+// ---------- helpers ----------
+const $ = (s, r = document) => r.querySelector(s);
+const LOGO = (document.querySelector(".brand-logo") || {}).src || "";
+const $$ = (s, r = document) => [...r.querySelectorAll(s)];
+const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+const newId = () => Date.now().toString(36) + Math.random().toString(36).slice(2, 8);
+const fmtDate = ts => ts ? new Date(ts).toLocaleDateString("tr-TR", { day: "2-digit", month: "short", year: "numeric" }) : "—";
+const fmtDateTime = ts => ts ? new Date(ts).toLocaleString("tr-TR", { day: "2-digit", month: "short", year: "numeric", hour: "2-digit", minute: "2-digit" }) : "—";
+const fmtN = (n, d = 0) => (n == null || isNaN(n)) ? "—" : Number(n).toLocaleString("tr-TR", { maximumFractionDigits: d, minimumFractionDigits: d });
+const clone = o => JSON.parse(JSON.stringify(o));
+const css = name => getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+const initials = n => (n || "?").split(/\s+/).filter(Boolean).slice(0, 2).map(w => w[0].toLocaleUpperCase("tr-TR")).join("") || "?";
+const monthKey = ts => { const d = new Date(ts); return d.getFullYear() + "-" + (d.getMonth() + 1); };
+
+const ICON = {
+  up: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m18 15-6-6-6 6"/></svg>',
+  down: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg>',
+  copy: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>',
+  trash: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M8 6V4h8v2m-9 0 1 14h8l1-14"/></svg>',
+  plus: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>',
+  x: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6 6 18M6 6l12 12"/></svg>',
+  info: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/></svg>',
+  spark: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v4M12 17v4M3 12h4M17 12h4M6 6l2.5 2.5M15.5 15.5 18 18M6 18l2.5-2.5M15.5 8.5 18 6"/></svg>',
+  file: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M14 3v6h6M8 13h8M8 17h5"/></svg>',
+  eye: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg>',
+  dl: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v12m0 0-4-4m4 4 4-4M4 19h16"/></svg>',
+};
+
+const TYPE_LABEL = { single: "Tek seçimli", multi: "Çoktan seçmeli", open: "Açık uçlu", likert: "Likert ölçeği", rating: "Derecelendirme" };
+const LIKERT = {
+  5: ["Kesinlikle katılmıyorum", "Katılmıyorum", "Kararsızım", "Katılıyorum", "Kesinlikle katılıyorum"],
+  7: ["Kesinlikle katılmıyorum", "Katılmıyorum", "Biraz katılmıyorum", "Kararsızım", "Biraz katılıyorum", "Katılıyorum", "Kesinlikle katılıyorum"],
+};
+const PALETTE = ["#006591", "#39b8fd", "#3b4a72", "#f59e0b", "#10b981", "#8b5cf6", "#ef4444", "#94a3b8", "#0ea5e9", "#ec4899"];
+const STOP = new Set("ve ile bir bu da de için çok daha gibi ama en mi mı mu mü ne o şu ki ya hem olarak olan olması olsun var yok kadar sonra önce her ben biz siz onlar benim bizim daha fazla az şey ise yani veya diye göre üzerine ayrıca kendi tüm bazı hiç değil oldu olur olacak etmek etme eden edilmesi yapmak yapılması the and of to a in is".split(" "));
+
+const DEFAULT_PLANS = [
+  { id: "free", name: "Ücretsiz", price: 0, note: "Bireysel denemeler ve küçük çalışmalar", limits: { surveys: 3, responses: 100, ai: 3, pdf: 2, retention: 6 } },
+  { id: "pro", name: "Profesyonel", price: 499, note: "Araştırmacılar, öğrenci toplulukları, tez çalışmaları", limits: { surveys: 50, responses: 2000, ai: 40, pdf: 40, retention: 24 } },
+  { id: "corp", name: "Kurumsal", price: 1999, note: "Dernekler, kurumlar, belediyeler, düşünce kuruluşları", limits: { surveys: -1, responses: -1, ai: 300, pdf: 300, retention: 60 } },
+];
+const DEFAULT_HOME = {
+  heroTitle: "Sahadan rapora, tek panelde araştırma",
+  heroText: "Anketinizi hazırlayın, bağlantı veya QR kod ile paylaşın, sonuçları anında grafiklerle görün. Yapay zekâ verilerinizi yorumlasın ve akademik formatta PDF rapor hazırlasın.",
+  announcement: "MASK Akademi Güz Dönemi eğitim ihtiyaç analizi anketi yayında.",
+  featured: [],
+};
+
+// ---------- state ----------
+const S = {
+  ready: false, db: null, user: null, sample: null, downloads: null,
+  uid: null, me: null, isAdmin: false, canWrite: null,
+  profile: null, profiles: {}, assign: {}, surveys: [], usage: [],
+  site: { home: null, plans: null, config: null },
+  counts: {}, // surveyId -> response count
+  view: "home", p: {}, // view params
+  responses: [], respSurveyId: null, analyses: [], reports: [],
+  draft: null, dirty: false,
+  takeMode: false, takeSurvey: null, takeAnswers: {}, takeStarted: 0, takeDone: false,
+  charts: [], unsub: {},
+};
+
+// ---------- toast & modal ----------
+let toastT;
+function toast(msg, ms = 2800) { const t = $("#toast"); t.textContent = msg; t.hidden = false; clearTimeout(toastT); toastT = setTimeout(() => t.hidden = true, ms); }
+function openModal(title, body, foot = "") {
+  const m = $("#modal");
+  m.innerHTML = `<div class="modal-in" role="dialog" aria-modal="true" aria-label="${esc(title)}"><div class="modal-head"><h3>${esc(title)}</h3><button class="iconbtn" data-act="closeModal" aria-label="Kapat">${ICON.x}</button></div><div class="modal-body">${body}</div>${foot ? `<div class="modal-head" style="border-top:1px solid var(--line);border-bottom:0;border-radius:0 0 var(--r) var(--r);position:static">${foot}</div>` : ""}</div>`;
+  m.hidden = false;
+}
+function closeModal() { const m = $("#modal"); m.hidden = true; m.innerHTML = ""; }
+$("#modal").addEventListener("click", e => { if (e.target.id === "modal") closeModal(); });
+document.addEventListener("keydown", e => { if (e.key === "Escape" && !$("#modal").hidden) closeModal(); });
+
+// ---------- plans & limits ----------
+const plans = () => (S.site.plans && Array.isArray(S.site.plans.plans) && S.site.plans.plans.length) ? S.site.plans.plans : DEFAULT_PLANS;
+const home = () => Object.assign({}, DEFAULT_HOME, S.site.home || {});
+const planById = id => plans().find(p => p.id === id) || plans()[0];
+function planIdOf(uid, ownerIsAdmin) {
+  if ((uid && uid === S.uid && S.isAdmin) || ownerIsAdmin) return "corp";
+  return (S.assign[uid] && S.assign[uid].plan) || "free";
+}
+const myPlan = () => planById(planIdOf(S.uid));
+const lim = v => v < 0 ? Infinity : v;
+const limTxt = v => v < 0 ? "Sınırsız" : fmtN(v);
+const mySurveys = () => S.surveys.filter(s => s.ownerId === S.uid);
+const usageThisMonth = kind => { const mk = monthKey(Date.now()); return S.usage.filter(u => u.kind === kind && monthKey(u.at) === mk).length; };
+
+// ---------- routing ----------
+function go(view, p = {}) {
+  if (S.view === "builder" && S.dirty && view !== "builder") {
+    openModal("Kaydedilmemiş değişiklikler", `<p>Anket taslağında kaydedilmemiş değişiklikler var. Çıkarsanız bu değişiklikler kaybolur.</p>`,
+      `<span></span><div class="row"><button class="btn" data-act="closeModal">Düzenlemeye dön</button><button class="btn danger" data-act="discardGo" data-view="${esc(view)}" data-p='${esc(JSON.stringify(p))}'>Değişiklikleri at</button></div>`);
+    return;
+  }
+  S.view = view; S.p = p; S.dirty = false;
+  if (view !== "results" && view !== "history") stopResponses();
+  render(); window.scrollTo(0, 0);
+}
+const EDITING_VIEWS = new Set(["builder", "take", "profile"]);
+let renderQueued = false;
+function liveRender() {
+  if (EDITING_VIEWS.has(S.view) || (S.view === "admin" && ["home", "plans", "settings"].includes(S.p.tab))) { renderChrome(); return; }
+  if (renderQueued) return; renderQueued = true;
+  requestAnimationFrame(() => { renderQueued = false; const y = window.scrollY; render(); window.scrollTo(0, y); });
+}
+
+// ---------- chrome ----------
+function renderChrome() {
+  const nav = $("#nav"), who = $("#who");
+  if (S.takeMode) { nav.innerHTML = ""; who.innerHTML = (S.uid && (S.isAdmin || (S.takeSurvey && S.takeSurvey.ownerId === S.uid))) ? `<button class="btn sm" data-act="exitTake">Panele dön</button>` : ""; return; }
+  const items = [["home", "Ana sayfa"], ["dashboard", "Panel"], ["history", "Geçmiş araştırmalar"], ["plans", "Üyelik"], ["profile", "Profil"]];
+  if (S.isAdmin) items.push(["admin", "Yönetim"]);
+  const cur = S.view === "builder" || S.view === "results" ? "dashboard" : S.view;
+  nav.innerHTML = items.map(([v, l]) => `<button data-act="go" data-view="${v}" ${cur === v ? 'aria-current="page"' : ""}>${l}</button>`).join("");
+  const name = (S.profile && S.profile.name) || (S.me && S.me.name) || "";
+  who.innerHTML = S.uid ? `<span class="pill plain accent">${esc(myPlan().name)}</span><span class="who-name">${esc(name || "Üye")}</span><span class="avatar" aria-hidden="true">${esc(initials(name))}</span>` : `<span class="muted small">Giriş yapılmadı</span>`;
+}
+
+// ---------- render dispatcher ----------
+function destroyCharts() { S.charts.forEach(c => { try { c.destroy(); } catch (e) {} }); S.charts = []; }
+
+// Hero: a slow-drifting network of survey "nodes" over a glowing horizon
+let netRaf = 0, netResize = null;
+function stopHeroNet() { cancelAnimationFrame(netRaf); netRaf = 0; if (netResize) { window.removeEventListener("resize", netResize); netResize = null; } }
+function mountHeroNet() {
+  const cv = $("#heroNet"); if (!cv) return;
+  const ctx = cv.getContext("2d");
+  const still = window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
+  let W = 0, H = 0, pts = [];
+  const seed = () => {
+    const dpr = Math.min(2, window.devicePixelRatio || 1);
+    W = cv.clientWidth; H = cv.clientHeight; cv.width = W * dpr; cv.height = H * dpr; ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    const n = Math.round(Math.min(90, Math.max(28, W * H / 14000)));
+    pts = Array.from({ length: n }, () => ({ x: Math.random() * W, y: Math.random() * H, vx: (Math.random() - .5) * .22, vy: (Math.random() - .5) * .22, r: Math.random() < .12 ? 2.6 : 1.2 + Math.random(), hot: Math.random() < .06 }));
+  };
+  const LINK = 150;
+  const frame = () => {
+    ctx.clearRect(0, 0, W, H);
+    for (let i = 0; i < pts.length; i++) {
+      const a = pts[i];
+      for (let j = i + 1; j < pts.length; j++) {
+        const b = pts[j], dx = a.x - b.x, dy = a.y - b.y, d = Math.hypot(dx, dy);
+        if (d < LINK) { ctx.strokeStyle = `rgba(120,200,255,${(1 - d / LINK) * .32})`; ctx.lineWidth = .7; ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(b.x, b.y); ctx.stroke(); }
+      }
+    }
+    for (const p of pts) {
+      ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+      ctx.fillStyle = p.hot ? "rgba(255,255,255,.95)" : "rgba(150,215,255,.9)";
+      ctx.shadowColor = p.hot ? "rgba(159,220,255,.95)" : "rgba(0,162,255,.9)"; ctx.shadowBlur = p.r > 2 ? 14 : 6; ctx.fill(); ctx.shadowBlur = 0;
+      if (!still) { p.x += p.vx; p.y += p.vy; if (p.x < -20) p.x = W + 20; if (p.x > W + 20) p.x = -20; if (p.y < -20) p.y = H + 20; if (p.y > H + 20) p.y = -20; }
+    }
+    if (!still && document.body.contains(cv)) netRaf = requestAnimationFrame(frame);
+  };
+  seed(); frame();
+  netResize = () => { seed(); if (still) frame(); };
+  window.addEventListener("resize", netResize);
+}
+
+function render() {
+  destroyCharts(); stopHeroNet();
+  renderChrome();
+  const app = $("#app");
+  if (!S.ready) { app.innerHTML = `<div class="empty"><span class="spinner"></span><p>Platform yükleniyor…</p></div>`; return; }
+  if (S.takeMode) { app.innerHTML = viewTake(); afterTake(); return; }
+  if (!S.db) { app.innerHTML = viewNoDb(); return; }
+  const v = { home: viewHome, dashboard: viewDashboard, builder: viewBuilder, results: viewResults, history: viewHistory, plans: viewPlans, profile: viewProfile, admin: viewAdmin }[S.view] || viewHome;
+  app.innerHTML = v();
+  if (S.view === "home") mountHeroNet();
+  if (S.view === "results") mountResultCharts();
+  if (S.view === "admin" && (S.p.tab || "stats") === "stats") mountAdminCharts();
+}
+
+function viewNoDb() {
+  return `<div class="card empty"><h2>Platforma erişim yok</h2><p>Bu prototip verilerini claude.ai üzerinde saklar. Devam etmek için claude.ai hesabınızla giriş yapın ve sayfayı yeniden açın. Erişiminiz yoksa platform yöneticisinden davet isteyin.</p></div>`;
+}
+
+// ============================================================
+// HOME (landing)
+// ============================================================
+function viewHome() {
+  const h = home();
+  const platform = S.surveys.filter(s => s.isPlatform && s.status === "open" && !s.archived && (h.featured.length ? h.featured.includes(s.id) : true));
+  const pl = plans();
+  const ci = h.heroTitle.indexOf(",");
+  const titleHTML = ci > 0 ? `${esc(h.heroTitle.slice(0, ci + 1))}<strong>${esc(h.heroTitle.slice(ci + 1).trim())}</strong>` : `<strong>${esc(h.heroTitle)}</strong>`;
+  return `<div class="stack" style="gap:48px">
+    <section class="hero-band"><canvas id="heroNet" aria-hidden="true"></canvas><div class="hero">
+      <div>
+        <p class="eyebrow"><img src="${LOGO}" alt="">MASKDER · MASK Akademi</p>
+        <h1 style="margin-top:14px">${titleHTML}</h1>
+        <p class="lead">${esc(h.heroText)}</p>
+        <div class="row" style="margin-top:28px">
+          <button class="btn primary" data-act="newSurvey">${ICON.plus} Yeni anket oluştur</button>
+          <button class="btn onnavy" data-act="go" data-view="dashboard">Paneli aç</button>
+        </div>
+      </div>
+      <div class="hero-visual" aria-label="Örnek sonuç görünümü">
+        <div class="row between"><span class="eyebrow">Örnek sonuç · S3 Likert</span><span class="mono small muted">n = 64</span></div>
+        <p style="font-weight:600">“Bu alanlarda yeterli eğitim imkânına sahibim.”</p>
+        ${[["Kesinlikle katılmıyorum", 22], ["Katılmıyorum", 34], ["Kararsızım", 19], ["Katılıyorum", 17], ["Kesinlikle katılıyorum", 8]].map(([l, v]) => `<div class="bar-demo"><span class="muted">${l}</span><i style="width:${v * 2.6}%"></i><span class="mono">%${v}</span></div>`).join("")}
+        <hr class="sep">
+        <p class="small"><b>AI yorumu:</b> <span class="muted">Katılımcıların %56'sı mevcut eğitim imkânlarını yetersiz buluyor; bu oran lisans öğrencilerinde belirgin şekilde daha yüksek.</span></p>
+      </div>
+    </div></section>
+    ${h.announcement ? `<div class="announce"><span class="pill accent">Duyuru</span><span>${esc(h.announcement)}</span></div>` : ""}
+
+    <section class="stack" style="gap:22px">
+      <div class="section-title"><h2>Süreç<small>Uçtan uca araştırma</small></h2><p>Anket tasarımından rapora kadar bütün aşamalar tek panelde. Veri toplama, analiz ve raporlama aynı kayıt üzerinde ilerler; hiçbir adımda dosya taşımanız gerekmez.</p></div>
+      <div class="steps">
+        ${[["1", "Anket hazırlama", "Tek ve çoktan seçmeli, açık uçlu, Likert ve derecelendirme soruları. Sıralama, zorunlu alan, önizleme."],
+           ["2", "Online veri toplama", "Özel bağlantı, QR kod, mobil uyumlu katılım ekranı, açık/kapalı durum kontrolü."],
+           ["3", "Otomatik görselleştirme", "Pasta, sütun, çubuk ve dağılım grafikleri; tablolar, filtreleme ve segmentasyon."],
+           ["4", "Yapay zekâ analizi", "Eğilimler, önemli bulgular, istatistiksel özet ve açık uçlu cevapların tema analizi."],
+           ["5", "PDF rapor", "Özet, bulgular, grafikler, sonuç ve öneriler içeren indirilebilir rapor."]]
+          .map(([n, t, d]) => `<div class="step"><span class="mono">Adım ${n}</span><h3>${t}</h3><p class="small muted">${d}</p></div>`).join("")}
+      </div>
+    </section>
+
+    ${platform.length ? `<section class="navy-band stack" style="gap:22px">
+      <div class="section-title"><h2>Anketler<small>Katılımınızı bekleyen</small></h2><p>MASKDER'in yürüttüğü güncel araştırmalar. Birkaç dakikanızı ayırarak bilgi üretimine katkıda bulunun.</p></div>
+      <div class="grid g3">${platform.map(s => `<div class="card stack" style="gap:10px"><span class="eyebrow" style="color:var(--signal)">Yanıt kabul ediyor</span><h3>${esc(s.title)}</h3><p class="small muted">${esc((s.description || "").slice(0, 160))}</p><div><button class="btn sm" data-act="takeSurvey" data-id="${s.id}">Ankete katıl</button></div></div>`).join("")}</div>
+    </section>` : ""}
+
+    <section class="stack" style="gap:22px">
+      <div class="section-title"><h2>Üyelik<small>Paketler</small></h2><p>Bireysel çalışmalardan kurumsal araştırma programlarına kadar ihtiyacınıza uygun plan. <button class="btn ghost sm" data-act="go" data-view="plans" style="padding-inline:0">Tüm ayrıntılar →</button></p></div>
+      <div class="grid g3">${pl.map(p => `<div class="card plan"><div><h3>${esc(p.name)}</h3><p class="small muted">${esc(p.note || "")}</p></div><div class="price">${p.price ? "₺" + fmtN(p.price) : "₺0"}<small> / ay</small></div><ul>${planFeatures(p).map(f => `<li>${esc(f)}</li>`).join("")}</ul></div>`).join("")}</div>
+    </section>
+  </div>`;
+}
+function planFeatures(p) {
+  const l = p.limits;
+  return [`${limTxt(l.surveys)} anket`, `Anket başına ${limTxt(l.responses)} katılımcı`, `Ayda ${limTxt(l.ai)} AI analiz`, `Ayda ${limTxt(l.pdf)} PDF rapor`, `${l.retention} ay veri saklama`];
+}
+
+// ============================================================
+// DASHBOARD
+// ============================================================
+function viewDashboard() {
+  const mine = mySurveys().filter(s => !s.archived);
+  const p = myPlan();
+  const total = mine.reduce((a, s) => a + (S.counts[s.id] || 0), 0);
+  const open = mine.filter(s => s.status === "open").length;
+  return `<div class="stack">
+    <div class="page-head"><div><p class="eyebrow">Panel</p><h1>Anketlerim</h1></div>
+      <div class="row"><button class="btn primary" data-act="newSurvey">${ICON.plus} Yeni anket</button></div></div>
+    <div class="grid g4">
+      <div class="card stat"><b>${fmtN(mine.length)}</b><span>Aktif anket</span></div>
+      <div class="card stat"><b>${fmtN(open)}</b><span>Yanıt kabul eden</span></div>
+      <div class="card stat"><b>${fmtN(total)}</b><span>Toplam yanıt</span></div>
+      <div class="card stat"><b>${fmtN(usageThisMonth("ai"))}<span class="muted" style="font-size:1rem"> / ${limTxt(p.limits.ai)}</span></b><span>Bu ay AI analiz</span></div>
+    </div>
+    <div class="card">
+      ${mine.length ? `<div class="slist">${mine.sort((a, b) => (b.updatedAt || 0) - (a.updatedAt || 0)).map(surveyRow).join("")}</div>` :
+      `<div class="empty"><h2>Henüz anketiniz yok</h2><p>İlk anketinizi sıfırdan oluşturabilir ya da platformu tanımak için hazır bir örnek araştırma (örnek yanıtlarıyla birlikte) yükleyebilirsiniz.</p>
+        <div class="row" style="justify-content:center"><button class="btn primary" data-act="newSurvey">${ICON.plus} Yeni anket</button><button class="btn" data-act="seedExample">Örnek araştırma yükle</button></div></div>`}
+    </div>
+  </div>`;
+}
+function statusPill(s) { return s.status === "open" ? `<span class="pill open">Açık</span>` : s.status === "closed" ? `<span class="pill closed">Kapalı</span>` : `<span class="pill draft">Taslak</span>`; }
+function surveyRow(s) {
+  return `<div class="sitem">
+    <div class="stack" style="gap:4px;min-width:0">
+      <div class="row" style="gap:8px">${statusPill(s)}${s.isPlatform ? `<span class="pill plain accent">Platform anketi</span>` : ""}${s.archived ? `<span class="pill plain">Arşivde</span>` : ""}</div>
+      <h3>${esc(s.title || "Adsız anket")}</h3>
+      <div class="meta"><span>${(s.questions || []).length} soru</span><span class="mono">${fmtN(S.counts[s.id] ?? 0)} yanıt</span><span>Güncelleme: ${fmtDate(s.updatedAt)}</span>${S.isAdmin && s.ownerId !== S.uid ? `<span>Sahibi: ${esc(s.ownerName || "—")}</span>` : ""}</div>
+    </div>
+    <div class="acts">
+      <button class="btn sm primary" data-act="openResults" data-id="${s.id}">Sonuçlar</button>
+      <button class="btn sm" data-act="editSurvey" data-id="${s.id}">Düzenle</button>
+      <button class="btn sm" data-act="openResults" data-id="${s.id}" data-tab="share">Paylaş</button>
+    </div>
+  </div>`;
+}
+
+// ============================================================
+// BUILDER
+// ============================================================
+function blankQuestion(type) {
+  const q = { id: "q" + newId().slice(-6), type, title: "", help: "", required: false };
+  if (type === "single" || type === "multi") q.options = ["Seçenek 1", "Seçenek 2"];
+  if (type === "likert") q.scale = 5;
+  if (type === "rating") { q.max = 10; q.minLabel = "Hiç"; q.maxLabel = "Kesinlikle"; }
+  return q;
+}
+function viewBuilder() {
+  const d = S.draft;
+  if (!d) return `<div class="empty"><p>Anket bulunamadı.</p></div>`;
+  return `<div class="stack">
+    <div class="page-head"><div><p class="eyebrow">${d._new ? "Yeni anket" : "Anket düzenleme"}${d.isPlatform ? " · Platform anketi" : ""}</p><h1>${esc(d.title || "Adsız anket")}</h1></div>
+      <div class="row">
+        <span class="small muted" id="dirtyFlag">${S.dirty ? "Kaydedilmemiş değişiklikler" : "Tüm değişiklikler kaydedildi"}</span>
+        <button class="btn" data-act="previewDraft">${ICON.eye} Önizle</button>
+        <button class="btn primary" data-act="saveDraft">Kaydet</button>
+      </div></div>
+    <div class="card stack" style="gap:14px">
+      <label class="f">Anket başlığı<input type="text" id="d-title" data-df="title" value="${esc(d.title)}" placeholder="Örn. Gençlerin Siyasete Katılımı Araştırması"></label>
+      <label class="f">Açıklama<textarea id="d-desc" data-df="description" placeholder="Araştırmanın amacı, süresi ve gizlilik bilgisi">${esc(d.description)}</textarea></label>
+      <div class="qrow">
+        <label class="f">Teşekkür mesajı<input type="text" id="d-thanks" data-df="thankYou" value="${esc(d.thankYou || "")}" placeholder="Katılımınız için teşekkür ederiz."></label>
+        <label class="f">Durum<select id="d-status" data-df="status"><option value="draft" ${d.status === "draft" ? "selected" : ""}>Taslak</option><option value="open" ${d.status === "open" ? "selected" : ""}>Açık (yanıt kabul ediyor)</option><option value="closed" ${d.status === "closed" ? "selected" : ""}>Kapalı</option></select></label>
+      </div>
+    </div>
+    <div class="stack" style="gap:12px" id="qlist">
+      ${d.questions.map((q, i) => questionEditor(q, i, d.questions.length)).join("")}
+    </div>
+    <div class="addq"><span class="small muted" style="align-self:center;margin-right:4px">Soru ekle:</span>
+      ${Object.entries(TYPE_LABEL).map(([t, l]) => `<button class="btn sm" data-act="addQ" data-type="${t}">${ICON.plus} ${l}</button>`).join("")}
+    </div>
+    <div class="row between"><button class="btn ghost" data-act="go" data-view="dashboard">Panele dön</button><button class="btn primary" data-act="saveDraft">Kaydet</button></div>
+  </div>`;
+}
+function questionEditor(q, i, n) {
+  let body = "";
+  if (q.type === "single" || q.type === "multi") {
+    body = `<div class="stack" style="gap:6px"><span class="eyebrow">Seçenekler</span>
+      ${q.options.map((o, j) => `<div class="opt-row"><span class="mono small muted" style="width:20px">${j + 1}</span><input type="text" id="o-${q.id}-${j}" data-qi="${i}" data-oi="${j}" value="${esc(o)}" aria-label="Seçenek ${j + 1}"><button class="iconbtn" data-act="delOpt" data-qi="${i}" data-oi="${j}" aria-label="Seçeneği sil" ${q.options.length <= 2 ? "disabled" : ""}>${ICON.x}</button></div>`).join("")}
+      <div><button class="btn sm ghost" data-act="addOpt" data-qi="${i}">${ICON.plus} Seçenek ekle</button></div></div>`;
+  } else if (q.type === "likert") {
+    body = `<div class="qrow"><label class="f">Ölçek<select id="ls-${q.id}" data-qi="${i}" data-qf="scale"><option value="5" ${q.scale == 5 ? "selected" : ""}>5'li Likert</option><option value="7" ${q.scale == 7 ? "selected" : ""}>7'li Likert</option></select></label><div class="small muted" style="align-self:end">${LIKERT[q.scale].join(" · ")}</div></div>`;
+  } else if (q.type === "rating") {
+    body = `<div class="grid g3"><label class="f">En yüksek puan<select id="rm-${q.id}" data-qi="${i}" data-qf="max"><option value="5" ${q.max == 5 ? "selected" : ""}>1–5</option><option value="10" ${q.max == 10 ? "selected" : ""}>1–10</option></select></label>
+      <label class="f">En düşük etiket<input type="text" id="rl-${q.id}" data-qi="${i}" data-qf="minLabel" value="${esc(q.minLabel || "")}"></label>
+      <label class="f">En yüksek etiket<input type="text" id="rh-${q.id}" data-qi="${i}" data-qf="maxLabel" value="${esc(q.maxLabel || "")}"></label></div>`;
+  } else {
+    body = `<p class="small muted">Katılımcı serbest metin yazar. Cevaplar AI metin analiziyle temalara ayrılır.</p>`;
+  }
+  return `<div class="qcard">
+    <div class="qcard-head"><div class="row" style="gap:8px"><span class="qnum">S${i + 1}</span><span class="pill plain">${TYPE_LABEL[q.type]}</span></div>
+      <div class="qtools">
+        <button class="iconbtn" data-act="moveQ" data-qi="${i}" data-dir="-1" aria-label="Yukarı taşı" ${i === 0 ? "disabled" : ""}>${ICON.up}</button>
+        <button class="iconbtn" data-act="moveQ" data-qi="${i}" data-dir="1" aria-label="Aşağı taşı" ${i === n - 1 ? "disabled" : ""}>${ICON.down}</button>
+        <button class="iconbtn" data-act="dupQ" data-qi="${i}" aria-label="Soruyu çoğalt">${ICON.copy}</button>
+        <button class="iconbtn" data-act="delQ" data-qi="${i}" aria-label="Soruyu sil">${ICON.trash}</button>
+      </div></div>
+    <label class="f">Soru metni<input type="text" id="qt-${q.id}" data-qi="${i}" data-qf="title" value="${esc(q.title)}" placeholder="Sorunuzu yazın"></label>
+    <label class="f">Yardım metni (isteğe bağlı)<input type="text" id="qh-${q.id}" data-qi="${i}" data-qf="help" value="${esc(q.help || "")}"></label>
+    ${body}
+    <label class="check"><input type="checkbox" id="qr-${q.id}" data-qi="${i}" data-qf="required" ${q.required ? "checked" : ""}> Zorunlu soru</label>
+  </div>`;
+}
+function markDirty() { S.dirty = true; const f = $("#dirtyFlag"); if (f) f.textContent = "Kaydedilmemiş değişiklikler"; }
+document.addEventListener("input", e => {
+  const t = e.target;
+  if (S.view === "builder" && S.draft) {
+    if (t.dataset.df) { S.draft[t.dataset.df] = t.value; markDirty(); if (t.dataset.df === "title") { const h = $("main h1"); if (h) h.textContent = t.value || "Adsız anket"; } return; }
+    if (t.dataset.oi != null && t.dataset.qi != null) { S.draft.questions[+t.dataset.qi].options[+t.dataset.oi] = t.value; markDirty(); return; }
+    if (t.dataset.qf && t.dataset.qi != null) {
+      const q = S.draft.questions[+t.dataset.qi];
+      if (t.type === "checkbox") q[t.dataset.qf] = t.checked;
+      else if (t.dataset.qf === "scale" || t.dataset.qf === "max") { q[t.dataset.qf] = +t.value; markDirty(); rerenderKeep(); return; }
+      else q[t.dataset.qf] = t.value;
+      markDirty();
+    }
+  }
+});
+document.addEventListener("change", e => {
+  const t = e.target;
+  if (S.view === "builder" && t.type === "checkbox" && t.dataset.qf) { S.draft.questions[+t.dataset.qi][t.dataset.qf] = t.checked; markDirty(); }
+  if (S.takeMode || S.p.preview) onTakeChange(t);
+  if (t.id === "csvImport") importCsv(t);
+  if (t.dataset.filter) { S.p[t.dataset.filter] = t.value; if (t.dataset.filter === "segQ") S.p.segV = ""; rerenderKeep(); }
+  if (t.dataset.sc) { S.p[t.dataset.sc] = t.value; rerenderKeep(); }
+  if (t.dataset.adminPlan) assignPlan(t.dataset.adminPlan, t.value);
+});
+function rerenderKeep() { const y = window.scrollY; render(); window.scrollTo(0, y); }
+
+async function saveDraft() {
+  const d = S.draft;
+  if (!d.title.trim()) { toast("Anket başlığı gerekli."); $("#d-title")?.focus(); return; }
+  if (!d.questions.length) { toast("En az bir soru ekleyin."); return; }
+  const empty = d.questions.findIndex(q => !q.title.trim());
+  if (empty >= 0) { toast(`S${empty + 1} için soru metni gerekli.`); $("#qt-" + d.questions[empty].id)?.focus(); return; }
+  const body = clone(d); delete body._new; body.updatedAt = Date.now();
+  try {
+    await S.db.doc("surveys/" + d.id).set(body);
+    S.draft._new = false; S.dirty = false;
+    toast("Anket kaydedildi.");
+    rerenderKeep();
+  } catch (e) { dbError(e, "Anket kaydedilemedi"); }
+}
+function dbError(e, what) {
+  console.error(e);
+  const code = e && e.code;
+  if (code === "invalid_argument") toast(`${what}: bu işlem için yetkiniz yok ya da veri geçersiz.`, 5000);
+  else if (code === "quota_exceeded") toast(`${what}: depolama kotası doldu. Eski anketleri arşivleyin veya yöneticiye başvurun.`, 6000);
+  else toast(`${what}. Bağlantıyı kontrol edip yeniden deneyin.`, 4500);
+}
+
+// ============================================================
+// TAKE (participant) — also used for preview
+// ============================================================
+function surveyForm(s, preview) {
+  const qs = s.questions || [];
+  const answered = qs.filter(q => hasAnswer(S.takeAnswers[q.id])).length;
+  return `<div class="take stack">
+    ${preview ? `<div class="callout warn">${ICON.info}<span>Önizleme modu. Yanıtlar kaydedilmez.</span></div>` : ""}
+    <div class="take-head stack" style="gap:10px"><p class="eyebrow"><img src="${LOGO}" alt="">MASKDER Araştırma</p><h1>${esc(s.title)}</h1>${s.description ? `<p class="muted" style="white-space:pre-line">${esc(s.description)}</p>` : ""}
+      <p class="small muted">${qs.length} soru · <span class="req" style="color:var(--bad)">*</span> zorunlu</p>
+      <div class="progress" aria-hidden="true"><i id="takeProg" style="width:${qs.length ? answered / qs.length * 100 : 0}%"></i></div></div>
+    <form id="takeForm" class="stack" style="gap:14px" novalidate>
+      ${qs.map((q, i) => takeQuestion(q, i)).join("")}
+      <div class="row between"><span class="small muted">Yanıtlarınız anonim olarak kaydedilir.</span><button class="btn primary" type="submit" ${preview ? "disabled" : ""}>Yanıtları gönder</button></div>
+    </form>
+  </div>`;
+}
+function takeQuestion(q, i) {
+  const a = S.takeAnswers[q.id];
+  const name = "a-" + q.id;
+  let input = "";
+  if (q.type === "single") input = `<div class="stack" style="gap:6px" role="radiogroup">${q.options.map((o, j) => `<label class="choice"><input type="radio" name="${name}" id="${name}-${j}" value="${esc(o)}" data-q="${q.id}" ${a === o ? "checked" : ""}><span>${esc(o)}</span></label>`).join("")}</div>`;
+  else if (q.type === "multi") input = `<div class="stack" style="gap:6px"><span class="small muted">Birden fazla seçebilirsiniz.</span>${q.options.map((o, j) => `<label class="choice"><input type="checkbox" name="${name}" id="${name}-${j}" value="${esc(o)}" data-q="${q.id}" data-multi="1" ${Array.isArray(a) && a.includes(o) ? "checked" : ""}><span>${esc(o)}</span></label>`).join("")}</div>`;
+  else if (q.type === "open") input = `<textarea id="${name}" data-q="${q.id}" data-open="1" rows="4" placeholder="Cevabınızı yazın">${esc(a || "")}</textarea>`;
+  else if (q.type === "likert") input = `<div class="scale likert" role="radiogroup" style="grid-template-columns:repeat(${q.scale},minmax(0,1fr))">${LIKERT[q.scale].map((l, j) => `<label><input type="radio" name="${name}" id="${name}-${j}" value="${j + 1}" data-q="${q.id}" data-num="1" ${a === j + 1 ? "checked" : ""}><b>${j + 1}</b>${esc(l)}</label>`).join("")}</div>`;
+  else if (q.type === "rating") input = `<div class="scale" role="radiogroup" style="grid-template-columns:repeat(${q.max},minmax(0,1fr))">${Array.from({ length: q.max }, (_, j) => `<label><input type="radio" name="${name}" id="${name}-${j}" value="${j + 1}" data-q="${q.id}" data-num="1" ${a === j + 1 ? "checked" : ""}><b>${j + 1}</b></label>`).join("")}</div><div class="row between small muted"><span>${esc(q.minLabel || "")}</span><span>${esc(q.maxLabel || "")}</span></div>`;
+  return `<fieldset class="tq" id="tq-${q.id}" style="margin:0">
+    <div><span class="qnum">${i + 1}.</span> <b>${esc(q.title)}</b> ${q.required ? '<span class="req">*</span>' : ""}</div>
+    ${q.help ? `<p class="small muted">${esc(q.help)}</p>` : ""}
+    ${input}
+    <p class="small" style="color:var(--bad)" id="te-${q.id}" hidden>Bu soru zorunludur.</p>
+  </fieldset>`;
+}
+const hasAnswer = a => a != null && a !== "" && !(Array.isArray(a) && !a.length);
+function onTakeChange(t) {
+  const qid = t.dataset.q; if (!qid) return;
+  if (t.dataset.multi) S.takeAnswers[qid] = $$(`input[name="a-${qid}"]:checked`).map(x => x.value);
+  else if (t.dataset.num) S.takeAnswers[qid] = +t.value;
+  else S.takeAnswers[qid] = t.value;
+  const tq = $("#tq-" + qid); if (tq && hasAnswer(S.takeAnswers[qid])) { tq.classList.remove("err"); $("#te-" + qid).hidden = true; }
+  updateTakeProgress();
+}
+document.addEventListener("input", e => { if (e.target.dataset.open && (S.takeMode || S.p.preview)) { S.takeAnswers[e.target.dataset.q] = e.target.value; updateTakeProgress(); } });
+function updateTakeProgress() {
+  const s = S.takeMode ? S.takeSurvey : S.draft; if (!s) return;
+  const n = s.questions.length, a = s.questions.filter(q => hasAnswer(S.takeAnswers[q.id])).length;
+  const p = $("#takeProg"); if (p) p.style.width = (n ? a / n * 100 : 0) + "%";
+}
+function viewTake() {
+  const s = S.takeSurvey;
+  if (S.takeError) return `<div class="take"><div class="card empty"><h2>${esc(S.takeError.title)}</h2><p>${esc(S.takeError.text)}</p></div></div>`;
+  if (!s) return `<div class="empty"><span class="spinner"></span><p>Anket yükleniyor…</p></div>`;
+  if (S.takeDone) return `<div class="take"><div class="take-head empty"><p class="eyebrow">Yanıtınız kaydedildi</p><h1>${esc(s.thankYou || "Katılımınız için teşekkür ederiz.")}</h1><p>${esc(s.title)}</p><button class="btn" data-act="takeAgain">Yeni katılımcı için yeniden başlat</button></div></div>`;
+  if (s.status !== "open") return `<div class="take"><div class="card empty"><h2>${esc(s.title)}</h2><p>Bu anket şu anda yanıt kabul etmiyor. Araştırmacı anketi kapattı veya henüz yayınlamadı.</p></div></div>`;
+  return surveyForm(s, false) + (S.canWrite === false ? `<div class="take" style="margin-top:14px"><div class="callout warn">${ICON.info}<span>Hesabınız bu platformda yalnızca görüntüleme yetkisine sahip; yanıt gönderemezsiniz. Katkı (Contributor) yetkisi için araştırmacıya başvurun.</span></div></div>` : "");
+}
+function afterTake() { const f = $("#takeForm"); if (f) f.addEventListener("submit", submitTake); }
+async function submitTake(e) {
+  e.preventDefault();
+  const s = S.takeSurvey; if (!s) return;
+  const missing = s.questions.filter(q => q.required && !hasAnswer(S.takeAnswers[q.id]));
+  $$(".tq").forEach(el => el.classList.remove("err")); $$("[id^=te-]").forEach(el => el.hidden = true);
+  if (missing.length) {
+    missing.forEach(q => { $("#tq-" + q.id).classList.add("err"); $("#te-" + q.id).hidden = false; });
+    $("#tq-" + missing[0].id).scrollIntoView({ behavior: "smooth", block: "center" });
+    toast(`${missing.length} zorunlu soru cevaplanmadı.`); return;
+  }
+  const btn = e.target.querySelector("button[type=submit]"); btn.disabled = true; btn.innerHTML = '<span class="spinner"></span> Gönderiliyor';
+  try {
+    // participant limit of the survey owner's plan
+    const pl = planById(await ownerPlanId(s));
+    if (lim(pl.limits.responses) !== Infinity) {
+      const snap = await S.db.collection(`surveys/${s.id}/responses`).get();
+      if (snap.size >= pl.limits.responses) { S.takeError = { title: "Katılım sınırına ulaşıldı", text: "Bu anket, araştırmacının üyelik planındaki katılımcı sınırına ulaştı. Araştırmacı planını yükselttiğinde yeniden açılacaktır." }; render(); return; }
+    }
+    const answers = {};
+    s.questions.forEach(q => { if (hasAnswer(S.takeAnswers[q.id])) answers[q.id] = S.takeAnswers[q.id]; });
+    await S.db.collection(`surveys/${s.id}/responses`).add({ answers, startedAt: S.takeStarted, submittedAt: Date.now(), durationSec: Math.round((Date.now() - S.takeStarted) / 1000), source: "web" });
+    S.takeDone = true; render(); window.scrollTo(0, 0);
+  } catch (err) { btn.disabled = false; btn.textContent = "Yanıtları gönder"; dbError(err, "Yanıt gönderilemedi"); }
+}
+async function ownerPlanId(s) {
+  if (s.ownerIsAdmin) return "corp";
+  if (S.assign[s.ownerId]) return S.assign[s.ownerId].plan || "free";
+  try { const d = await S.db.doc("assignments/" + s.ownerId).get(); return (d.exists && d.data().plan) || "free"; } catch (e) { return "free"; }
+}
+async function startTake(id) {
+  S.takeMode = true; S.takeSurvey = null; S.takeAnswers = {}; S.takeDone = false; S.takeError = null; S.takeStarted = Date.now();
+  render();
+  if (!S.db) { S.takeError = { title: "Ankete erişilemiyor", text: "Bu anketi yanıtlamak için claude.ai hesabınızla giriş yapmanız ve araştırmacının sizi davet etmiş olması gerekir." }; render(); return; }
+  try {
+    const d = await S.db.doc("surveys/" + id).get();
+    if (!d.exists) S.takeError = { title: "Anket bulunamadı", text: "Bağlantı hatalı olabilir ya da anket kaldırılmış olabilir. Araştırmacıdan yeni bağlantı isteyin." };
+    else S.takeSurvey = Object.assign({ id: d.id }, d.data());
+  } catch (e) { S.takeError = { title: "Anket yüklenemedi", text: "Bağlantınızı kontrol edip sayfayı yenileyin." }; }
+  render();
+}
+
+// ============================================================
+// STATISTICS
+// ============================================================
+function numericQ(q) { return q.type === "likert" || q.type === "rating"; }
+function computeStats(survey, responses) {
+  const qs = survey.questions || [];
+  const out = { n: responses.length, q: {} };
+  for (const q of qs) {
+    const vals = responses.map(r => (r.answers || {})[q.id]).filter(hasAnswer);
+    const st = { type: q.type, answered: vals.length, counts: [], mean: null, sd: null, median: null, texts: [], words: [] };
+    if (q.type === "single" || q.type === "multi") {
+      const m = new Map(q.options.map(o => [o, 0])); const other = new Map();
+      vals.forEach(v => (Array.isArray(v) ? v : [v]).forEach(x => { if (m.has(x)) m.set(x, m.get(x) + 1); else other.set(x, (other.get(x) || 0) + 1); }));
+      other.forEach((c, k) => m.set(k, c));
+      st.counts = [...m].map(([label, count]) => ({ label, count, pct: vals.length ? count / vals.length * 100 : 0 }));
+    } else if (numericQ(q)) {
+      const max = q.type === "likert" ? q.scale : q.max;
+      const labels = q.type === "likert" ? LIKERT[q.scale] : Array.from({ length: max }, (_, i) => String(i + 1));
+      const nums = vals.map(Number).filter(v => v >= 1 && v <= max);
+      st.counts = labels.map((label, i) => { const c = nums.filter(v => v === i + 1).length; return { label: q.type === "likert" ? `${i + 1} · ${label}` : label, count: c, pct: nums.length ? c / nums.length * 100 : 0 }; });
+      if (nums.length) {
+        const mean = nums.reduce((a, b) => a + b, 0) / nums.length;
+        const sd = Math.sqrt(nums.reduce((a, b) => a + (b - mean) ** 2, 0) / Math.max(1, nums.length - 1));
+        const sorted = [...nums].sort((a, b) => a - b); const mid = sorted.length >> 1;
+        Object.assign(st, { mean, sd, median: sorted.length % 2 ? sorted[mid] : (sorted[mid - 1] + sorted[mid]) / 2, max });
+        if (q.type === "likert") { const top = nums.filter(v => v > (q.scale + 1) / 2).length, bot = nums.filter(v => v < (q.scale + 1) / 2).length; st.agree = top / nums.length * 100; st.disagree = bot / nums.length * 100; }
+      }
+    } else if (q.type === "open") {
+      st.texts = vals.map(v => String(v).trim()).filter(Boolean);
+      const wc = new Map();
+      st.texts.forEach(t => t.toLocaleLowerCase("tr-TR").replace(/[^\p{L}\s]/gu, " ").split(/\s+/).forEach(w => { if (w.length > 2 && !STOP.has(w)) wc.set(w, (wc.get(w) || 0) + 1); }));
+      st.words = [...wc].sort((a, b) => b[1] - a[1]).slice(0, 24);
+    }
+    out.q[q.id] = st;
+  }
+  const durs = responses.map(r => r.durationSec).filter(d => d > 0 && d < 7200);
+  out.avgDuration = durs.length ? durs.reduce((a, b) => a + b, 0) / durs.length : null;
+  out.completion = responses.length && qs.length ? responses.reduce((a, r) => a + qs.filter(q => hasAnswer((r.answers || {})[q.id])).length / qs.length, 0) / responses.length * 100 : null;
+  out.last = responses.reduce((a, r) => Math.max(a, r.submittedAt || 0), 0) || null;
+  out.first = responses.reduce((a, r) => Math.min(a, r.submittedAt || Infinity), Infinity); if (out.first === Infinity) out.first = null;
+  return out;
+}
+function pearson(xs, ys) {
+  const n = xs.length; if (n < 3) return null;
+  const mx = xs.reduce((a, b) => a + b, 0) / n, my = ys.reduce((a, b) => a + b, 0) / n;
+  let sxy = 0, sxx = 0, syy = 0;
+  for (let i = 0; i < n; i++) { sxy += (xs[i] - mx) * (ys[i] - my); sxx += (xs[i] - mx) ** 2; syy += (ys[i] - my) ** 2; }
+  return sxx && syy ? sxy / Math.sqrt(sxx * syy) : null;
+}
+function rStrength(r) { const a = Math.abs(r); return a < .1 ? "ilişki yok denecek kadar zayıf" : a < .3 ? "zayıf" : a < .5 ? "orta düzeyde" : a < .7 ? "güçlü" : "çok güçlü"; }
+function crossTabs(survey, responses) {
+  const cats = survey.questions.filter(q => q.type === "single"), nums = survey.questions.filter(numericQ);
+  const out = [];
+  for (const c of cats) for (const nq of nums) {
+    const groups = c.options.map(o => { const v = responses.filter(r => r.answers?.[c.id] === o).map(r => Number(r.answers?.[nq.id])).filter(x => x > 0); return { grup: o, n: v.length, ortalama: v.length ? +(v.reduce((a, b) => a + b, 0) / v.length).toFixed(2) : null }; }).filter(g => g.n > 0);
+    if (groups.length > 1) out.push({ grupSorusu: c.title, olcumSorusu: nq.title, gruplar: groups });
+  }
+  return out.slice(0, 12);
+}
+function correlations(survey, responses) {
+  const nums = survey.questions.filter(numericQ), out = [];
+  for (let i = 0; i < nums.length; i++) for (let j = i + 1; j < nums.length; j++) {
+    const pairs = responses.map(r => [Number(r.answers?.[nums[i].id]), Number(r.answers?.[nums[j].id])]).filter(([a, b]) => a > 0 && b > 0);
+    const r = pearson(pairs.map(p => p[0]), pairs.map(p => p[1]));
+    if (r != null) out.push({ x: nums[i].title, y: nums[j].title, r: +r.toFixed(2), n: pairs.length });
+  }
+  return out;
+}
+
+// ============================================================
+// RESULTS
+// ============================================================
+function stopResponses() { ["resp", "an", "rep"].forEach(k => { if (S.unsub[k]) { S.unsub[k](); delete S.unsub[k]; } }); S.respSurveyId = null; S.responses = []; S.analyses = []; S.reports = []; }
+function watchResponses(id) {
+  if (S.respSurveyId === id) return;
+  stopResponses(); S.respSurveyId = id; S.respLoading = true;
+  S.unsub.resp = S.db.collection(`surveys/${id}/responses`).onSnapshot(snap => {
+    S.responses = snap.docs.map(d => Object.assign({ id: d.id }, d.data())).sort((a, b) => (a.submittedAt || 0) - (b.submittedAt || 0));
+    S.counts[id] = S.responses.length; S.respLoading = false; liveRender();
+  }, e => { S.respLoading = false; console.error(e); });
+  S.unsub.an = S.db.collection(`surveys/${id}/analyses`).onSnapshot(snap => { S.analyses = snap.docs.map(d => Object.assign({ id: d.id }, d.data())).sort((a, b) => b.createdAt - a.createdAt); liveRender(); }, e => console.error(e));
+  S.unsub.rep = S.db.collection(`surveys/${id}/reports`).onSnapshot(snap => { S.reports = snap.docs.map(d => Object.assign({ id: d.id }, d.data())).sort((a, b) => b.createdAt - a.createdAt); liveRender(); }, e => console.error(e));
+}
+const curSurvey = () => S.surveys.find(s => s.id === S.p.id);
+function filteredResponses(s) {
+  let r = S.responses;
+  if (S.p.segQ && S.p.segV) r = r.filter(x => { const a = x.answers?.[S.p.segQ]; return Array.isArray(a) ? a.includes(S.p.segV) : String(a) === S.p.segV; });
+  if (S.p.from) { const f = new Date(S.p.from).getTime(); r = r.filter(x => (x.submittedAt || 0) >= f); }
+  if (S.p.to) { const t = new Date(S.p.to).getTime() + 86400000; r = r.filter(x => (x.submittedAt || 0) < t); }
+  return r;
+}
+function filterLabel(s) {
+  const parts = [];
+  if (S.p.segQ && S.p.segV) { const q = s.questions.find(q => q.id === S.p.segQ); parts.push(`${q ? q.title : "Soru"} = ${S.p.segV}`); }
+  if (S.p.from) parts.push("başlangıç " + fmtDate(new Date(S.p.from).getTime()));
+  if (S.p.to) parts.push("bitiş " + fmtDate(new Date(S.p.to).getTime()));
+  return parts.join(", ");
+}
+function viewResults() {
+  const s = curSurvey();
+  if (!s) return `<div class="empty"><p>Anket bulunamadı.</p><button class="btn" data-act="go" data-view="dashboard">Panele dön</button></div>`;
+  watchResponses(s.id);
+  const tab = S.p.tab || "summary";
+  const tabs = [["summary", "Sonuçlar"], ["compare", "Dağılım ve segment"], ["responses", "Yanıtlar"], ["ai", "AI analiz"], ["report", "PDF rapor"], ["share", "Paylaşım"]];
+  let body = "";
+  if (S.respLoading) body = `<div class="empty"><span class="spinner"></span><p>Yanıtlar yükleniyor…</p></div>`;
+  else body = { summary: resSummary, compare: resCompare, responses: resResponses, ai: resAI, report: resReport, share: resShare }[tab](s);
+  return `<div class="stack">
+    <div class="page-head"><div class="stack" style="gap:6px"><div class="row" style="gap:8px">${statusPill(s)}<span class="mono small muted">${fmtN(S.responses.length)} yanıt</span></div><h1>${esc(s.title)}</h1></div>
+      <div class="row"><button class="btn" data-act="editSurvey" data-id="${s.id}">Düzenle</button><button class="btn" data-act="toggleStatus" data-id="${s.id}">${s.status === "open" ? "Anketi kapat" : "Anketi aç"}</button></div></div>
+    <div class="tabs" role="tablist">${tabs.map(([k, l]) => `<button role="tab" aria-selected="${tab === k}" data-act="resTab" data-tab="${k}">${l}</button>`).join("")}</div>
+    ${body}
+  </div>`;
+}
+function filterBar(s) {
+  const segQs = s.questions.filter(q => q.type === "single" || q.type === "multi");
+  const segQ = s.questions.find(q => q.id === S.p.segQ);
+  return `<div class="card stack" style="gap:10px;padding:16px"><span class="eyebrow">Filtre ve segmentasyon</span><div class="filterbar">
+    <label class="f">Segment sorusu<select id="f-segq" data-filter="segQ"><option value="">Tüm katılımcılar</option>${segQs.map(q => `<option value="${q.id}" ${S.p.segQ === q.id ? "selected" : ""}>${esc(q.title.slice(0, 60))}</option>`).join("")}</select></label>
+    <label class="f">Segment değeri<select id="f-segv" data-filter="segV" ${segQ ? "" : "disabled"}><option value="">Seçin</option>${segQ ? segQ.options.map(o => `<option ${S.p.segV === o ? "selected" : ""}>${esc(o)}</option>`).join("") : ""}</select></label>
+    <label class="f">Başlangıç<input type="date" id="f-from" data-filter="from" value="${esc(S.p.from || "")}"></label>
+    <label class="f">Bitiş<input type="date" id="f-to" data-filter="to" value="${esc(S.p.to || "")}"></label>
+    <div><button class="btn" data-act="clearFilter">Filtreyi temizle</button></div>
+  </div></div>`;
+}
+function resSummary(s) {
+  const rs = filteredResponses(s), st = computeStats(s, rs);
+  if (!S.responses.length) return noResponses(s);
+  const fl = filterLabel(s);
+  return `<div class="stack">
+    ${filterBar(s)}
+    ${fl ? `<div class="callout">${ICON.info}<span>Filtre uygulandı: <b>${esc(fl)}</b> · ${fmtN(rs.length)} / ${fmtN(S.responses.length)} yanıt gösteriliyor.</span></div>` : ""}
+    <div class="grid g4">
+      <div class="card stat"><b>${fmtN(st.n)}</b><span>Yanıt</span></div>
+      <div class="card stat"><b>${st.completion == null ? "—" : "%" + fmtN(st.completion)}</b><span>Ortalama tamamlama</span></div>
+      <div class="card stat"><b>${st.avgDuration == null ? "—" : fmtN(st.avgDuration / 60, 1) + " dk"}</b><span>Ortalama yanıt süresi</span></div>
+      <div class="card stat"><b style="font-size:1.1rem;padding-block:6px">${fmtDateTime(st.last)}</b><span>Son yanıt</span></div>
+    </div>
+    ${s.questions.map((q, i) => questionResult(q, i, st.q[q.id])).join("")}
+  </div>`;
+}
+function noResponses(s) {
+  return `<div class="card empty"><h2>Henüz yanıt yok</h2><p>${s.status === "open" ? "Anket yanıt kabul ediyor. Paylaşım sekmesinden bağlantıyı veya QR kodu katılımcılarınıza gönderin." : "Yanıt toplamaya başlamak için anketi açın ve paylaşın."}</p>
+    <div class="row" style="justify-content:center">${s.status !== "open" ? `<button class="btn primary" data-act="toggleStatus" data-id="${s.id}">Anketi aç</button>` : ""}<button class="btn" data-act="resTab" data-tab="share">Paylaşım</button></div></div>`;
+}
+function defaultKind(q) { return q.type === "single" ? "pie" : q.type === "multi" ? "bar" : "column"; }
+function questionResult(q, i, st) {
+  const kind = S.p["k_" + q.id] || defaultKind(q);
+  let inner = "";
+  if (q.type === "open") {
+    inner = st.texts.length ? `<div class="grid g2"><div class="stack" style="gap:8px"><span class="eyebrow">Cevaplar (${fmtN(st.texts.length)})</span><div class="answers">${st.texts.slice(-60).reverse().map(t => `<blockquote>${esc(t)}</blockquote>`).join("")}</div></div>
+      <div class="stack" style="gap:8px"><span class="eyebrow">Sık geçen kelimeler</span><div class="chips">${st.words.map(([w, c]) => `<span class="chip">${esc(w)}<b>${c}</b></span>`).join("") || '<span class="muted small">Yeterli metin yok.</span>'}</div><p class="small muted">Tema ve duygu analizi için AI analiz sekmesini kullanın.</p></div></div>` : `<p class="muted small">Bu soruya henüz cevap yok.</p>`;
+  } else {
+    inner = `<div class="grid g2" style="align-items:start"><div class="chart-box"><canvas id="ch-${q.id}" aria-label="${esc(q.title)} grafiği" role="img"></canvas></div>
+      <div class="stack" style="gap:10px"><div class="tbl-wrap"><table><thead><tr><th>Seçenek</th><th class="num">n</th><th class="num">%</th></tr></thead><tbody>${st.counts.map(c => `<tr><td>${esc(c.label)}</td><td class="num">${c.count}</td><td class="num">${fmtN(c.pct, 1)}</td></tr>`).join("")}</tbody></table></div>
+      ${st.mean != null ? `<div class="row small" style="gap:18px"><span>Ortalama <b class="mono">${fmtN(st.mean, 2)}</b></span><span>Std. sapma <b class="mono">${fmtN(st.sd, 2)}</b></span><span>Medyan <b class="mono">${fmtN(st.median, 1)}</b></span>${st.agree != null ? `<span>Katılım <b class="mono">%${fmtN(st.agree)}</b></span>` : ""}</div>` : ""}
+      ${q.type === "multi" ? `<p class="small muted">Yüzdeler, soruyu cevaplayan ${st.answered} kişiye göredir; toplam %100'ü aşabilir.</p>` : ""}</div></div>`;
+  }
+  return `<div class="card qres">
+    <div class="qres-head"><div class="stack" style="gap:4px;min-width:0"><span class="qnum">S${i + 1} · ${TYPE_LABEL[q.type]} · ${fmtN(st.answered)} cevap</span><h3>${esc(q.title)}</h3></div>
+      ${q.type !== "open" ? `<div class="seg" role="group" aria-label="Grafik türü">${[["pie", "Pasta"], ["column", "Sütun"], ["bar", "Çubuk"]].map(([k, l]) => `<button data-act="chartKind" data-q="${q.id}" data-kind="${k}" aria-pressed="${kind === k}">${l}</button>`).join("")}</div>` : ""}</div>
+    ${inner}
+  </div>`;
+}
+function wrapLabel(l, n = 24) { const words = String(l).split(" "); const lines = []; let cur = ""; words.forEach(w => { if ((cur + " " + w).trim().length > n) { if (cur) lines.push(cur); cur = w; } else cur = (cur + " " + w).trim(); }); if (cur) lines.push(cur); return lines.length > 1 ? lines : l; }
+function chartTheme(light) {
+  return light ? { fg: "#3b4654", grid: "#e3e7ec", bg: "#ffffff", accent: "#006591" } : { fg: css("--muted"), grid: css("--line"), bg: css("--surface"), accent: css("--accent") };
+}
+function makeChartConfig(kind, labels, values, th, opts = {}) {
+  const colors = labels.map((_, i) => PALETTE[i % PALETTE.length]);
+  const base = { responsive: !opts.static, maintainAspectRatio: false, animation: opts.static ? false : { duration: 350 }, devicePixelRatio: opts.static ? 2 : undefined,
+    plugins: { legend: { display: kind === "pie", position: opts.static ? "right" : "bottom", labels: { color: th.fg, boxWidth: 12, font: { family: "Plus Jakarta Sans", size: 11 } } },
+      tooltip: { callbacks: { label: c => { const tot = values.reduce((a, b) => a + b, 0); const v = c.parsed.y ?? c.parsed.x ?? c.parsed; return ` ${v} (${tot ? fmtN(v / tot * 100, 1) : 0}%)`; } } } } };
+  if (kind === "pie") return { type: "doughnut", data: { labels, datasets: [{ data: values, backgroundColor: colors, borderColor: th.bg, borderWidth: 2 }] }, options: Object.assign(base, { cutout: "48%" }) };
+  const horiz = kind === "bar";
+  const valAxis = { beginAtZero: true, ticks: { color: th.fg, precision: 0, font: { family: "IBM Plex Mono", size: 11 } }, grid: { color: th.grid }, border: { display: false } };
+  const catAxis = { ticks: { color: th.fg, font: { family: "Plus Jakarta Sans", size: 11 }, autoSkip: false }, grid: { display: false }, border: { color: th.grid } };
+  return { type: "bar", data: { labels: labels.map(l => wrapLabel(l, horiz ? 28 : 14)), datasets: [{ data: values, backgroundColor: opts.mono ? th.accent : colors, borderRadius: 3, maxBarThickness: 44 }] },
+    options: Object.assign(base, { indexAxis: horiz ? "y" : "x", scales: horiz ? { x: valAxis, y: catAxis } : { x: catAxis, y: valAxis } }) };
+}
+function mountResultCharts() {
+  const s = curSurvey(); if (!s || S.respLoading) return;
+  const th = chartTheme(false);
+  const tab = S.p.tab || "summary";
+  const st = computeStats(s, filteredResponses(s));
+  if (tab === "summary") {
+    s.questions.forEach(q => {
+      const cv = $("#ch-" + q.id); if (!cv || q.type === "open") return;
+      const qs = st.q[q.id];
+      S.charts.push(new Chart(cv, makeChartConfig(S.p["k_" + q.id] || defaultKind(q), qs.counts.map(c => c.label), qs.counts.map(c => c.count), th, { mono: numericQ(q) && (S.p["k_" + q.id] || defaultKind(q)) !== "pie" })));
+    });
+  }
+  if (tab === "compare") {
+    const cv = $("#ch-scatter"); const pair = scatterPair(s);
+    if (cv && pair) {
+      const jitter = () => (Math.random() - .5) * .35;
+      S.charts.push(new Chart(cv, { type: "scatter", data: { datasets: [{ data: pair.points.map(([x, y]) => ({ x: x + jitter(), y: y + jitter() })), backgroundColor: th.accent + "99", pointRadius: 5 }] },
+        options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false }, tooltip: { enabled: false } },
+          scales: { x: { title: { display: true, text: pair.qx.title.slice(0, 60), color: th.fg }, min: .5, max: pair.mx + .5, ticks: { stepSize: 1, color: th.fg }, grid: { color: th.grid } },
+            y: { title: { display: true, text: pair.qy.title.slice(0, 60), color: th.fg }, min: .5, max: pair.my + .5, ticks: { stepSize: 1, color: th.fg }, grid: { color: th.grid } } } } }));
+    }
+    const cv2 = $("#ch-seg"); const seg = segmentCompare(s);
+    if (cv2 && seg) {
+      S.charts.push(new Chart(cv2, { type: "bar", data: { labels: seg.groups.map(g => wrapLabel(g.label, 14)), datasets: [{ data: seg.groups.map(g => g.mean), backgroundColor: seg.groups.map((_, i) => PALETTE[i % PALETTE.length]), borderRadius: 3, maxBarThickness: 48 }] },
+        options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true, max: seg.max, ticks: { color: th.fg }, grid: { color: th.grid } }, x: { ticks: { color: th.fg }, grid: { display: false } } } } }));
+    }
+  }
+}
+function scatterPair(s) {
+  const nums = s.questions.filter(numericQ); if (nums.length < 2) return null;
+  const qx = nums.find(q => q.id === S.p.sx) || nums[0], qy = nums.find(q => q.id === S.p.sy) || nums.find(q => q.id !== qx.id);
+  const points = filteredResponses(s).map(r => [Number(r.answers?.[qx.id]), Number(r.answers?.[qy.id])]).filter(([a, b]) => a > 0 && b > 0);
+  return { qx, qy, points, mx: qx.type === "likert" ? qx.scale : qx.max, my: qy.type === "likert" ? qy.scale : qy.max, r: pearson(points.map(p => p[0]), points.map(p => p[1])) };
+}
+function segmentCompare(s) {
+  const cats = s.questions.filter(q => q.type === "single"), nums = s.questions.filter(numericQ);
+  if (!cats.length || !nums.length) return null;
+  const qc = cats.find(q => q.id === S.p.gc) || cats[0], qn = nums.find(q => q.id === S.p.gn) || nums[0];
+  const rs = filteredResponses(s);
+  const groups = qc.options.map(o => { const v = rs.filter(r => r.answers?.[qc.id] === o).map(r => Number(r.answers?.[qn.id])).filter(x => x > 0); return { label: o, n: v.length, mean: v.length ? v.reduce((a, b) => a + b, 0) / v.length : 0 }; });
+  return { qc, qn, groups, max: qn.type === "likert" ? qn.scale : qn.max };
+}
+function resCompare(s) {
+  if (!S.responses.length) return noResponses(s);
+  const nums = s.questions.filter(numericQ), cats = s.questions.filter(q => q.type === "single");
+  const pair = scatterPair(s), seg = segmentCompare(s);
+  return `<div class="stack">${filterBar(s)}
+    <div class="card stack" style="gap:12px"><div class="qres-head"><div><span class="eyebrow">Dağılım grafiği</span><h3>İki ölçek sorusu arasındaki ilişki</h3></div></div>
+      ${pair ? `<div class="filterbar"><label class="f">X ekseni<select id="sc-x" data-sc="sx">${nums.map(q => `<option value="${q.id}" ${q.id === pair.qx.id ? "selected" : ""}>${esc(q.title.slice(0, 60))}</option>`).join("")}</select></label>
+        <label class="f">Y ekseni<select id="sc-y" data-sc="sy">${nums.map(q => `<option value="${q.id}" ${q.id === pair.qy.id ? "selected" : ""}>${esc(q.title.slice(0, 60))}</option>`).join("")}</select></label></div>
+        <div class="chart-box" style="height:340px"><canvas id="ch-scatter" role="img" aria-label="Dağılım grafiği"></canvas></div>
+        <p class="small">Pearson korelasyonu: <b class="mono">r = ${pair.r == null ? "—" : fmtN(pair.r, 2)}</b> (n = ${pair.points.length})${pair.r != null ? ` · ${rStrength(pair.r)} ${pair.r >= 0 ? "pozitif" : "negatif"} ilişki` : ""}. Noktalar üst üste binmesin diye hafifçe kaydırılmıştır.</p>`
+        : `<p class="muted small">Dağılım grafiği için ankette en az iki Likert veya derecelendirme sorusu olmalı.</p>`}
+    </div>
+    <div class="card stack" style="gap:12px"><div><span class="eyebrow">Segment karşılaştırması</span><h3>Gruplara göre ortalama puan</h3></div>
+      ${seg ? `<div class="filterbar"><label class="f">Grup sorusu<select id="sc-gc" data-sc="gc">${cats.map(q => `<option value="${q.id}" ${q.id === seg.qc.id ? "selected" : ""}>${esc(q.title.slice(0, 60))}</option>`).join("")}</select></label>
+        <label class="f">Ölçüm sorusu<select id="sc-gn" data-sc="gn">${nums.map(q => `<option value="${q.id}" ${q.id === seg.qn.id ? "selected" : ""}>${esc(q.title.slice(0, 60))}</option>`).join("")}</select></label></div>
+        <div class="grid g2" style="align-items:start"><div class="chart-box"><canvas id="ch-seg" role="img" aria-label="Segment karşılaştırma grafiği"></canvas></div>
+        <div class="tbl-wrap"><table><thead><tr><th>Grup</th><th class="num">n</th><th class="num">Ortalama</th></tr></thead><tbody>${seg.groups.map(g => `<tr><td>${esc(g.label)}</td><td class="num">${g.n}</td><td class="num">${g.n ? fmtN(g.mean, 2) : "—"}</td></tr>`).join("")}</tbody></table></div></div>`
+        : `<p class="muted small">Segment karşılaştırması için en az bir tek seçimli ve bir ölçek sorusu gerekir.</p>`}
+    </div></div>`;
+}
+function resResponses(s) {
+  const rs = [...S.responses].reverse();
+  const canImport = s.ownerId === S.uid || S.isAdmin;
+  return `<div class="stack">
+    <div class="card row between"><div class="stack" style="gap:2px"><b>${fmtN(rs.length)} yanıt</b><span class="small muted">CSV dosyaları Excel ve SPSS ile açılabilir. İçe aktarmada başlık satırı soru metinleriyle aynı olmalıdır.</span></div>
+      <div class="row"><button class="btn" data-act="exportCsv" ${rs.length ? "" : "disabled"}>${ICON.dl} CSV indir</button>
+      ${canImport ? `<button class="btn" data-act="csvTemplate">Şablon CSV</button><label class="btn" for="csvImport">CSV içe aktar<input type="file" id="csvImport" accept=".csv,text/csv" hidden></label>` : ""}</div></div>
+    ${rs.length ? `<div class="tbl-wrap"><table><thead><tr><th class="num">#</th><th>Tarih</th>${s.questions.map((q, i) => `<th title="${esc(q.title)}">S${i + 1}</th>`).join("")}</tr></thead><tbody>
+      ${rs.slice(0, 200).map((r, k) => `<tr><td class="num">${rs.length - k}</td><td style="white-space:nowrap">${fmtDateTime(r.submittedAt)}</td>${s.questions.map(q => { const a = r.answers?.[q.id]; return `<td>${esc(Array.isArray(a) ? a.join("; ") : a ?? "")}</td>`; }).join("")}</tr>`).join("")}
+    </tbody></table></div>${rs.length > 200 ? `<p class="small muted">Son 200 yanıt gösteriliyor. Tümü için CSV indirin.</p>` : ""}` : noResponses(s)}
+  </div>`;
+}
+
+// ---------- CSV ----------
+function csvCell(v) { const t = String(v ?? ""); return /[",;\n\r]/.test(t) ? '"' + t.replace(/"/g, '""') + '"' : t; }
+function parseCsv(text) {
+  const rows = []; let row = [], cell = "", q = false;
+  const sep = (text.split("\n")[0].match(/;/g) || []).length > (text.split("\n")[0].match(/,/g) || []).length ? ";" : ",";
+  for (let i = 0; i < text.length; i++) {
+    const c = text[i];
+    if (q) { if (c === '"') { if (text[i + 1] === '"') { cell += '"'; i++; } else q = false; } else cell += c; }
+    else if (c === '"') q = true;
+    else if (c === sep) { row.push(cell); cell = ""; }
+    else if (c === "\n" || c === "\r") { if (c === "\r" && text[i + 1] === "\n") i++; row.push(cell); rows.push(row); row = []; cell = ""; }
+    else cell += c;
+  }
+  if (cell || row.length) { row.push(cell); rows.push(row); }
+  return rows.filter(r => r.some(x => x.trim()));
+}
+async function saveFile(filename, data) {
+  if (!S.downloads) { toast("Bu görünümde dosya indirme kullanılamıyor."); return false; }
+  try { await S.downloads.save({ filename, data }); return true; }
+  catch (e) { if (e && e.code === "declined") toast("İndirme iptal edildi."); else { console.error(e); toast("Dosya indirilemedi."); } return false; }
+}
+function exportCsv() {
+  const s = curSurvey();
+  const head = ["Yanıt No", "Tarih", ...s.questions.map(q => q.title)];
+  const lines = [head.map(csvCell).join(";")];
+  S.responses.forEach((r, i) => lines.push([i + 1, new Date(r.submittedAt).toLocaleString("tr-TR"), ...s.questions.map(q => { const a = r.answers?.[q.id]; return Array.isArray(a) ? a.join(" | ") : a ?? ""; })].map(csvCell).join(";")));
+  saveFile(slug(s.title) + "-yanitlar.csv", new Blob(["﻿" + lines.join("\r\n")], { type: "text/csv;charset=utf-8" }));
+}
+function csvTemplate() {
+  const s = curSurvey();
+  const ex = s.questions.map(q => q.type === "single" ? q.options[0] : q.type === "multi" ? q.options.slice(0, 2).join(" | ") : q.type === "likert" ? "4" : q.type === "rating" ? "8" : "Örnek cevap");
+  saveFile(slug(s.title) + "-sablon.csv", new Blob(["﻿" + [s.questions.map(q => csvCell(q.title)).join(";"), ex.map(csvCell).join(";")].join("\r\n")], { type: "text/csv;charset=utf-8" }));
+}
+const slug = t => (t || "anket").toLocaleLowerCase("tr-TR").replace(/ç/g, "c").replace(/ğ/g, "g").replace(/ı/g, "i").replace(/ö/g, "o").replace(/ş/g, "s").replace(/ü/g, "u").replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "").slice(0, 50) || "anket";
+async function importCsv(input) {
+  const s = curSurvey(); const file = input.files[0]; input.value = ""; if (!file || !s) return;
+  const rows = parseCsv((await file.text()).replace(/^﻿/, ""));
+  if (rows.length < 2) { toast("CSV dosyasında veri satırı bulunamadı."); return; }
+  const head = rows[0].map(h => h.trim().toLocaleLowerCase("tr-TR"));
+  const map = s.questions.map(q => head.indexOf(q.title.trim().toLocaleLowerCase("tr-TR")));
+  const matched = map.filter(i => i >= 0).length;
+  if (!matched) { toast("Başlık satırı soru metinleriyle eşleşmedi. Şablon CSV'yi kullanın.", 5000); return; }
+  const pl = planById(await ownerPlanId(s));
+  const room = lim(pl.limits.responses) - S.responses.length;
+  const data = rows.slice(1, 1 + Math.max(0, Math.min(room, 5000)));
+  if (!data.length) { toast("Planınızın katılımcı sınırı dolu."); return; }
+  toast(`${data.length} satır içe aktarılıyor…`, 60000);
+  let ok = 0;
+  for (const r of data) {
+    const answers = {};
+    s.questions.forEach((q, k) => {
+      const i = map[k]; if (i < 0) return; const raw = (r[i] || "").trim(); if (!raw) return;
+      if (q.type === "multi") answers[q.id] = raw.split(/\s*[|;]\s*/).filter(Boolean).map(v => q.options.find(o => o.toLocaleLowerCase("tr-TR") === v.toLocaleLowerCase("tr-TR")) || v);
+      else if (q.type === "single") answers[q.id] = q.options.find(o => o.toLocaleLowerCase("tr-TR") === raw.toLocaleLowerCase("tr-TR")) || raw;
+      else if (numericQ(q)) { let n = parseInt(raw, 10); if (isNaN(n) && q.type === "likert") n = LIKERT[q.scale].findIndex(l => l.toLocaleLowerCase("tr-TR") === raw.toLocaleLowerCase("tr-TR")) + 1; if (n > 0) answers[q.id] = n; }
+      else answers[q.id] = raw;
+    });
+    try { await S.db.collection(`surveys/${s.id}/responses`).add({ answers, submittedAt: Date.now(), startedAt: null, durationSec: null, source: "csv" }); ok++; }
+    catch (e) { dbError(e, "İçe aktarma durdu"); break; }
+  }
+  toast(`${ok} yanıt içe aktarıldı (${matched}/${s.questions.length} soru eşleşti).`, 5000);
+}
+
+// ============================================================
+// AI ANALYSIS
+// ============================================================
+function aiPayload(s, rs) {
+  const st = computeStats(s, rs);
+  const sorular = s.questions.map((q, i) => {
+    const x = st.q[q.id], b = { no: i + 1, id: q.id, soru: q.title, tur: TYPE_LABEL[q.type], cevaplayan: x.answered };
+    if (q.type === "open") { b.cevaplar = x.texts.slice(0, 80).map(t => t.slice(0, 280)); b.sikKelimeler = x.words.slice(0, 15); }
+    else { b.dagilim = x.counts.map(c => ({ secenek: c.label, sayi: c.count, yuzde: +c.pct.toFixed(1) })); if (x.mean != null) { b.ortalama = +x.mean.toFixed(2); b.standartSapma = +x.sd.toFixed(2); b.medyan = x.median; } }
+    return b;
+  });
+  return { anket: { baslik: s.title, aciklama: s.description || "", toplamYanit: st.n, ortalamaTamamlama: st.completion == null ? null : +st.completion.toFixed(1), tarihAraligi: [st.first && fmtDate(st.first), st.last && fmtDate(st.last)], filtre: filterLabel(s) || "yok" }, sorular, grupKarsilastirmalari: crossTabs(s, rs), korelasyonlar: correlations(s, rs), _stats: st };
+}
+function aiPrompt(p) {
+  const { _stats, ...data } = p;
+  return `Sen sosyal bilimler (uluslararası ilişkiler, siyaset bilimi, kamu yönetimi) alanında deneyimli bir araştırma analistisin. Aşağıda bir çevrim içi anketin hesaplanmış istatistikleri ve açık uçlu cevapları JSON olarak verilmiştir.
+
+KURALLAR:
+- Yalnızca verilen sayılara ve cevaplara dayan. Veride olmayan sayı, yüzde veya bulgu uydurma.
+- Örneklem küçükse (n < 30) veya gruplar dengesizse bunu sınırlılık olarak belirt; nedensellik iddia etme.
+- Türkçe, akademik ama anlaşılır bir dil kullan.
+- Açık uçlu cevapları temalara ayır; her tema için yaklaşık oranı cevap sayısına göre tahmin et.
+- Yanıtın YALNIZCA aşağıdaki şemaya uyan geçerli bir JSON nesnesi olsun, başka metin ekleme.
+
+ŞEMA:
+{
+  "ozet": "3-5 cümlelik araştırma özeti",
+  "istatistikselOzet": "örneklem, tamamlama ve temel dağılımlara dair 2-4 cümle",
+  "egilimler": ["katılımcı eğilimi", "..."],
+  "onemliNoktalar": ["dikkat çeken veri noktası (sayıyla)", "..."],
+  "icgoruler": ["yorum ve içgörü", "..."],
+  "bulgular": [{"soruId": "q...", "yorum": "bu sorunun sonucuna dair 1-3 cümle"}],
+  "acikUclu": [{"soruId": "q...", "temalar": [{"tema": "kısa ad", "aciklama": "1 cümle", "oran": "%xx"}], "duygu": "olumlu | olumsuz | karışık | nötr", "ornekAlinti": "cevaplardan kısa alıntı"}],
+  "sinirliliklar": ["..."],
+  "sonuc": "sonuç paragrafı",
+  "oneriler": ["uygulanabilir öneri", "..."]
+}
+
+VERİ:
+${JSON.stringify(data)}`;
+}
+function localAnalysis(s, p) {
+  const st = p._stats, find = id => s.questions.find(q => q.id === id);
+  const bulgular = [], onemli = [], egilim = [];
+  s.questions.forEach(q => {
+    const x = st.q[q.id]; if (!x.answered) return;
+    if (q.type === "single" || q.type === "multi") {
+      const top = [...x.counts].sort((a, b) => b.count - a.count)[0];
+      bulgular.push({ soruId: q.id, yorum: `Cevaplayanların %${fmtN(top.pct, 1)}'i “${top.label}” seçeneğini işaretledi (n = ${x.answered}).` });
+      if (top.pct >= 50) onemli.push(`“${q.title}” sorusunda “${top.label}” açık ara öne çıkıyor (%${fmtN(top.pct, 1)}).`);
+    } else if (numericQ(q)) {
+      const mid = (x.max + 1) / 2;
+      bulgular.push({ soruId: q.id, yorum: `Ortalama ${fmtN(x.mean, 2)} / ${x.max} (ss = ${fmtN(x.sd, 2)}).${x.agree != null ? ` Katılanların oranı %${fmtN(x.agree)}, katılmayanların oranı %${fmtN(x.disagree)}.` : ""}` });
+      egilim.push(`“${q.title}” ifadesinde ortalama ${x.mean > mid ? "ölçeğin olumlu tarafında" : x.mean < mid ? "ölçeğin olumsuz tarafında" : "orta noktada"} (${fmtN(x.mean, 2)}).`);
+    }
+  });
+  p.korelasyonlar.filter(c => Math.abs(c.r) >= .3).forEach(c => onemli.push(`“${c.x}” ile “${c.y}” arasında ${rStrength(c.r)} ${c.r > 0 ? "pozitif" : "negatif"} ilişki var (r = ${fmtN(c.r, 2)}).`));
+  const acik = s.questions.filter(q => q.type === "open" && st.q[q.id].texts.length).map(q => ({ soruId: q.id, temalar: st.q[q.id].words.slice(0, 5).map(([w, c]) => ({ tema: w, aciklama: `“${w}” kelimesi ${c} cevapta geçiyor.`, oran: "%" + fmtN(c / st.q[q.id].texts.length * 100) })), duygu: "belirlenmedi", ornekAlinti: st.q[q.id].texts[0].slice(0, 160) }));
+  return {
+    ozet: `“${s.title}” anketine ${st.n} katılımcı yanıt verdi. Bu özet, yapay zekâ servisine erişilemediği için platformun istatistik motoru tarafından otomatik üretildi; yorum içermez, yalnızca dağılımları özetler.`,
+    istatistikselOzet: `Toplam ${st.n} yanıt; ortalama tamamlama oranı %${fmtN(st.completion || 0)}.${st.avgDuration ? ` Ortalama yanıt süresi ${fmtN(st.avgDuration / 60, 1)} dakika.` : ""}`,
+    egilimler: egilim, onemliNoktalar: onemli, icgoruler: [], bulgular, acikUclu: acik,
+    sinirliliklar: [st.n < 30 ? "Örneklem 30'un altında; sonuçlar genellenemez." : "Örneklem rastgele seçilmemiş olabilir; genelleme yaparken dikkatli olun."],
+    sonuc: "Ayrıntılı yorum, sonuç ve öneriler için AI analizini yeniden çalıştırın.", oneriler: [], _local: true,
+  };
+}
+function normalizeAI(a) {
+  const arr = v => Array.isArray(v) ? v.filter(x => x != null).map(x => typeof x === "string" ? x : x) : [];
+  return { ozet: String(a.ozet || ""), istatistikselOzet: String(a.istatistikselOzet || ""), egilimler: arr(a.egilimler), onemliNoktalar: arr(a.onemliNoktalar), icgoruler: arr(a.icgoruler), bulgular: arr(a.bulgular), acikUclu: arr(a.acikUclu), sinirliliklar: arr(a.sinirliliklar), sonuc: String(a.sonuc || ""), oneriler: arr(a.oneriler), _local: !!a._local };
+}
+let aiBusy = false;
+async function runAnalysis(silent) {
+  const s = curSurvey(); const rs = filteredResponses(s);
+  if (!rs.length) { toast("Analiz için en az bir yanıt gerekli."); return null; }
+  const p = myPlan();
+  if (!S.isAdmin && usageThisMonth("ai") >= lim(p.limits.ai)) { toast(`Bu ayki AI analiz hakkınız (${p.limits.ai}) doldu. Planınızı yükseltebilirsiniz.`, 5000); return null; }
+  aiBusy = true; if (!silent) rerenderKeep();
+  const payload = aiPayload(s, rs);
+  let result, model = "yerel istatistik motoru";
+  try {
+    if (!S.sample) throw { code: "not_granted" };
+    result = normalizeAI(await S.sample.json(aiPrompt(payload), { modelTier: "complex" }));
+    model = "Claude";
+  } catch (e) {
+    console.warn("AI analiz kullanılamadı:", e);
+    if (e && e.code === "rate_limited") toast("AI servisi şu an yoğun. Yerel istatistik özeti üretildi; birkaç dakika sonra yeniden deneyin.", 6000);
+    else if (S.sample) toast("AI analizi tamamlanamadı; yerel istatistik özeti üretildi.", 5000);
+    result = normalizeAI(localAnalysis(s, payload));
+  }
+  const doc = { createdAt: Date.now(), ownerId: S.uid, model, filter: filterLabel(s) || "", n: rs.length, result };
+  try {
+    const ref = await S.db.collection(`surveys/${s.id}/analyses`).add(doc);
+    if (!result._local) await S.db.collection("usage").add({ uid: S.uid, kind: "ai", at: Date.now(), surveyId: s.id });
+    doc.id = ref.id;
+  } catch (e) { dbError(e, "Analiz kaydedilemedi"); }
+  aiBusy = false; S.p.aid = doc.id;
+  if (!silent) { toast(result._local ? "İstatistik özeti hazır." : "AI analizi hazır."); rerenderKeep(); }
+  return doc;
+}
+function analysisHTML(s, a) {
+  const r = a.result, qt = id => { const i = s.questions.findIndex(q => q.id === id); return i >= 0 ? `S${i + 1}. ${s.questions[i].title}` : id; };
+  const list = (t, xs) => xs.length ? `<section class="stack" style="gap:8px"><h3>${t}</h3><ul>${xs.map(x => `<li>${esc(typeof x === "string" ? x : JSON.stringify(x))}</li>`).join("")}</ul></section>` : "";
+  return `<div class="ai-out">
+    ${r._local ? `<div class="callout warn">${ICON.info}<span>Bu sonuç yapay zekâ olmadan, yalnızca istatistiklerden üretildi. Yorum ve öneriler için analizi yeniden çalıştırın.</span></div>` : ""}
+    <section class="stack" style="gap:8px"><h3>Araştırma özeti</h3><p>${esc(r.ozet)}</p></section>
+    ${r.istatistikselOzet ? `<section class="stack" style="gap:8px"><h3>İstatistiksel özet</h3><p>${esc(r.istatistikselOzet)}</p></section>` : ""}
+    ${list("Katılımcı eğilimleri", r.egilimler)}
+    ${list("Önemli veri noktaları", r.onemliNoktalar)}
+    ${list("İçgörüler", r.icgoruler)}
+    ${r.acikUclu.length ? `<section class="stack" style="gap:10px"><h3>Açık uçlu cevapların metin analizi</h3>${r.acikUclu.map(o => `<div class="card flat stack" style="gap:6px;padding:14px"><b class="small">${esc(qt(o.soruId))}</b><div class="row small" style="gap:8px"><span class="pill plain">Duygu: ${esc(o.duygu || "—")}</span></div>
+      ${(o.temalar || []).map(t => `<div class="theme-row"><div><b>${esc(t.tema)}</b><div class="small muted">${esc(t.aciklama || "")}</div></div><span class="mono small">${esc(t.oran || "")}</span></div>`).join("")}
+      ${o.ornekAlinti ? `<p class="small muted">“${esc(o.ornekAlinti)}”</p>` : ""}</div>`).join("")}</section>` : ""}
+    ${r.bulgular.length ? `<section class="stack" style="gap:8px"><h3>Soru bazlı bulgular</h3><ul>${r.bulgular.map(b => `<li><b>${esc(qt(b.soruId))}:</b> ${esc(b.yorum)}</li>`).join("")}</ul></section>` : ""}
+    ${list("Sınırlılıklar", r.sinirliliklar)}
+    ${r.sonuc ? `<section class="stack" style="gap:8px"><h3>Sonuç</h3><p>${esc(r.sonuc)}</p></section>` : ""}
+    ${list("Öneriler", r.oneriler)}
+  </div>`;
+}
+function resAI(s) {
+  if (!S.responses.length) return noResponses(s);
+  const p = myPlan(), used = usageThisMonth("ai");
+  const a = S.analyses.find(x => x.id === S.p.aid) || S.analyses[0];
+  return `<div class="stack">${filterBar(s)}
+    <div class="card row between"><div class="stack" style="gap:4px"><b>Yapay zekâ ile veri analizi</b><span class="small muted">${fmtN(filteredResponses(s).length)} yanıt analiz edilecek${filterLabel(s) ? " (filtreli)" : ""}. Bu ay ${used} / ${limTxt(p.limits.ai)} hak kullanıldı.</span></div>
+      <button class="btn primary" data-act="runAI" ${aiBusy ? "disabled" : ""}>${aiBusy ? '<span class="spinner"></span> Analiz ediliyor…' : ICON.spark + " Analizi çalıştır"}</button></div>
+    ${S.analyses.length > 1 ? `<label class="f" style="max-width:420px">Önceki analizler<select id="ai-pick" data-sc="aid">${S.analyses.map(x => `<option value="${x.id}" ${a && x.id === a.id ? "selected" : ""}>${fmtDateTime(x.createdAt)} · n=${x.n}${x.filter ? " · filtreli" : ""} · ${esc(x.model)}</option>`).join("")}</select></label>` : ""}
+    ${a ? `<div class="card stack"><div class="row between small muted"><span>${fmtDateTime(a.createdAt)} · ${esc(a.model)} · n = ${a.n}${a.filter ? " · Filtre: " + esc(a.filter) : ""}</span></div>${analysisHTML(s, a)}</div>`
+      : `<div class="card empty"><h2>Henüz analiz yok</h2><p>Analiz; sonuçların yorumunu, katılımcı eğilimlerini, önemli veri noktalarını, istatistiksel özeti ve açık uçlu cevapların tema analizini üretir. İsterseniz önce bir segment filtresi seçin.</p></div>`}
+  </div>`;
+}
+
+// ============================================================
+// PDF REPORT
+// ============================================================
+function reportSnapshot(s, rs, analysis) {
+  const st = computeStats(s, rs);
+  st.q && Object.values(st.q).forEach(x => { x.texts = x.texts.slice(0, 25).map(t => t.slice(0, 400)); });
+  return { survey: { title: s.title, description: s.description || "", questions: s.questions }, stats: st, analysis: analysis.result, model: analysis.model, filter: analysis.filter || "", createdAt: Date.now(), author: (S.profile && S.profile.name) || "", institution: (S.profile && S.profile.institution) || "" };
+}
+function chartImage(q, st) {
+  const stage = $("#reportStage"); const cv = document.createElement("canvas"); cv.width = 640; cv.height = 300; cv.style.width = "640px"; cv.style.height = "300px"; stage.appendChild(cv);
+  const kind = q.type === "single" ? "pie" : q.type === "multi" ? "bar" : "column";
+  const ch = new Chart(cv, makeChartConfig(kind, st.counts.map(c => c.label), st.counts.map(c => c.count), chartTheme(true), { static: true, mono: numericQ(q) }));
+  const url = ch.toBase64Image("image/png", 1); ch.destroy(); cv.remove(); return url;
+}
+function reportHTML(snap) {
+  const { survey: s, stats: st, analysis: r } = snap;
+  const bq = id => (r.bulgular || []).find(b => b.soruId === id);
+  const oq = id => (r.acikUclu || []).find(o => o.soruId === id);
+  const ul = xs => xs && xs.length ? `<ul>${xs.map(x => `<li>${esc(typeof x === "string" ? x : JSON.stringify(x))}</li>`).join("")}</ul>` : "";
+  return `<div class="rpt">
+    <div class="cover"><div class="brandline"><img src="${LOGO}" alt="">MASKDER · Araştırma Raporu</div>
+      <h1 style="margin-top:10px">${esc(s.title)}</h1>${s.description ? `<p style="color:rgba(255,255,255,.78)">${esc(s.description)}</p>` : ""}
+      <div class="kv"><b>Rapor tarihi</b><span>${fmtDate(snap.createdAt)}</span><b>Hazırlayan</b><span>${esc([snap.author, snap.institution].filter(Boolean).join(", ") || "—")}</span><b>Örneklem</b><span>${st.n} katılımcı</span><b>Veri toplama</b><span>${fmtDate(st.first)} – ${fmtDate(st.last)}</span><b>Filtre</b><span>${esc(snap.filter || "Tüm katılımcılar")}</span><b>Analiz</b><span>${esc(snap.model)}</span></div></div>
+    <h2>1. Araştırma özeti</h2><p>${esc(r.ozet)}</p>
+    <h2>2. Yöntem</h2><p>Veriler MASKDER Araştırma platformu üzerinden çevrim içi anketle toplanmıştır. Anket ${s.questions.length} sorudan oluşmaktadır (${Object.entries(s.questions.reduce((m, q) => (m[TYPE_LABEL[q.type]] = (m[TYPE_LABEL[q.type]] || 0) + 1, m), {})).map(([k, v]) => `${v} ${k.toLocaleLowerCase("tr-TR")}`).join(", ")}). Toplam ${st.n} yanıt analiz edilmiştir; ortalama tamamlama oranı %${fmtN(st.completion || 0)}.</p>${r.istatistikselOzet ? `<p>${esc(r.istatistikselOzet)}</p>` : ""}
+    <h2>3. Bulgular</h2>
+    ${s.questions.map((q, i) => { const x = st.q[q.id]; const b = bq(q.id), o = oq(q.id);
+      let inner = "";
+      if (q.type === "open") inner = `${o ? `<table><tr><th>Tema</th><th>Açıklama</th><th>Oran</th></tr>${(o.temalar || []).map(t => `<tr><td>${esc(t.tema)}</td><td>${esc(t.aciklama || "")}</td><td class="n">${esc(t.oran || "")}</td></tr>`).join("")}</table>${o.ornekAlinti ? `<p style="font-style:italic;color:#4a5563">“${esc(o.ornekAlinti)}”</p>` : ""}` : ""}${!o && x.texts.length ? `<ul>${x.texts.slice(0, 6).map(t => `<li>${esc(t)}</li>`).join("")}</ul>` : ""}`;
+      else inner = `${x.answered ? `<img src="${chartImage(q, x)}" alt="">` : ""}<table><tr><th>Seçenek</th><th style="width:60px">n</th><th style="width:60px">%</th></tr>${x.counts.map(c => `<tr><td>${esc(c.label)}</td><td class="n">${c.count}</td><td class="n">${fmtN(c.pct, 1)}</td></tr>`).join("")}</table>${x.mean != null ? `<p style="font-size:11.5px;color:#4a5563">Ortalama ${fmtN(x.mean, 2)} · Std. sapma ${fmtN(x.sd, 2)} · Medyan ${fmtN(x.median, 1)}</p>` : ""}`;
+      return `<div class="q"><h3>S${i + 1}. ${esc(q.title)}</h3><div style="font-size:11px;color:#7a8592;margin-bottom:4px">${TYPE_LABEL[q.type]} · ${x.answered} cevap</div>${inner}${b ? `<div class="comment">${esc(b.yorum)}</div>` : ""}</div>`; }).join("")}
+    <h2>4. Yorumlar ve içgörüler</h2>
+    ${r.egilimler && r.egilimler.length ? `<h3>Katılımcı eğilimleri</h3>${ul(r.egilimler)}` : ""}
+    ${r.onemliNoktalar && r.onemliNoktalar.length ? `<h3>Önemli veri noktaları</h3>${ul(r.onemliNoktalar)}` : ""}
+    ${r.icgoruler && r.icgoruler.length ? `<h3>İçgörüler</h3>${ul(r.icgoruler)}` : ""}
+    ${r.sinirliliklar && r.sinirliliklar.length ? `<h3>Sınırlılıklar</h3>${ul(r.sinirliliklar)}` : ""}
+    <h2>5. Sonuç ve öneriler</h2>${r.sonuc ? `<p>${esc(r.sonuc)}</p>` : ""}${ul(r.oneriler)}
+    <div class="foot">Bu rapor MASKDER Araştırma platformunda ${fmtDateTime(snap.createdAt)} tarihinde ${snap.model === "Claude" ? "yapay zekâ desteğiyle" : "otomatik olarak"} oluşturulmuştur. Yorumlar araştırmacı tarafından doğrulanmalıdır.</div>
+  </div>`;
+}
+let pdfBusy = false;
+async function buildPdf(snap, filename) {
+  const stage = $("#reportStage"); stage.innerHTML = reportHTML(snap);
+  await (document.fonts ? document.fonts.ready : Promise.resolve());
+  const el = stage.firstElementChild;
+  const blob = await html2pdf().set({ margin: [14, 12, 14, 12], filename, image: { type: "jpeg", quality: 0.95 }, html2canvas: { scale: 2, useCORS: true, backgroundColor: "#ffffff", windowWidth: 810 }, jsPDF: { unit: "mm", format: "a4", orientation: "portrait" }, pagebreak: { mode: ["css", "legacy"], avoid: [".q", "h2", "tr"] } }).from(el).outputPdf("blob");
+  stage.innerHTML = "";
+  return blob;
+}
+async function createReport() {
+  const s = curSurvey(); if (!s) return;
+  const p = myPlan();
+  if (!S.isAdmin && usageThisMonth("pdf") >= lim(p.limits.pdf)) { toast(`Bu ayki PDF rapor hakkınız (${p.limits.pdf}) doldu.`, 5000); return; }
+  pdfBusy = true; rerenderKeep();
+  try {
+    let a = S.analyses.find(x => x.id === S.p.aid) || S.analyses[0];
+    const fl = filterLabel(s) || "";
+    if (!a || a.filter !== fl || a.n !== filteredResponses(s).length) { toast("Önce güncel veriyle analiz yapılıyor…", 8000); a = await runAnalysis(true); if (!a) { pdfBusy = false; rerenderKeep(); return; } }
+    const snap = reportSnapshot(s, filteredResponses(s), a);
+    const name = `${slug(s.title)}-rapor-${new Date().toISOString().slice(0, 10)}.pdf`;
+    let json = JSON.stringify(snap);
+    if (json.length > 220000) { Object.values(snap.stats.q).forEach(x => x.texts = x.texts.slice(0, 8)); }
+    const ref = await S.db.collection(`surveys/${s.id}/reports`).add({ ownerId: S.uid, createdAt: snap.createdAt, filename: name, n: snap.stats.n, filter: snap.filter, model: snap.model, snap });
+    await S.db.collection("usage").add({ uid: S.uid, kind: "pdf", at: Date.now(), surveyId: s.id });
+    const blob = await buildPdf(snap, name);
+    pdfBusy = false; rerenderKeep();
+    if (await saveFile(name, blob)) toast("PDF rapor hazır.");
+    S.p.rid = ref.id;
+  } catch (e) { console.error(e); pdfBusy = false; rerenderKeep(); toast("Rapor oluşturulamadı. Yeniden deneyin.", 4500); }
+}
+async function redownload(surveyId, rid) {
+  const rep = S.reports.find(r => r.id === rid); if (!rep) return;
+  toast("PDF hazırlanıyor…", 20000);
+  try { const blob = await buildPdf(rep.snap, rep.filename); if (await saveFile(rep.filename, blob)) toast("PDF indirildi."); } catch (e) { console.error(e); toast("PDF oluşturulamadı."); }
+}
+function previewReport(rid) {
+  const rep = S.reports.find(r => r.id === rid); if (!rep) return;
+  openModal("Rapor önizleme", `<div style="overflow-x:auto;background:#fff;border-radius:6px;padding:16px">${reportHTML(rep.snap)}</div>`, `<span class="small muted">${esc(rep.filename)}</span><button class="btn primary" data-act="redownload" data-rid="${rep.id}">${ICON.dl} PDF indir</button>`);
+}
+function resReport(s) {
+  if (!S.responses.length) return noResponses(s);
+  const p = myPlan();
+  return `<div class="stack">${filterBar(s)}
+    <div class="card stack" style="gap:14px"><div class="row between"><div class="stack" style="gap:4px"><b>AI destekli PDF rapor</b><span class="small muted">Kapak, araştırma özeti, yöntem, soru bazlı bulgular ve grafikler, yorumlar, sonuç ve öneriler. Bu ay ${usageThisMonth("pdf")} / ${limTxt(p.limits.pdf)} rapor oluşturuldu.</span></div>
+      <button class="btn primary" data-act="createReport" ${pdfBusy ? "disabled" : ""}>${pdfBusy ? '<span class="spinner"></span> Rapor hazırlanıyor…' : ICON.file + " Rapor oluştur ve indir"}</button></div>
+      ${!S.downloads ? `<div class="callout warn">${ICON.info}<span>Bu görünümde dosya indirme kapalı. Raporu yine oluşturup önizleyebilirsiniz.</span></div>` : ""}</div>
+    <div class="card stack" style="gap:8px"><h3>Oluşturulan raporlar</h3>
+      ${S.reports.length ? `<div class="slist">${S.reports.map(r => `<div class="sitem"><div class="stack" style="gap:2px"><b class="small">${esc(r.filename)}</b><span class="meta"><span>${fmtDateTime(r.createdAt)}</span><span>n = ${r.n}</span>${r.filter ? `<span>Filtre: ${esc(r.filter)}</span>` : ""}<span>${esc(r.model)}</span></span></div>
+        <div class="acts"><button class="btn sm" data-act="previewReport" data-rid="${r.id}">${ICON.eye} Önizle</button><button class="btn sm" data-act="redownload" data-rid="${r.id}">${ICON.dl} İndir</button></div></div>`).join("")}</div>` : `<p class="muted small">Henüz rapor yok. İlk rapor oluşturulduğunda burada saklanır ve tekrar indirilebilir.</p>`}
+    </div></div>`;
+}
+
+// ============================================================
+// SHARE
+// ============================================================
+function shareUrl(s) { const base = (S.site.config && S.site.config.shareBase) || ""; return base ? base.replace(/#.*$/, "") + "#s-" + s.id : ""; }
+function qrDataUrl(text, cell = 6) { const q = qrcode(0, "M"); q.addData(text); q.make(); return q.createDataURL(cell, 16); }
+function resShare(s) {
+  const url = shareUrl(s);
+  const enc = encodeURIComponent;
+  const msg = `${s.title} anketine katılır mısınız?`;
+  return `<div class="grid g2" style="align-items:start">
+    <div class="card stack" style="gap:14px">
+      <div class="row between"><h3>Paylaşım bağlantısı</h3>${statusPill(s)}</div>
+      ${s.status !== "open" ? `<div class="callout warn">${ICON.info}<span>Anket şu an ${s.status === "draft" ? "taslak" : "kapalı"}; bağlantıyı açanlar yanıt veremez.</span><button class="btn sm" data-act="toggleStatus" data-id="${s.id}">Anketi aç</button></div>` : ""}
+      ${url ? `<div class="linkbox"><input type="text" id="shareLink" readonly value="${esc(url)}" aria-label="Paylaşım bağlantısı"><button class="btn" data-act="copyLink">${ICON.copy} Kopyala</button></div>
+        <div class="stack" style="gap:6px"><span class="eyebrow">Sosyal medyada paylaş</span><div class="row">
+          <a class="btn sm" href="https://wa.me/?text=${enc(msg + " " + url)}" target="_blank" rel="noopener">WhatsApp</a>
+          <a class="btn sm" href="https://twitter.com/intent/tweet?text=${enc(msg)}&url=${enc(url)}" target="_blank" rel="noopener">X</a>
+          <a class="btn sm" href="https://www.linkedin.com/sharing/share-offsite/?url=${enc(url)}" target="_blank" rel="noopener">LinkedIn</a>
+          <a class="btn sm" href="https://www.facebook.com/sharer/sharer.php?u=${enc(url)}" target="_blank" rel="noopener">Facebook</a>
+          <a class="btn sm" href="https://t.me/share/url?url=${enc(url)}&text=${enc(msg)}" target="_blank" rel="noopener">Telegram</a></div></div>`
+        : `<div class="callout warn">${ICON.info}<span>Paylaşım adresi henüz ayarlanmadı. Yönetici, Yönetim → Ayarlar bölümünden platformun adresini girmeli.</span></div>`}
+      <hr class="sep">
+      <div class="stack" style="gap:8px"><span class="eyebrow">Aynı cihazdan veri toplama</span><p class="small muted">Seminer, saha çalışması veya stantta tablet/telefon üzerinden ardışık katılımcılardan yanıt almak için katılım ekranını bu cihazda açın. Her gönderimden sonra form sıfırlanır.</p><div><button class="btn" data-act="takeSurvey" data-id="${s.id}">Katılım ekranını aç</button></div></div>
+      <div class="callout">${ICON.info}<span class="small">Prototipte katılımcıların claude.ai hesabıyla giriş yapmış ve bu sayfaya <b>Katkıda bulunan (Contributor)</b> erişimiyle davet edilmiş olması gerekir. Herkese açık, hesapsız katılım tam sürümde (kendi sunucunuzda) sağlanır. Diğer kanallardan toplanan verileri Yanıtlar sekmesinden CSV ile içe aktarabilirsiniz.</span></div>
+    </div>
+    <div class="card stack" style="gap:12px;align-items:flex-start"><h3>QR kod</h3>
+      ${url ? `<div class="qr-box"><img src="${qrDataUrl(url)}" alt="Anket bağlantısının QR kodu"></div><p class="small muted">Afiş, broşür veya sunum slaytına ekleyin. Telefon kamerasıyla okutulduğunda anket açılır.</p><button class="btn" data-act="dlQr">${ICON.dl} QR kodu indir (PNG)</button>` : `<p class="muted small">Paylaşım adresi ayarlandığında QR kod burada görünür.</p>`}
+    </div>
+  </div>`;
+}
+function dataUrlToBlob(u) { const [h, b] = u.split(","); const bin = atob(b); const a = new Uint8Array(bin.length); for (let i = 0; i < bin.length; i++) a[i] = bin.charCodeAt(i); return new Blob([a], { type: h.match(/:(.*?);/)[1] }); }
+
+// ============================================================
+// HISTORY
+// ============================================================
+function viewHistory() {
+  const all = (S.isAdmin && S.p.all ? S.surveys : mySurveys()).slice().sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
+  const list = S.p.arch ? all.filter(s => s.archived) : all.filter(s => !s.archived);
+  const p = myPlan();
+  return `<div class="stack">
+    <div class="page-head"><div><p class="eyebrow">Arşiv</p><h1>Geçmiş araştırmalar</h1><p class="muted" style="margin-top:6px">Önceki anketlerinizi görüntüleyin, sonuçlara ve raporlara geri dönün, anketleri kopyalayın veya arşivleyin. Planınızda veriler ${p.limits.retention} ay saklanır.</p></div></div>
+    <div class="row"><div class="seg" role="group" aria-label="Liste"><button data-act="histTab" data-arch="" aria-pressed="${!S.p.arch}">Tüm araştırmalar (${all.filter(s => !s.archived).length})</button><button data-act="histTab" data-arch="1" aria-pressed="${!!S.p.arch}">Arşivlenenler (${all.filter(s => s.archived).length})</button></div>
+      ${S.isAdmin ? `<label class="check"><input type="checkbox" id="histAll" data-act="histAll" ${S.p.all ? "checked" : ""}> Tüm kullanıcıların araştırmaları</label>` : ""}</div>
+    <div class="card">${list.length ? `<div class="tbl-wrap" style="border:0"><table><thead><tr><th>Araştırma</th><th>Durum</th><th class="num">Yanıt</th><th>Oluşturma</th><th>Saklama bitişi</th><th></th></tr></thead><tbody>
+      ${list.map(s => { const exp = (s.createdAt || 0) + planById(planIdOf(s.ownerId, s.ownerIsAdmin)).limits.retention * 30.4 * 86400000; const near = exp - Date.now() < 30 * 86400000;
+        return `<tr><td style="min-width:220px"><b>${esc(s.title)}</b><div class="small muted">${(s.questions || []).length} soru${S.isAdmin && s.ownerId !== S.uid ? " · " + esc(s.ownerName || "") : ""}</div></td><td>${statusPill(s)}</td><td class="num">${fmtN(S.counts[s.id] ?? 0)}</td><td style="white-space:nowrap">${fmtDate(s.createdAt)}</td><td style="white-space:nowrap;${near ? "color:var(--warn);font-weight:600" : ""}">${fmtDate(exp)}</td>
+        <td><div class="row" style="gap:4px;flex-wrap:nowrap"><button class="btn sm" data-act="openResults" data-id="${s.id}">Sonuçlar</button><button class="btn sm" data-act="openResults" data-id="${s.id}" data-tab="report">Raporlar</button><button class="btn sm" data-act="copySurvey" data-id="${s.id}">${ICON.copy} Kopyala</button><button class="btn sm ghost" data-act="archive" data-id="${s.id}">${s.archived ? "Arşivden çıkar" : "Arşivle"}</button></div></td></tr>`; }).join("")}
+    </tbody></table></div>` : `<div class="empty"><p>${S.p.arch ? "Arşivlenmiş araştırma yok." : "Henüz araştırma yok."}</p></div>`}</div>
+  </div>`;
+}
+
+// ============================================================
+// PLANS
+// ============================================================
+function meter(label, used, max) {
+  const m = lim(max), pct = m === Infinity ? 0 : Math.min(100, used / Math.max(1, m) * 100);
+  return `<div class="meter"><div class="row between small"><span>${label}</span><span class="mono">${fmtN(used)} / ${limTxt(max)}</span></div><div class="bar"><i class="${pct >= 100 ? "full" : pct >= 80 ? "hi" : ""}" style="width:${pct}%"></i></div></div>`;
+}
+function viewPlans() {
+  const cur = myPlan(), req = S.profile && S.profile.requestedPlan;
+  const maxResp = Math.max(0, ...mySurveys().map(s => S.counts[s.id] || 0));
+  return `<div class="stack">
+    <div class="page-head"><div><p class="eyebrow">Üyelik</p><h1>Planlar ve kullanım</h1></div></div>
+    <div class="card stack" style="gap:14px"><div class="row between"><div><span class="eyebrow">Mevcut plan</span><h2>${esc(cur.name)}</h2></div>${req && req !== cur.id ? `<span class="pill draft">${esc(planById(req).name)} talebi onay bekliyor</span>` : ""}</div>
+      <div class="grid g4">${meter("Anket", mySurveys().length, cur.limits.surveys)}${meter("En kalabalık anket (katılımcı)", maxResp, cur.limits.responses)}${meter("Bu ay AI analiz", usageThisMonth("ai"), cur.limits.ai)}${meter("Bu ay PDF rapor", usageThisMonth("pdf"), cur.limits.pdf)}</div></div>
+    <div class="grid g3">${plans().map(p => `<div class="card plan ${p.id === cur.id ? "current" : ""}">
+      <div class="row between"><h3>${esc(p.name)}</h3>${p.id === cur.id ? `<span class="pill accent plain">Mevcut plan</span>` : ""}</div>
+      <p class="small muted">${esc(p.note || "")}</p>
+      <div class="price">₺${fmtN(p.price)}<small> / ay</small></div>
+      <ul>${planFeatures(p).map(f => `<li>${esc(f)}</li>`).join("")}</ul>
+      ${p.id === cur.id ? `<button class="btn" disabled>Kullanılıyor</button>` : req === p.id ? `<button class="btn" disabled>Talep gönderildi</button>` : `<button class="btn ${p.price > cur.price ? "primary" : ""}" data-act="requestPlan" data-plan="${p.id}">${p.price > cur.price ? "Yükseltme talep et" : "Bu plana geç"}</button>`}
+    </div>`).join("")}</div>
+    <p class="small muted">Prototipte ödeme alınmaz: plan talebiniz yöneticiye iletilir ve onaylandığında hesabınıza tanımlanır. Tam sürümde iyzico veya Stripe ile kartla ödeme ve otomatik yenileme eklenecektir.</p>
+  </div>`;
+}
+
+// ============================================================
+// PROFILE
+// ============================================================
+function viewProfile() {
+  const pr = S.profile || {};
+  return `<div class="stack" style="max-width:760px">
+    <div class="page-head"><div><p class="eyebrow">Hesap</p><h1>Profil</h1></div></div>
+    <form class="card stack" id="profileForm" style="gap:14px">
+      <div class="grid g2"><label class="f">Ad soyad<input type="text" id="pf-name" value="${esc(pr.name || (S.me && S.me.name) || "")}" required></label>
+      <label class="f">Kurum / üniversite<input type="text" id="pf-inst" value="${esc(pr.institution || "")}" placeholder="Örn. MASKDER, Ankara Üniversitesi"></label>
+      <label class="f">Unvan<input type="text" id="pf-title" value="${esc(pr.title || "")}" placeholder="Örn. Araştırma görevlisi"></label>
+      <label class="f">Uzmanlık alanı<select id="pf-field">${["", "Uluslararası İlişkiler", "Siyaset Bilimi", "Kamu Yönetimi", "Sosyoloji", "Ekonomi", "Diğer"].map(f => `<option ${pr.field === f ? "selected" : ""} value="${esc(f)}">${f || "Seçin"}</option>`).join("")}</select></label></div>
+      <p class="small muted">Ad ve kurum bilgisi PDF raporların kapağında “Hazırlayan” olarak kullanılır.</p>
+      <div class="row"><button class="btn primary" type="submit">Profili kaydet</button></div>
+    </form>
+    <div class="card stack" style="gap:10px"><h3>Giriş ve güvenlik</h3>
+      <p class="small muted">Prototipte oturum açma, çıkış ve şifre işlemleri claude.ai hesabınız üzerinden yürür; bu platform şifrenizi görmez ve saklamaz. Tam sürümde e-posta ile kayıt, giriş/çıkış ve e-posta bağlantılı şifre sıfırlama bulunur.</p>
+      <div class="kv small" style="display:grid;grid-template-columns:140px 1fr;gap:6px"><span class="muted">Kullanıcı kimliği</span><span class="mono" style="word-break:break-all">${esc(S.uid || "—")}</span><span class="muted">Rol</span><span>${S.isAdmin ? "Yönetici" : "Üye"}</span><span class="muted">Kayıt tarihi</span><span>${fmtDate(pr.createdAt)}</span></div></div>
+    <div class="card stack" style="gap:8px"><h3>Araştırma geçmişi</h3><p class="small muted">${mySurveys().length} anket · ${fmtN(mySurveys().reduce((a, s) => a + (S.counts[s.id] || 0), 0))} toplam yanıt · ${S.usage.filter(u => u.kind === "ai").length} AI analiz · ${S.usage.filter(u => u.kind === "pdf").length} PDF rapor</p><div><button class="btn" data-act="go" data-view="history">Geçmiş araştırmaları aç</button></div></div>
+  </div>`;
+}
+document.addEventListener("submit", async e => {
+  if (e.target.id !== "profileForm") return;
+  e.preventDefault();
+  const body = { name: $("#pf-name").value.trim(), institution: $("#pf-inst").value.trim(), title: $("#pf-title").value.trim(), field: $("#pf-field").value };
+  if (!body.name) { toast("Ad soyad gerekli."); return; }
+  try { await S.db.doc("profiles/" + S.uid).set(Object.assign({}, S.profile || {}, body, { createdAt: (S.profile && S.profile.createdAt) || Date.now(), updatedAt: Date.now() })); toast("Profil kaydedildi."); }
+  catch (err) { dbError(err, "Profil kaydedilemedi"); }
+});
+
+// ============================================================
+// ADMIN
+// ============================================================
+function viewAdmin() {
+  if (!S.isAdmin) return `<div class="card empty"><h2>Yetkiniz yok</h2><p>Yönetim paneli yalnızca platform yöneticisine açıktır.</p></div>`;
+  const tab = S.p.tab || "stats";
+  const tabs = [["stats", "Sistem istatistikleri"], ["users", "Kullanıcılar"], ["research", "Araştırmalar"], ["home", "Ana sayfa içeriği"], ["plans", "Üyelik paketleri"], ["settings", "Ayarlar"]];
+  const body = { stats: adStats, users: adUsers, research: adResearch, home: adHome, plans: adPlans, settings: adSettings }[tab]();
+  return `<div class="stack"><div class="page-head"><div><p class="eyebrow">Yönetim paneli</p><h1>Platform yönetimi</h1></div></div>
+    <div class="tabs" role="tablist">${tabs.map(([k, l]) => `<button role="tab" aria-selected="${tab === k}" data-act="adTab" data-tab="${k}">${l}</button>`).join("")}</div>${body}</div>`;
+}
+function adStats() {
+  const users = Object.keys(S.profiles).length, surveys = S.surveys.length;
+  const resp = S.surveys.reduce((a, s) => a + (S.counts[s.id] || 0), 0);
+  const open = S.surveys.filter(s => s.status === "open").length;
+  const planDist = plans().map(p => ({ name: p.name, n: Object.keys(S.profiles).filter(u => planIdOf(u) === p.id).length }));
+  const pending = Object.values(S.profiles).filter(p => p.requestedPlan && p.requestedPlan !== planIdOf(p._id)).length;
+  return `<div class="stack">
+    <div class="grid g4"><div class="card stat"><b>${fmtN(users)}</b><span>Kayıtlı kullanıcı</span></div><div class="card stat"><b>${fmtN(surveys)}</b><span>Anket (${open} açık)</span></div><div class="card stat"><b>${fmtN(resp)}</b><span>Toplam yanıt</span></div><div class="card stat"><b>${fmtN(pending)}</b><span>Bekleyen plan talebi</span></div></div>
+    <div class="grid g2"><div class="card stack" style="gap:10px"><h3>Plan dağılımı</h3><div class="chart-box" style="height:240px"><canvas id="ch-plans" role="img" aria-label="Plan dağılımı"></canvas></div></div>
+      <div class="card stack" style="gap:10px"><h3>Son 30 günde oluşturulan anketler</h3><div class="chart-box" style="height:240px"><canvas id="ch-trend" role="img" aria-label="Anket oluşturma trendi"></canvas></div></div></div>
+    <div class="card stack" style="gap:8px"><h3>En çok yanıt alan anketler</h3><div class="tbl-wrap"><table><thead><tr><th>Anket</th><th>Sahibi</th><th>Durum</th><th class="num">Yanıt</th></tr></thead><tbody>${S.surveys.slice().sort((a, b) => (S.counts[b.id] || 0) - (S.counts[a.id] || 0)).slice(0, 8).map(s => `<tr><td>${esc(s.title)}</td><td>${esc(s.ownerName || "—")}</td><td>${statusPill(s)}</td><td class="num">${fmtN(S.counts[s.id] || 0)}</td></tr>`).join("") || `<tr><td colspan="4" class="muted">Henüz anket yok.</td></tr>`}</tbody></table></div></div>
+  </div>`;
+}
+function mountAdminCharts() {
+  const th = chartTheme(false);
+  const pd = plans().map(p => ({ name: p.name, n: Object.keys(S.profiles).filter(u => planIdOf(u) === p.id).length }));
+  const c1 = $("#ch-plans"); if (c1) S.charts.push(new Chart(c1, makeChartConfig("pie", pd.map(x => x.name), pd.map(x => x.n), th)));
+  const c2 = $("#ch-trend"); if (c2) {
+    const days = Array.from({ length: 30 }, (_, i) => { const d = new Date(); d.setHours(0, 0, 0, 0); d.setDate(d.getDate() - 29 + i); return d; });
+    const vals = days.map(d => S.surveys.filter(s => s.createdAt >= d.getTime() && s.createdAt < d.getTime() + 86400000).length);
+    S.charts.push(new Chart(c2, { type: "line", data: { labels: days.map(d => d.toLocaleDateString("tr-TR", { day: "2-digit", month: "short" })), datasets: [{ data: vals, borderColor: th.accent, backgroundColor: th.accent + "22", fill: true, tension: .3, pointRadius: 0, borderWidth: 2 }] },
+      options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true, ticks: { precision: 0, color: th.fg }, grid: { color: th.grid } }, x: { ticks: { color: th.fg, maxTicksLimit: 6 }, grid: { display: false } } } } }));
+  }
+}
+function adUsers() {
+  const ps = Object.values(S.profiles).sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
+  return `<div class="card">${ps.length ? `<div class="tbl-wrap" style="border:0"><table><thead><tr><th>Kullanıcı</th><th>Kurum</th><th>Alan</th><th class="num">Anket</th><th>Kayıt</th><th>Plan</th><th>Talep</th></tr></thead><tbody>
+    ${ps.map(p => { const pid = planIdOf(p._id); const n = S.surveys.filter(s => s.ownerId === p._id).length;
+      return `<tr><td><b>${esc(p.name || "Adsız")}</b>${p._id === S.uid ? ' <span class="pill plain accent">Yönetici</span>' : ""}</td><td>${esc(p.institution || "—")}</td><td>${esc(p.field || "—")}</td><td class="num">${n}</td><td style="white-space:nowrap">${fmtDate(p.createdAt)}</td>
+      <td>${p._id === S.uid ? "Kurumsal" : `<select id="ap-${esc(p._id)}" data-admin-plan="${esc(p._id)}" aria-label="Plan">${plans().map(x => `<option value="${x.id}" ${x.id === pid ? "selected" : ""}>${esc(x.name)}</option>`).join("")}</select>`}</td>
+      <td>${p.requestedPlan && p.requestedPlan !== pid ? `<button class="btn sm primary" data-act="approvePlan" data-uid="${esc(p._id)}" data-plan="${esc(p.requestedPlan)}">${esc(planById(p.requestedPlan).name)} onayla</button>` : '<span class="muted small">—</span>'}</td></tr>`; }).join("")}
+  </tbody></table></div>` : `<div class="empty"><p>Henüz kayıtlı kullanıcı yok. Kullanıcılar platformu ilk açtıklarında burada listelenir.</p></div>`}</div>`;
+}
+function adResearch() {
+  const all = S.surveys.slice().sort((a, b) => (b.updatedAt || 0) - (a.updatedAt || 0));
+  return `<div class="stack"><div class="card row between"><div class="stack" style="gap:4px"><b>Platform anketi oluştur</b><span class="small muted">Platform anketleri ana sayfada herkese gösterilir. Taslak olarak oluşturup hazır olduğunda başlatın.</span></div><button class="btn primary" data-act="newSurvey" data-platform="1">${ICON.plus} Yeni platform anketi</button></div>
+    <div class="card">${all.length ? `<div class="slist">${all.map(s => surveyRow(s).replace('<div class="acts">', `<div class="acts"><button class="btn sm" data-act="toggleStatus" data-id="${s.id}">${s.status === "open" ? "Durdur" : "Başlat"}</button>`)).join("")}</div>` : `<div class="empty"><p>Henüz araştırma yok.</p></div>`}</div></div>`;
+}
+function adHome() {
+  const h = home(); const ps = S.surveys.filter(s => s.isPlatform);
+  return `<form class="card stack" id="homeForm" style="gap:14px;max-width:820px">
+    <label class="f">Ana başlık<input type="text" id="hf-title" value="${esc(h.heroTitle)}"></label>
+    <label class="f">Tanıtım metni<textarea id="hf-text" rows="3">${esc(h.heroText)}</textarea></label>
+    <label class="f">Duyuru (boş bırakılırsa gösterilmez)<input type="text" id="hf-ann" value="${esc(h.announcement)}"></label>
+    <div class="stack" style="gap:6px"><span class="eyebrow">Ana sayfada öne çıkan platform anketleri</span>${ps.length ? ps.map(s => `<label class="check"><input type="checkbox" id="hf-f-${s.id}" value="${s.id}" data-feat="1" ${h.featured.includes(s.id) ? "checked" : ""}> ${esc(s.title)} ${statusPill(s)}</label>`).join("") : '<p class="small muted">Henüz platform anketi yok. Hiçbiri seçilmezse tüm açık platform anketleri gösterilir.</p>'}</div>
+    <div class="row"><button class="btn primary" type="submit">Ana sayfayı kaydet</button><button class="btn" type="button" data-act="go" data-view="home">Ana sayfayı görüntüle</button></div></form>`;
+}
+function adPlans() {
+  return `<form class="stack" id="plansForm"><div class="grid g3">${plans().map((p, i) => `<div class="card stack" style="gap:10px"><span class="eyebrow">${esc(p.id)}</span>
+    <label class="f">Plan adı<input type="text" id="pl-${i}-name" value="${esc(p.name)}"></label>
+    <label class="f">Açıklama<input type="text" id="pl-${i}-note" value="${esc(p.note || "")}"></label>
+    <label class="f">Aylık ücret (₺)<input type="number" min="0" id="pl-${i}-price" value="${p.price}"></label>
+    <div class="grid" style="grid-template-columns:1fr 1fr;gap:10px">
+      ${[["surveys", "Anket sayısı"], ["responses", "Katılımcı / anket"], ["ai", "AI analiz / ay"], ["pdf", "PDF rapor / ay"], ["retention", "Saklama (ay)"]].map(([k, l]) => `<label class="f">${l}<input type="number" min="-1" id="pl-${i}-${k}" value="${p.limits[k]}"></label>`).join("")}
+    </div></div>`).join("")}</div>
+    <p class="small muted">-1 sınırsız anlamına gelir. Değişiklikler tüm kullanıcılara anında uygulanır.</p>
+    <div class="row"><button class="btn primary" type="submit">Paketleri kaydet</button></div></form>`;
+}
+function adSettings() {
+  const c = S.site.config || {};
+  return `<form class="card stack" id="settingsForm" style="gap:14px;max-width:760px">
+    <label class="f">Platform paylaşım adresi<input type="url" id="st-base" value="${esc(c.shareBase || "")}" placeholder="https://claude.ai/..."></label>
+    <p class="small muted">Anket bağlantıları ve QR kodlar bu adresin sonuna <span class="mono">#s-anketkimliği</span> eklenerek üretilir. Bu sayfanın claude.ai bağlantısını girin.</p>
+    <div class="row"><button class="btn primary" type="submit">Ayarları kaydet</button></div></form>`;
+}
+document.addEventListener("submit", async e => {
+  const id = e.target.id; if (!["homeForm", "plansForm", "settingsForm"].includes(id)) return;
+  e.preventDefault();
+  try {
+    if (id === "homeForm") { await S.db.doc("site/home").set({ heroTitle: $("#hf-title").value.trim(), heroText: $("#hf-text").value.trim(), announcement: $("#hf-ann").value.trim(), featured: $$("[data-feat]:checked").map(x => x.value), updatedAt: Date.now() }); toast("Ana sayfa güncellendi."); }
+    if (id === "plansForm") { const pl = plans().map((p, i) => ({ id: p.id, name: $(`#pl-${i}-name`).value.trim() || p.name, note: $(`#pl-${i}-note`).value.trim(), price: +$(`#pl-${i}-price`).value || 0, limits: Object.fromEntries(["surveys", "responses", "ai", "pdf", "retention"].map(k => [k, parseInt($(`#pl-${i}-${k}`).value, 10)])) })); await S.db.doc("site/plans").set({ plans: pl, updatedAt: Date.now() }); toast("Üyelik paketleri kaydedildi."); }
+    if (id === "settingsForm") { await S.db.doc("site/config").set(Object.assign({}, S.site.config || {}, { shareBase: $("#st-base").value.trim(), updatedAt: Date.now() })); toast("Ayarlar kaydedildi."); }
+  } catch (err) { dbError(err, "Kaydedilemedi"); }
+});
+async function assignPlan(uid, plan) {
+  try { await S.db.doc("assignments/" + uid).set({ plan, updatedAt: Date.now(), by: S.uid }); toast("Plan güncellendi."); } catch (e) { dbError(e, "Plan atanamadı"); }
+}
+
+// ============================================================
+// EXAMPLE DATA
+// ============================================================
+async function seedExample() {
+  if (!canCreateSurvey()) return;
+  const q = (type, title, extra = {}) => Object.assign(blankQuestion(type), { title, required: type !== "open" }, extra);
+  const qs = [
+    q("single", "Eğitim durumunuz nedir?", { options: ["Lise", "Lisans öğrencisi", "Lisans mezunu", "Yüksek lisans / doktora"] }),
+    q("multi", "Hangi alanlarda eğitim almak istersiniz?", { options: ["Uluslararası İlişkiler", "Siyaset Bilimi", "Kamu Yönetimi", "Araştırma Yöntemleri", "Akademik Yazım"] }),
+    q("likert", "Bu alanlarda yeterli eğitim imkânına sahip olduğumu düşünüyorum."),
+    q("likert", "Çevrim içi eğitimler yüz yüze eğitimler kadar verimlidir."),
+    q("rating", "MASK Akademi'yi bir arkadaşınıza tavsiye etme olasılığınız nedir?", { max: 10, minLabel: "Hiç olası değil", maxLabel: "Çok olası" }),
+    q("single", "Hangi eğitim formatını tercih edersiniz?", { options: ["Yüz yüze", "Çevrim içi", "Hibrit"] }),
+    q("open", "Eğitim programından beklentileriniz nelerdir?"),
+  ];
+  const s = { id: newId(), title: "Örnek: MASK Akademi Eğitim İhtiyaç Analizi", description: "Bu bir örnek araştırmadır. Yanıtlar platformu tanıtmak için otomatik üretilmiştir; gerçek katılımcı verisi değildir.", ownerId: S.uid, ownerName: (S.profile && S.profile.name) || "", ownerIsAdmin: S.isAdmin, questions: qs, status: "open", archived: false, isPlatform: false, thankYou: "Katılımınız için teşekkür ederiz.", createdAt: Date.now() - 12 * 86400000, updatedAt: Date.now(), example: true };
+  const texts = ["Akademik yazım ve makale yazma konusunda uygulamalı atölyeler bekliyorum.", "Türk dış politikası üzerine güncel vaka analizleri yapılmasını isterim.", "Kamu yönetiminde dijital dönüşüm ve e-devlet konularını öğrenmek istiyorum.", "Uzman konuşmacılarla soru-cevap imkânı olmalı.", "Sertifika verilmesi ve kariyer açısından katkı sağlaması önemli.", "Diplomasi ve müzakere simülasyonları çok faydalı olur.", "Araştırma yöntemleri ve anket tasarımı konusunda pratik bilgi istiyorum.", "Eğitimlerin kayıtlarına sonradan erişebilmek isterim.", "Seçim sistemleri ve karşılaştırmalı siyaset konularına ilgi duyuyorum.", "Mentorluk programı olursa çok iyi olur.", "Okuma listeleri ve kaynak önerileri paylaşılmalı.", "Politika notu yazımı öğrenmek istiyorum.", "Haftasonu yoğun programlar benim için daha uygun.", "Yerel yönetimler ve belediyecilik üzerine saha ziyaretleri yapılabilir."];
+  const pick = (arr, w) => { let r = Math.random() * w.reduce((a, b) => a + b, 0); for (let i = 0; i < arr.length; i++) { r -= w[i]; if (r <= 0) return arr[i]; } return arr[arr.length - 1]; };
+  const clamp = (v, a, b) => Math.max(a, Math.min(b, Math.round(v)));
+  try {
+    await S.db.doc("surveys/" + s.id).set(s);
+    toast("Örnek araştırma oluşturuluyor…", 30000);
+    const N = 64;
+    for (let i = 0; i < N; i++) {
+      const edu = pick(qs[0].options, [8, 30, 16, 10]);
+      const fmt = pick(qs[5].options, [24, 18, 22]);
+      const online = fmt === "Çevrim içi" ? clamp(3.9 + Math.random() * 1.4 - .4, 1, 5) : fmt === "Yüz yüze" ? clamp(2.1 + Math.random() * 1.6 - .5, 1, 5) : clamp(3 + Math.random() * 1.8 - .8, 1, 5);
+      const enough = clamp((edu === "Lisans öğrencisi" ? 2.1 : 2.8) + Math.random() * 2 - 1, 1, 5);
+      const nps = clamp(6 + (5 - enough) * .5 + Math.random() * 3 - 1, 1, 10);
+      const ints = qs[1].options.filter((o, k) => Math.random() < [.55, .45, .38, .5, .42][k]); if (!ints.length) ints.push(qs[1].options[0]);
+      const answers = { [qs[0].id]: edu, [qs[1].id]: ints, [qs[2].id]: enough, [qs[3].id]: online, [qs[4].id]: nps, [qs[5].id]: fmt };
+      if (Math.random() < .7) answers[qs[6].id] = texts[Math.floor(Math.random() * texts.length)];
+      const at = Date.now() - Math.random() * 11 * 86400000;
+      await S.db.collection(`surveys/${s.id}/responses`).add({ answers, startedAt: at - 200000, submittedAt: at, durationSec: Math.round(120 + Math.random() * 300), source: "ornek" });
+    }
+    toast("Örnek araştırma hazır.");
+    go("results", { id: s.id });
+  } catch (e) { dbError(e, "Örnek araştırma oluşturulamadı"); }
+}
+
+// ============================================================
+// ACTIONS
+// ============================================================
+function canCreateSurvey() {
+  const p = myPlan();
+  if (!S.isAdmin && mySurveys().length >= lim(p.limits.surveys)) { toast(`${p.name} planında en fazla ${p.limits.surveys} anket oluşturabilirsiniz. Planınızı yükseltin veya eski anketleri silin.`, 5500); return false; }
+  if (S.canWrite === false) { toast("Hesabınızın bu platformda yazma yetkisi yok."); return false; }
+  return true;
+}
+function newSurvey(platform) {
+  if (!canCreateSurvey()) return;
+  S.draft = { id: newId(), _new: true, title: "", description: "", thankYou: "", ownerId: S.uid, ownerName: (S.profile && S.profile.name) || (S.me && S.me.name) || "", ownerIsAdmin: S.isAdmin, questions: [Object.assign(blankQuestion("single"), { title: "" })], status: "draft", archived: false, isPlatform: !!platform, createdAt: Date.now(), updatedAt: Date.now() };
+  S.view = "builder"; S.p = {}; S.dirty = true; render(); window.scrollTo(0, 0);
+  setTimeout(() => $("#d-title")?.focus(), 30);
+}
+const ACT = {
+  go: t => go(t.dataset.view),
+  discardGo: t => { S.dirty = false; closeModal(); go(t.dataset.view, JSON.parse(t.dataset.p || "{}")); },
+  closeModal,
+  newSurvey: t => newSurvey(t.dataset.platform),
+  seedExample: t => { t.disabled = true; seedExample(); },
+  editSurvey: t => { const s = S.surveys.find(x => x.id === t.dataset.id); if (!s) return; S.draft = clone(s); S.view = "builder"; S.p = {}; S.dirty = false; render(); window.scrollTo(0, 0); },
+  openResults: t => go("results", { id: t.dataset.id, tab: t.dataset.tab || "summary" }),
+  resTab: t => { S.p.tab = t.dataset.tab; rerenderKeep(); },
+  adTab: t => { S.p.tab = t.dataset.tab; render(); },
+  histTab: t => { S.p.arch = t.dataset.arch ? 1 : 0; render(); },
+  histAll: t => { S.p.all = t.checked; render(); },
+  chartKind: t => { S.p["k_" + t.dataset.q] = t.dataset.kind; rerenderKeep(); },
+  clearFilter: () => { ["segQ", "segV", "from", "to"].forEach(k => delete S.p[k]); rerenderKeep(); },
+  addQ: t => { S.draft.questions.push(blankQuestion(t.dataset.type)); markDirty(); rerenderKeep(); const last = S.draft.questions[S.draft.questions.length - 1]; setTimeout(() => { const el = $("#qt-" + last.id); el?.scrollIntoView({ block: "center" }); el?.focus(); }, 20); },
+  delQ: t => { S.draft.questions.splice(+t.dataset.qi, 1); markDirty(); rerenderKeep(); },
+  dupQ: t => { const i = +t.dataset.qi; const c = clone(S.draft.questions[i]); c.id = "q" + newId().slice(-6); S.draft.questions.splice(i + 1, 0, c); markDirty(); rerenderKeep(); },
+  moveQ: t => { const i = +t.dataset.qi, j = i + +t.dataset.dir, a = S.draft.questions; if (j < 0 || j >= a.length) return; [a[i], a[j]] = [a[j], a[i]]; markDirty(); rerenderKeep(); },
+  addOpt: t => { const q = S.draft.questions[+t.dataset.qi]; q.options.push("Seçenek " + (q.options.length + 1)); markDirty(); rerenderKeep(); setTimeout(() => $(`#o-${q.id}-${q.options.length - 1}`)?.select(), 20); },
+  delOpt: t => { const q = S.draft.questions[+t.dataset.qi]; if (q.options.length <= 2) return; q.options.splice(+t.dataset.oi, 1); markDirty(); rerenderKeep(); },
+  saveDraft,
+  previewDraft: () => { S.takeAnswers = {}; S.p.preview = true; openModal("Anket önizleme", surveyForm(S.draft, true)); },
+  toggleStatus: async t => { const s = S.surveys.find(x => x.id === t.dataset.id); if (!s) return; const status = s.status === "open" ? "closed" : "open"; try { await S.db.doc("surveys/" + s.id).update({ status, updatedAt: Date.now() }); toast(status === "open" ? "Anket yanıt kabul ediyor." : "Anket kapatıldı."); } catch (e) { dbError(e, "Durum değiştirilemedi"); } },
+  copySurvey: async t => { const s = S.surveys.find(x => x.id === t.dataset.id); if (!s || !canCreateSurvey()) return; const c = clone(s); Object.assign(c, { id: newId(), title: s.title + " (kopya)", status: "draft", archived: false, ownerId: S.uid, ownerName: (S.profile && S.profile.name) || "", ownerIsAdmin: S.isAdmin, createdAt: Date.now(), updatedAt: Date.now(), example: false }); try { await S.db.doc("surveys/" + c.id).set(c); toast("Anket kopyalandı. Taslak olarak düzenleyebilirsiniz."); } catch (e) { dbError(e, "Kopyalanamadı"); } },
+  archive: async t => { const s = S.surveys.find(x => x.id === t.dataset.id); if (!s) return; try { await S.db.doc("surveys/" + s.id).update({ archived: !s.archived, status: s.archived ? s.status : "closed", updatedAt: Date.now() }); toast(s.archived ? "Arşivden çıkarıldı." : "Arşivlendi ve yanıt alımı kapatıldı."); } catch (e) { dbError(e, "İşlem yapılamadı"); } },
+  runAI: () => runAnalysis(false),
+  createReport,
+  redownload: t => redownload(S.p.id, t.dataset.rid),
+  previewReport: t => previewReport(t.dataset.rid),
+  exportCsv, csvTemplate,
+  copyLink: () => { const i = $("#shareLink"); const v = i.value; const ok = () => toast("Bağlantı kopyalandı."); try { navigator.clipboard.writeText(v).then(ok, () => { i.select(); toast("Bağlantı seçildi; kopyalamak için Ctrl/Cmd + C."); }); } catch (e) { i.select(); toast("Bağlantı seçildi; kopyalamak için Ctrl/Cmd + C."); } },
+  dlQr: () => { const s = curSurvey(); saveFile(slug(s.title) + "-qr.png", dataUrlToBlob(qrDataUrl(shareUrl(s), 12))); },
+  takeSurvey: t => startTake(t.dataset.id),
+  takeAgain: () => { S.takeAnswers = {}; S.takeDone = false; S.takeStarted = Date.now(); render(); window.scrollTo(0, 0); },
+  exitTake: () => { S.takeMode = false; S.takeSurvey = null; try { history.replaceState(null, "", location.pathname + location.search); } catch (e) {} go("dashboard"); },
+  requestPlan: async t => { try { await S.db.doc("profiles/" + S.uid).set(Object.assign({ name: (S.me && S.me.name) || "", createdAt: Date.now() }, S.profile || {}, { requestedPlan: t.dataset.plan, requestedAt: Date.now() })); toast("Talebiniz yöneticiye iletildi."); } catch (e) { dbError(e, "Talep gönderilemedi"); } },
+  approvePlan: t => assignPlan(t.dataset.uid, t.dataset.plan),
+};
+document.addEventListener("click", e => {
+  const t = e.target.closest("[data-act]"); if (!t || t.disabled) return;
+  const fn = ACT[t.dataset.act]; if (!fn) return;
+  if (t.tagName !== "INPUT") e.preventDefault();
+  if (t.dataset.act === "closeModal") S.p.preview = false;
+  fn(t, e);
+});
+
+// ============================================================
+// BOOT
+// ============================================================
+function readHash() { const m = (location.hash || "").match(/^#s-([A-Za-z0-9]+)$/); return m ? m[1] : null; }
+async function boot() {
+  const takeId = readHash();
+  if (takeId) { S.takeMode = true; }
+  const [db, user, sample, downloads] = await Promise.all(["db", "user", "sample", "downloads"].map(n => window.claude && window.claude.use ? window.claude.use(n).catch(() => null) : Promise.resolve(null)));
+  Object.assign(S, { db, user, sample, downloads });
+  if (user) {
+    try { S.uid = await user.id(); } catch (e) {}
+    try { S.me = await user.me(); } catch (e) {}
+    try { S.isAdmin = await user.isOwner(); } catch (e) {}
+    try { S.canWrite = await user.can("data.write"); } catch (e) {}
+    if (!S.uid && S.me) S.uid = S.me.id;
+  }
+  S.ready = true;
+  if (takeId) { startTake(takeId); }
+  if (!db) { render(); return; }
+  // shared site data
+  ["home", "plans", "config"].forEach(k => S.db.doc("site/" + k).onSnapshot(d => { S.site[k] = d.exists ? d.data() : null; liveRender(); }, e => console.error(e)));
+  S.db.collection("assignments").onSnapshot(snap => { S.assign = {}; snap.docs.forEach(d => S.assign[d.id] = d.data()); liveRender(); }, e => console.error(e));
+  S.db.collection("surveys").onSnapshot(snap => {
+    S.surveys = snap.docs.map(d => Object.assign({ id: d.id }, d.data()));
+    refreshCounts(); liveRender();
+  }, e => console.error(e));
+  if (S.uid) {
+    S.db.doc("profiles/" + S.uid).onSnapshot(async d => {
+      S.profile = d.exists ? d.data() : null;
+      if (!d.exists && !S._profileCreated && S.canWrite !== false) {
+        S._profileCreated = true;
+        try { await S.db.doc("profiles/" + S.uid).set({ name: (S.me && S.me.name) || "", institution: "", title: "", field: "", createdAt: Date.now() }); } catch (e) { console.warn(e); }
+      }
+      liveRender();
+    }, e => console.error(e));
+    S.db.collection("usage").where("uid", "==", S.uid).onSnapshot(snap => { S.usage = snap.docs.map(d => d.data()); liveRender(); }, e => console.error(e));
+  }
+  if (S.isAdmin) S.db.collection("profiles").onSnapshot(snap => { S.profiles = {}; snap.docs.forEach(d => S.profiles[d.id] = Object.assign({ _id: d.id }, d.data())); liveRender(); }, e => console.error(e));
+  render();
+}
+let countsT, countsBusy = false;
+function refreshCounts() {
+  clearTimeout(countsT);
+  countsT = setTimeout(async () => {
+    if (countsBusy) return; countsBusy = true;
+    const targets = S.isAdmin ? S.surveys : S.surveys.filter(s => s.ownerId === S.uid);
+    for (const s of targets) { if (s.id === S.respSurveyId) continue; try { const snap = await S.db.collection(`surveys/${s.id}/responses`).get(); S.counts[s.id] = snap.size; } catch (e) {} }
+    countsBusy = false; liveRender();
+  }, 400);
+}
+window.addEventListener("hashchange", () => { const id = readHash(); if (id) startTake(id); });
+boot();
+</script>

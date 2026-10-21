@@ -1,0 +1,967 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MASKDER İstihbarat Ofisi · Açık Tema</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+:root{
+  --lac:#0B1F3A;--lac2:#1E3A64;--lac3:#3C5A85;--lac-soft:#E6ECF5;
+  --tur:#14B8C4;--tur2:#0E8C96;--tur3:#0A6A72;--tur-soft:#E3F7F8;--tur-mid:#9FE3E8;
+  --efl:#9B7FD1;--efl2:#6F52A8;--efl-soft:#F1ECFA;--efl-mid:#CDBDEB;
+  --bey:#FFFFFF;--zem:#F5F7FB;--cizgi:#DCE3EC;--cizgi2:#EBEFF5;--siy:#05070C;--gri:#5A6680;
+}
+*{box-sizing:border-box}
+body{margin:0;background:#E4E9F0;color:var(--lac);font-family:Inter,system-ui,sans-serif;line-height:1.5}
+.mono{font-family:"IBM Plex Mono",monospace}
+.sg{font-family:"Space Grotesk",sans-serif}
+.wrap{max-width:1280px;margin:0 auto;padding:36px 24px 90px}
+.intro{display:flex;gap:16px;align-items:center;margin-bottom:18px}
+.intro img{width:52px;height:52px;border-radius:50%}
+.intro h1{margin:0;font-size:1.6rem;letter-spacing:-.02em;color:var(--siy)}
+.intro p{margin:2px 0 0;color:var(--gri);max-width:900px}
+.toc{position:sticky;top:0;z-index:20;display:flex;gap:6px;flex-wrap:wrap;background:#E4E9F0;padding:10px 0 12px;margin-bottom:26px;border-bottom:1px solid #cdd5e0}
+.toc a{font-size:.76rem;font-weight:600;text-decoration:none;color:var(--lac);background:#fff;border:1px solid var(--cizgi);border-radius:99px;padding:6px 12px}
+.toc a:hover{border-color:var(--tur);color:var(--tur3)}
+.page{margin:0 0 64px}
+.ph{display:flex;align-items:baseline;gap:12px;margin:0 0 6px}
+.ph b{font-family:"IBM Plex Mono",monospace;font-size:.72rem;color:var(--tur3);letter-spacing:.1em}
+.ph h2{margin:0;font-size:1.45rem;letter-spacing:-.02em;color:var(--siy)}
+.pdesc{color:#3a4760;margin:0 0 14px;max-width:920px;font-size:.92rem}
+.frame{border-radius:14px;overflow:hidden;border:1px solid #c6cfdc;background:var(--zem);box-shadow:0 24px 60px -34px rgba(11,31,58,.45)}
+.bar{height:30px;background:#dde3eb;display:flex;align-items:center;gap:6px;padding:0 12px}
+.bar i{width:10px;height:10px;border-radius:50%;background:#b8c1ce}
+.bar em{margin-left:12px;font-style:normal;font-size:.72rem;color:var(--gri);background:#f4f6f9;padding:2px 14px;border-radius:6px}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.three{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+
+/* ---- site kabuğu ---- */
+.cls{background:var(--tur-soft);color:var(--tur3);text-align:center;font-family:"IBM Plex Mono",monospace;font-size:.68rem;font-weight:600;letter-spacing:.28em;padding:5px;border-bottom:1px solid var(--tur-mid)}
+.util{display:flex;justify-content:space-between;padding:6px 28px;font-family:"IBM Plex Mono",monospace;font-size:.68rem;color:var(--gri);background:var(--bey);border-bottom:1px solid var(--cizgi2)}
+.util b{color:var(--lac);font-weight:500}
+.util .ok{color:var(--tur2)}
+.nav{display:flex;align-items:center;justify-content:space-between;padding:12px 28px;background:var(--bey);border-bottom:2px solid var(--lac)}
+.logo{display:flex;align-items:center;gap:10px}
+.logo img{width:34px;height:34px;border-radius:50%}
+.logo b{display:block;font-family:"Space Grotesk",sans-serif;font-size:1rem;letter-spacing:.08em;color:var(--siy)}
+.logo small{display:block;font-family:"IBM Plex Mono",monospace;font-size:.6rem;letter-spacing:.16em;color:var(--gri)}
+.menu{display:flex;gap:2px;font-size:.78rem;font-weight:600}
+.menu span{padding:7px 10px;color:#33415c;border-bottom:2px solid transparent;margin-bottom:-14px;padding-bottom:12px}
+.menu span.on{color:var(--siy);border-bottom-color:var(--tur)}
+.navr{display:flex;gap:8px;align-items:center}
+.btn{display:inline-flex;align-items:center;gap:6px;font-size:.78rem;font-weight:600;padding:9px 14px;border-radius:6px;border:1px solid var(--lac);color:var(--lac);background:var(--bey);white-space:nowrap}
+.btn.pr{background:var(--lac);color:#fff}
+.btn.tu{background:var(--tur);border-color:var(--tur);color:var(--siy)}
+.btn.gh{border-color:var(--cizgi)}
+.btn.sm{padding:6px 10px;font-size:.72rem}
+.body{padding:22px 28px 28px}
+.tag{font-family:"IBM Plex Mono",monospace;font-size:.64rem;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--tur3)}
+.tag.e{color:var(--efl2)}
+.card{background:var(--bey);border:1px solid var(--cizgi);border-radius:10px;padding:16px 18px}
+.card.t{border-top:3px solid var(--tur)}
+.card.e{border-top:3px solid var(--efl)}
+.card.n{border-top:3px solid var(--lac)}
+.ch{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;margin-bottom:10px}
+.ch h4{margin:2px 0 0;font-size:.96rem;color:var(--siy);line-height:1.3}
+.pill{display:inline-block;font-family:"IBM Plex Mono",monospace;font-size:.62rem;font-weight:600;letter-spacing:.06em;padding:3px 8px;border-radius:4px;white-space:nowrap}
+.pill.t{background:var(--tur-soft);color:var(--tur3)}
+.pill.e{background:var(--efl-soft);color:var(--efl2)}
+.pill.n{background:var(--lac);color:#fff}
+.pill.g{background:var(--zem);color:var(--gri);border:1px solid var(--cizgi)}
+.pill.k{background:var(--siy);color:#fff}
+.src{font-size:.68rem;color:var(--gri);font-style:italic;border-top:1px dashed var(--cizgi);padding-top:8px;margin-top:10px}
+.muted{color:var(--gri)}
+.small{font-size:.8rem}
+.grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.sec{margin-top:22px}
+.sech{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:12px;border-bottom:1px solid var(--cizgi);padding-bottom:8px}
+.sech h3{margin:2px 0 0;font-family:"Space Grotesk",sans-serif;font-size:1.2rem;color:var(--siy);letter-spacing:-.01em}
+.kpi{background:var(--bey);border:1px solid var(--cizgi);border-radius:10px;padding:14px 16px;position:relative;overflow:hidden}
+.kpi span{font-family:"IBM Plex Mono",monospace;font-size:.62rem;letter-spacing:.12em;text-transform:uppercase;color:var(--gri)}
+.kpi b{display:block;font-family:"Space Grotesk",sans-serif;font-size:1.9rem;color:var(--siy);line-height:1.15;margin-top:2px}
+.kpi small{font-size:.72rem;color:var(--gri)}
+.kpi .lv{height:4px;background:var(--cizgi2);margin-top:10px;border-radius:2px;overflow:hidden}
+.kpi .lv i{display:block;height:100%;background:var(--tur)}
+.kpi.e .lv i{background:var(--efl)}
+.kpi.n .lv i{background:var(--lac)}
+.kpi::after{content:"";position:absolute;right:0;top:0;width:4px;height:100%;background:var(--tur)}
+.kpi.e::after{background:var(--efl)}.kpi.n::after{background:var(--lac)}
+.chartbox{position:relative;height:220px}
+.chartbox.s{height:170px}.chartbox.l{height:280px}
+.foot{background:var(--lac);color:#C5D0E2;padding:22px 28px;display:grid;grid-template-columns:1.3fr 1fr 1fr 1fr;gap:20px;font-size:.78rem}
+.foot b{color:#fff;display:block;margin-bottom:6px;font-family:"Space Grotesk",sans-serif}
+.foot .cls2{grid-column:1/-1;border-top:1px solid #23406b;padding-top:10px;font-family:"IBM Plex Mono",monospace;font-size:.64rem;letter-spacing:.14em;color:var(--tur-mid);display:flex;justify-content:space-between}
+input.f,select.f,textarea.f{width:100%;font:inherit;font-size:.82rem;padding:9px 11px;border:1px solid var(--cizgi);border-radius:6px;background:#fff;color:var(--lac)}
+label.l{display:block;font-size:.72rem;font-weight:600;color:#33415c;margin-bottom:4px}
+
+/* ---- ana sayfa özel ---- */
+.hero{display:grid;grid-template-columns:1.1fr .9fr;gap:20px}
+.hero h1{font-family:"Space Grotesk",sans-serif;font-size:2.5rem;line-height:1.06;margin:8px 0 10px;color:var(--siy);letter-spacing:-.025em}
+.hero h1 span{color:var(--tur2)}
+.hero h1 em{font-style:normal;color:var(--efl2)}
+.hero .lede{color:#33415c;margin:0 0 16px;max-width:560px}
+.map{position:relative;background:var(--bey) radial-gradient(circle at 1px 1px,#D6DEE9 1px,transparent 0) 0 0/14px 14px;border:1px solid var(--cizgi);border-radius:10px;padding:8px}
+.map svg{display:block;width:100%;height:auto}
+.mapleg{display:flex;gap:14px;font-family:"IBM Plex Mono",monospace;font-size:.64rem;color:var(--gri);padding:4px 6px 0}
+.mapleg i{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:5px;vertical-align:-1px}
+.feed .it{border:1px solid var(--cizgi);border-left:3px solid var(--tur);background:var(--bey);padding:9px 12px;margin-bottom:8px;border-radius:0 6px 6px 0}
+.feed .it.e{border-left-color:var(--efl)}
+.feed .it.n{border-left-color:var(--lac)}
+.feed .h{display:flex;justify-content:space-between;font-family:"IBM Plex Mono",monospace;font-size:.62rem;color:var(--gri)}
+.feed p{margin:3px 0 0;font-size:.82rem;color:var(--siy)}
+.feed p b{color:var(--tur3)}
+.feed .it.e p b{color:var(--efl2)}
+.ops .op{display:grid;grid-template-columns:auto 1fr auto;gap:12px;align-items:center;padding:12px 0;border-bottom:1px solid var(--cizgi2)}
+.ops .op:last-child{border-bottom:0}
+.ops .id{font-family:"IBM Plex Mono",monospace;font-size:.66rem;color:var(--gri);background:var(--zem);border:1px solid var(--cizgi);padding:6px 8px;border-radius:6px;text-align:center;line-height:1.3}
+.ops h5{margin:0;font-size:.9rem;color:var(--siy)}
+.ops .meta{font-size:.72rem;color:var(--gri)}
+.desk{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.desk .d{background:var(--bey);border:1px solid var(--cizgi);border-radius:10px;padding:12px 14px;display:grid;grid-template-columns:38px 1fr;gap:10px;align-items:start}
+.desk .ic{width:38px;height:38px;border-radius:8px;display:grid;place-items:center;font-family:"IBM Plex Mono",monospace;font-weight:600;font-size:.72rem;background:var(--lac-soft);color:var(--lac)}
+.desk .d.t .ic{background:var(--tur-soft);color:var(--tur3)}
+.desk .d.e .ic{background:var(--efl-soft);color:var(--efl2)}
+.desk h5{margin:0;font-size:.86rem;color:var(--siy)}
+.desk p{margin:2px 0 0;font-size:.72rem;color:var(--gri)}
+.tl{position:relative;padding-left:18px}
+.tl::before{content:"";position:absolute;left:5px;top:4px;bottom:4px;width:2px;background:var(--cizgi)}
+.tl .e{position:relative;padding:0 0 12px}
+.tl .e::before{content:"";position:absolute;left:-17px;top:4px;width:10px;height:10px;border-radius:50%;background:#fff;border:2px solid var(--tur)}
+.tl .e.v::before{border-color:var(--efl)}
+.tl .e.k::before{background:var(--lac);border-color:var(--lac)}
+.tl .e b{display:block;font-family:"IBM Plex Mono",monospace;font-size:.66rem;color:var(--gri)}
+.tl .e span{font-size:.82rem;color:var(--siy)}
+
+/* ---- brifing ---- */
+.bhead{background:var(--bey);border:1px solid var(--cizgi);border-radius:10px;padding:20px 22px;display:grid;grid-template-columns:1fr auto;gap:20px}
+.bhead h1{font-family:"Space Grotesk",sans-serif;font-size:1.9rem;margin:6px 0 8px;color:var(--siy);letter-spacing:-.02em;line-height:1.15}
+.meta-row{display:flex;gap:18px;flex-wrap:wrap;font-family:"IBM Plex Mono",monospace;font-size:.68rem;color:var(--gri)}
+.meta-row b{color:var(--lac);font-weight:500}
+.judg{counter-reset:j}
+.judg li{list-style:none;counter-increment:j;display:grid;grid-template-columns:34px 1fr auto;gap:12px;align-items:start;padding:11px 0;border-bottom:1px solid var(--cizgi2);font-size:.86rem;color:var(--siy)}
+.judg li::before{content:"TD-0" counter(j);font-family:"IBM Plex Mono",monospace;font-size:.6rem;font-weight:600;color:var(--tur3);background:var(--tur-soft);border-radius:4px;padding:4px 0;text-align:center}
+.conf{font-family:"IBM Plex Mono",monospace;font-size:.6rem;color:var(--efl2);white-space:nowrap}
+.conf i{display:inline-block;width:6px;height:10px;background:var(--efl-mid);margin-left:2px;vertical-align:-1px}
+.conf i.on{background:var(--efl2)}
+.side-nav{display:flex;flex-direction:column;gap:2px;font-size:.8rem}
+.side-nav span{padding:7px 10px;border-left:2px solid var(--cizgi);color:#33415c}
+.side-nav span.on{border-left-color:var(--tur);color:var(--siy);font-weight:600;background:var(--tur-soft)}
+.cite{background:var(--lac-soft);border:1px solid #cad5e6;border-radius:10px;padding:14px 16px;font-size:.8rem;color:var(--lac)}
+.cite ol{margin:6px 0 0;padding-left:18px}
+
+/* ---- anket ---- */
+.stepper{display:flex;gap:6px;margin:12px 0 16px}
+.stepper i{flex:1;height:5px;border-radius:3px;background:var(--cizgi)}
+.stepper i.on{background:var(--tur)}
+.opt{display:flex;align-items:center;gap:10px;border:1px solid var(--cizgi);border-radius:8px;padding:11px 12px;margin-bottom:8px;font-size:.86rem;background:#fff}
+.opt i{width:16px;height:16px;border-radius:50%;border:2px solid var(--lac3);flex:none}
+.opt.sel{border-color:var(--tur);background:var(--tur-soft)}
+.opt.sel i{border-color:var(--tur2);background:radial-gradient(circle,var(--tur2) 45%,transparent 50%)}
+.likert{display:grid;grid-template-columns:repeat(5,1fr);gap:6px}
+.likert span{border:1px solid var(--cizgi);border-radius:8px;text-align:center;padding:10px 4px;font-size:.72rem;background:#fff}
+.likert span.sel{background:var(--lac);color:#fff;border-color:var(--lac)}
+.anon{display:flex;gap:10px;align-items:center;background:var(--efl-soft);border:1px solid var(--efl-mid);border-radius:8px;padding:10px 12px;font-size:.78rem;color:var(--efl2)}
+.anon b{font-family:"IBM Plex Mono",monospace}
+.filters{display:grid;grid-template-columns:2fr 1fr 1fr 1fr auto;gap:10px;align-items:end;background:var(--bey);border:1px solid var(--cizgi);border-radius:10px;padding:12px 14px}
+
+/* ---- paneller ---- */
+.app{display:grid;grid-template-columns:220px 1fr;min-height:520px;background:var(--zem)}
+.aside{background:var(--bey);border-right:1px solid var(--cizgi);padding:16px 12px;display:flex;flex-direction:column;gap:2px}
+.aside .who{display:flex;gap:10px;align-items:center;padding:6px 6px 14px;border-bottom:1px solid var(--cizgi2);margin-bottom:10px}
+.aside .av{width:36px;height:36px;border-radius:50%;background:var(--lac);color:#fff;display:grid;place-items:center;font-weight:700;font-size:.78rem}
+.aside .who b{display:block;font-size:.84rem;color:var(--siy)}
+.aside .who small{font-family:"IBM Plex Mono",monospace;font-size:.6rem;color:var(--gri)}
+.aside .grp{font-family:"IBM Plex Mono",monospace;font-size:.58rem;letter-spacing:.16em;color:var(--gri);padding:10px 8px 4px}
+.aside .lnk{display:flex;justify-content:space-between;font-size:.8rem;padding:7px 10px;border-radius:6px;color:#33415c}
+.aside .lnk.on{background:var(--lac);color:#fff;font-weight:600}
+.aside .lnk em{font-style:normal;font-family:"IBM Plex Mono",monospace;font-size:.62rem;background:var(--efl-soft);color:var(--efl2);padding:1px 6px;border-radius:99px}
+.aside .lnk.on em{background:var(--tur);color:var(--siy)}
+.main{padding:18px 20px}
+.topbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;gap:12px}
+.topbar h3{margin:0;font-family:"Space Grotesk",sans-serif;font-size:1.3rem;color:var(--siy)}
+.cmd{flex:1;max-width:340px;display:flex;justify-content:space-between;align-items:center;border:1px solid var(--cizgi);background:#fff;border-radius:8px;padding:7px 10px;font-size:.76rem;color:var(--gri)}
+.cmd kbd{font-family:"IBM Plex Mono",monospace;font-size:.62rem;border:1px solid var(--cizgi);border-radius:4px;padding:1px 5px}
+table.t{width:100%;border-collapse:collapse;font-size:.8rem;background:#fff}
+table.t th{font-family:"IBM Plex Mono",monospace;font-size:.6rem;letter-spacing:.12em;text-transform:uppercase;color:var(--gri);text-align:left;padding:9px 10px;border-bottom:1px solid var(--cizgi);background:var(--zem)}
+table.t td{padding:10px;border-bottom:1px solid var(--cizgi2);color:var(--siy)}
+table.t td.n{font-family:"IBM Plex Mono",monospace;text-align:right}
+.chain{display:flex;gap:3px}
+.chain i{font-style:normal;font-family:"IBM Plex Mono",monospace;font-size:.58rem;padding:2px 6px;border:1px solid var(--cizgi);color:var(--gri);border-radius:3px}
+.chain i.ok{background:var(--tur-soft);border-color:var(--tur-mid);color:var(--tur3)}
+.chain i.now{background:var(--efl-soft);border-color:var(--efl-mid);color:var(--efl2)}
+.log{font-family:"IBM Plex Mono",monospace;font-size:.7rem;line-height:1.75;color:#33415c}
+.log .ts{color:var(--gri)}
+.log .w{color:var(--efl2)}
+.log .ok{color:var(--tur3)}
+.qb{border:1px solid var(--cizgi);background:#fff;border-radius:10px;padding:12px 14px;margin-bottom:10px;display:grid;grid-template-columns:28px 1fr auto;gap:10px;align-items:start}
+.qb .n{font-family:"IBM Plex Mono",monospace;font-size:.7rem;color:var(--tur3);background:var(--tur-soft);border-radius:4px;text-align:center;padding:3px 0}
+.qb h6{margin:0 0 6px;font-size:.86rem;color:var(--siy)}
+.qb.sel{border-color:var(--tur);box-shadow:0 0 0 3px var(--tur-soft)}
+.tools{display:grid;grid-template-columns:repeat(2,1fr);gap:6px}
+.tools span{border:1px solid var(--cizgi);background:#fff;border-radius:6px;padding:7px 8px;font-size:.72rem;color:#33415c}
+.role{display:grid;grid-template-columns:repeat(5,1fr);gap:0;border:1px solid var(--cizgi);border-radius:8px;overflow:hidden;font-size:.7rem;background:#fff}
+.role div{padding:8px;border-right:1px solid var(--cizgi2);text-align:center}
+.role div:last-child{border-right:0}
+.role .h{background:var(--zem);font-family:"IBM Plex Mono",monospace;font-size:.58rem;letter-spacing:.1em;color:var(--gri)}
+
+/* ---- grafik kütüphanesi ---- */
+.gal{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.gal .card{display:flex;flex-direction:column}
+.gal .card .kind{font-family:"IBM Plex Mono",monospace;font-size:.6rem;letter-spacing:.14em;color:var(--efl2);text-transform:uppercase}
+.gal .card h4{margin:2px 0 8px;font-size:.92rem;color:var(--siy)}
+.gal .wide{grid-column:span 2}
+.waffle{display:grid;grid-template-columns:repeat(10,1fr);gap:4px;max-width:220px}
+.waffle i{aspect-ratio:1;border-radius:3px;background:var(--cizgi2)}
+.waffle i.a{background:var(--tur)}.waffle i.b{background:var(--efl)}.waffle i.c{background:var(--lac)}
+.diverge .row{display:grid;grid-template-columns:118px 1fr;gap:8px;align-items:center;margin:7px 0;font-size:.72rem}
+.diverge .trk{display:flex;height:18px;position:relative}
+.diverge .trk::after{content:"";position:absolute;left:50%;top:-3px;bottom:-3px;width:1px;background:var(--siy)}
+.diverge .trk span{height:100%}
+.heat{display:grid;grid-template-columns:96px repeat(5,1fr);gap:3px;font-size:.62rem}
+.heat div{padding:6px 2px;text-align:center;border-radius:3px;font-family:"IBM Plex Mono",monospace}
+.heat .hh{color:var(--gri);font-family:Inter,sans-serif;font-size:.6rem;text-align:center}
+.heat .rh{text-align:left;color:var(--siy);font-family:Inter,sans-serif;font-size:.66rem}
+.tree{display:grid;grid-template-columns:repeat(12,1fr);grid-template-rows:repeat(4,38px);gap:3px;font-size:.64rem}
+.tree div{border-radius:4px;padding:5px 6px;color:#fff;display:flex;flex-direction:column;justify-content:space-between;overflow:hidden;line-height:1.2}
+.tree div b{font-family:"IBM Plex Mono",monospace;font-size:.7rem}
+.funnel div{margin:0 auto 4px;height:30px;border-radius:4px;display:flex;justify-content:space-between;align-items:center;padding:0 10px;font-size:.72rem;color:#fff}
+.lolli .r{display:grid;grid-template-columns:120px 1fr 40px;gap:8px;align-items:center;font-size:.72rem;margin:7px 0}
+.lolli .ln{position:relative;height:2px;background:var(--cizgi)}
+.lolli .ln i{position:absolute;left:0;top:0;height:2px;background:var(--lac3)}
+.lolli .ln b{position:absolute;top:-5px;width:12px;height:12px;border-radius:50%;background:var(--tur);border:2px solid #fff;box-shadow:0 0 0 1px var(--tur2);margin-left:-6px}
+.people{display:grid;grid-template-columns:repeat(10,1fr);gap:6px;max-width:260px}
+.people svg{width:100%;height:auto}
+.spark{display:flex;align-items:flex-end;gap:3px;height:34px}
+.spark i{flex:1;background:var(--tur);border-radius:2px 2px 0 0}
+.gauge svg{width:100%;max-width:240px;display:block;margin:0 auto}
+.dotp .r{display:grid;grid-template-columns:110px 1fr;gap:8px;align-items:center;font-size:.72rem;margin:9px 0}
+.dotp .ax{position:relative;height:14px;background:linear-gradient(90deg,var(--cizgi2) 0 100%) center/100% 1px no-repeat}
+.dotp .ax i{position:absolute;top:1px;width:12px;height:12px;border-radius:50%;margin-left:-6px}
+.prog .r{margin:8px 0;font-size:.74rem}
+.prog .r div{height:8px;background:var(--cizgi2);border-radius:99px;margin-top:4px;overflow:hidden}
+.prog .r div i{display:block;height:100%;border-radius:99px}
+.rings{display:flex;gap:14px;justify-content:center}
+.rings figure{margin:0;text-align:center;font-size:.66rem;color:var(--gri)}
+.rings svg{width:78px;height:78px}
+.tblchart td.bar{width:45%}
+.tblchart td.bar i{display:block;height:8px;background:var(--tur);border-radius:2px}
+.legend{display:flex;gap:10px;flex-wrap:wrap;font-size:.64rem;color:var(--gri);margin-top:6px}
+.legend i{display:inline-block;width:9px;height:9px;border-radius:2px;margin-right:4px;vertical-align:-1px}
+
+/* ---- mobil ---- */
+.phones{display:flex;gap:26px;justify-content:center;flex-wrap:wrap}
+.phone{width:300px;border-radius:38px;background:var(--siy);padding:10px;box-shadow:0 30px 60px -30px rgba(11,31,58,.6)}
+.phone .scr{border-radius:30px;overflow:hidden;background:var(--zem);height:600px;position:relative}
+.phone .notch{height:24px;background:var(--bey);display:flex;justify-content:center;align-items:center}
+.phone .notch i{width:90px;height:16px;border-radius:99px;background:var(--siy)}
+@media(max-width:980px){.two,.three,.gal,.grid4,.grid3,.hero,.app{grid-template-columns:1fr}.gal .wide{grid-column:auto}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="intro">
+    <img src="maskder-logo.png" alt="">
+    <div>
+      <h1>İstihbarat Yönetim Ofisi · Açık Tema · Ayrıntılı Sayfa Tasarımları</h1>
+      <p>Açık ton ağırlıklı yeniden tasarım: beyaz ve buz grisi zemin, lacivert metin ve çerçeveler, turkuaz saha verisi, eflatun analiz ve vurgu, siyah yalnızca güçlü başlık ve etiketlerde. Rakamlar MASKDER raporlarından alınmıştır; “örnek veri” yazan yerler yalnızca tasarımı göstermek içindir.</p>
+    </div>
+  </div>
+
+  <nav class="toc">
+    <a href="#p1">01 Ana sayfa</a><a href="#p2">02 Araştırma alanı</a><a href="#p3">03 Anketler</a><a href="#p4">04 Ankete katılım</a><a href="#p5">05 Brifing (sonuç detayı)</a><a href="#p6">06 Veri ve istatistikler</a><a href="#p7">07 Yayınlar</a><a href="#p8">08 Üye paneli</a><a href="#p9">09 Anket oluşturucu</a><a href="#p10">10 Yönetim · durum</a><a href="#p11">11 Yönetim · içerik</a><a href="#p12">12 Yönetim · roller</a><a href="#p13">13 Grafik kütüphanesi</a><a href="#p14">14 Mobil</a>
+  </nav>
+
+  <!-- ============ 01 ANA SAYFA ============ -->
+  <section class="page" id="p1">
+    <div class="ph"><b>01</b><h2>Ana sayfa · Durum odası</h2></div>
+    <p class="pdesc">Sınıflandırma bandı, durum bilgisi şeridi, saha haritası, brifing akışı, gösterge şeridi, aktif operasyonlar (anketler), araştırma masaları, yayın takvimi ve topluluk kaydı.</p>
+    <div class="frame"><div class="bar"><i></i><i></i><i></i><em>maskder-arastirma.vercel.app</em></div>
+      <div class="cls">KAMUYA AÇIK · ANONİM TOPLU VERİ · KİŞİSEL BİLGİ TUTULMAZ</div>
+      <div class="util"><span>İSTANBUL <b>14:02</b> · 21.10.2026</span><span class="ok">● Tüm sistemler çalışıyor · 3 anket sahada</span><span>Üye girişi · TR</span></div>
+      <div class="nav">
+        <div class="logo"><img src="maskder-logo.png" alt=""><div><b>MASKDER</b><small>ARAŞTIRMA YÖNETİM OFİSİ</small></div></div>
+        <div class="menu"><span class="on">Durum</span><span>Araştırma Masaları</span><span>Anketler</span><span>Brifingler</span><span>Veri</span><span>Yayınlar</span><span>Ofis</span></div>
+        <div class="navr"><span class="btn gh sm">Ara ⌘K</span><span class="btn tu sm">Araştırmaya katıl</span></div>
+      </div>
+      <div class="body">
+        <div class="hero">
+          <div>
+            <div class="tag">Durum raporu · 2024/03 · Yerel yönetimler</div>
+            <h1>Sahadan gelen sinyal net: <span>kentler afete hazır değil,</span> <em>çözüm belediyeden bekleniyor.</em></h1>
+            <p class="lede">6 il ve 33 ilçede 1.598 yüz yüze görüşme, Hatay’da 288 depremzede ve üniversiteli gençlerle siyasi bilinç araştırması. Tüm bulgular yöntemi ve kaynağıyla tek ekranda.</p>
+            <div style="display:flex;gap:8px;margin-bottom:16px"><span class="btn pr">Brifingi aç →</span><span class="btn">Ankete katıl</span><span class="btn gh">Yöntem</span></div>
+            <div class="map">
+              <svg viewBox="25.6 -42.4 19.6 6.9" aria-label="Saha haritası">
+                <polygon points="26,-40.1 26.6,-41 28,-41.6 29.1,-41.2 31.4,-41.2 33.3,-42 35.2,-42 36.9,-41.3 38.3,-40.9 40.1,-41 41.5,-41.5 43.4,-41.1 44.8,-39.7 44.3,-38.4 44.2,-37.2 42.3,-37.1 40.7,-37.1 38.8,-36.7 36.6,-36.9 36.2,-36 35.6,-36.6 34.6,-36.8 32.8,-36 30.6,-36.6 29.6,-36.2 28.3,-36.8 27.3,-37.4 26.3,-38.3 26.8,-39.2" fill="#E6ECF5" stroke="#3C5A85" stroke-width=".04"/>
+                <circle cx="29" cy="-41" r=".5" fill="#14B8C4" opacity=".22"/><circle cx="29" cy="-41" r=".17" fill="#0E8C96"/>
+                <circle cx="30.4" cy="-40.75" r=".3" fill="#14B8C4" opacity=".22"/><circle cx="30.4" cy="-40.75" r=".11" fill="#0E8C96"/>
+                <circle cx="29.06" cy="-40.18" r=".24" fill="#14B8C4" opacity=".22"/><circle cx="29.06" cy="-40.18" r=".1" fill="#0E8C96"/>
+                <circle cx="31.6" cy="-40.73" r=".16" fill="#14B8C4" opacity=".25"/><circle cx="31.6" cy="-40.73" r=".08" fill="#0E8C96"/>
+                <circle cx="36.2" cy="-36.25" r=".34" fill="#9B7FD1" opacity=".28"/><circle cx="36.2" cy="-36.25" r=".13" fill="#6F52A8"/>
+                <text x="29.15" y="-41.4" fill="#0B1F3A" font-size=".25" font-family="IBM Plex Mono" font-weight="600">İSTANBUL 949</text>
+                <text x="30.6" y="-40.32" fill="#3C5A85" font-size=".21" font-family="IBM Plex Mono">SAKARYA 302</text>
+                <text x="27.9" y="-39.78" fill="#3C5A85" font-size=".21" font-family="IBM Plex Mono">BURSA 171</text>
+                <text x="31.8" y="-40.98" fill="#3C5A85" font-size=".21" font-family="IBM Plex Mono">BOLU 82</text>
+                <text x="36.55" y="-36.15" fill="#0B1F3A" font-size=".25" font-family="IBM Plex Mono" font-weight="600">HATAY 288</text>
+              </svg>
+              <div class="mapleg"><span><i style="background:#0E8C96"></i>Yerel yönetimler saha çalışması</span><span><i style="background:#6F52A8"></i>Afet saha araştırması</span><span>Daire büyüklüğü: görüşme sayısı</span></div>
+            </div>
+          </div>
+          <div>
+            <div class="card" style="margin-bottom:12px">
+              <div class="ch"><div><div class="tag">Brifing akışı</div><h4>Son bulgular</h4></div><span class="pill g">4 yeni</span></div>
+              <div class="feed">
+                <div class="it"><div class="h"><span>BRF-03 · YEREL YÖNETİMLER</span><span>2024</span></div><p>Kentlilerin <b>%74,7</b>’si afet hazırlığını yetersiz buluyor; yalnızca <b>%18,7</b>’si güvenli toplanma alanı biliyor.</p></div>
+                <div class="it e"><div class="h"><span>BRF-02 · GENÇLİK</span><span>2024</span></div><p>Gençlerin <b>%72,6</b>’sı demokrasiyi destekliyor, <b>%67,8</b>’i siyasilerin söylemlerine güvenmiyor.</p></div>
+                <div class="it n"><div class="h"><span>BRF-01 · AFET VE SAHA</span><span>2024</span></div><p>Hatay’da depremzedelerin <b>%65,1</b>’i arama kurtarma hızını hiç yeterli bulmadı.</p></div>
+                <div class="it e"><div class="h"><span>ÇAPRAZ ANALİZ · 2 RAPOR</span><span>yeni</span></div><p>Sığınmacı konusu kentte <b>1. sorun</b>; gençlerin <b>%74</b>’ü olumsuz görüşte.</p></div>
+              </div>
+            </div>
+            <div class="card e">
+              <div class="ch"><div><div class="tag e">Gösterge</div><h4>Afet hazırlığı algısı</h4></div><span class="pill e">n = 1.598</span></div>
+              <div class="chartbox s"><canvas id="c_home_donut"></canvas></div>
+              <div class="src">Kaynak: MASKDER, Yerel Yönetimde Beklentiler ve Hizmetler (2024)</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="grid4 sec">
+          <div class="kpi"><span>Afet hazırlığı yetersiz</span><b>%74,7</b><small>Yerel · 1.598 kişi</small><div class="lv"><i style="width:74.7%"></i></div></div>
+          <div class="kpi e"><span>Siyasilere güvensizlik</span><b>%67,8</b><small>Gençlik · MASK Meclis</small><div class="lv"><i style="width:67.8%"></i></div></div>
+          <div class="kpi n"><span>Yanlış yönlendirme</span><b>%60,2</b><small>Hatay · 288 depremzede</small><div class="lv"><i style="width:60.2%"></i></div></div>
+          <div class="kpi"><span>Çözümü belediyeden bekleyen</span><b>%42</b><small>Yerel · 1.598 kişi</small><div class="lv"><i style="width:42%"></i></div></div>
+        </div>
+
+        <div class="two sec" style="grid-template-columns:1.2fr .8fr">
+          <div class="card">
+            <div class="ch"><div><div class="tag">Aktif operasyonlar</div><h4>Katılıma açık anketler</h4></div><span class="btn sm gh">Tümü →</span></div>
+            <div class="ops">
+              <div class="op"><div class="id">ANK<br>2026/31</div><div><h5>Gençlerin Siyasete Katılımı</h5><div class="meta">Gençlik ve Üniversite · ~6 dk · anonim · 31 Ekim’de kapanır</div></div><span class="btn tu sm">Katıl</span></div>
+              <div class="op"><div class="id">ANK<br>2026/29</div><div><h5>Kentte Ulaşım ve Erişilebilirlik</h5><div class="meta">Yerel Yönetimler · ~8 dk · anonim</div></div><span class="btn tu sm">Katıl</span></div>
+              <div class="op"><div class="id">ANK<br>2026/33</div><div><h5>Afet Hazırlığı Hane Anketi</h5><div class="meta">Afet ve Saha · yakında</div></div><span class="pill g">Yakında</span></div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="ch"><div><div class="tag e">Yayın takvimi</div><h4>Zaman çizelgesi</h4></div></div>
+            <div class="tl">
+              <div class="e k"><b>06.02.2023</b><span>Kahramanmaraş merkezli depremler</span></div>
+              <div class="e"><b>06.02.2024</b><span>Hatay Deprem Saha Araştırması Raporu yayımlandı</span></div>
+              <div class="e"><b>01.03.2024</b><span>Yerel yönetimler saha çalışması (6 il, 33 ilçe)</span></div>
+              <div class="e v"><b>30.09.2024</b><span>MASK Meclis siyasi bilinç anketi</span></div>
+              <div class="e"><b>KASIM 2024</b><span>Yerel Yönetimler ve Siyasi Bilinç raporları yayımlandı</span></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="sec">
+          <div class="sech"><div><div class="tag">Araştırma masaları</div><h3>Neyi izliyoruz?</h3></div><span class="btn sm gh">Tüm masalar →</span></div>
+          <div class="desk">
+            <div class="d"><div class="ic">SİY</div><div><h5>Siyaset ve Kamuoyu</h5><p>Seçmen eğilimleri, kurumlara güven</p></div></div>
+            <div class="d e"><div class="ic">GNÇ</div><div><h5>Gençlik ve Üniversite</h5><p>1 rapor · 7 grafik</p></div></div>
+            <div class="d"><div class="ic">SOS</div><div><h5>Sosyal Sorunlar</h5><p>Aile, göç, eşitsizlik</p></div></div>
+            <div class="d"><div class="ic">EKO</div><div><h5>Ekonomi ve İstihdam</h5><p>Geçim, iş gücü</p></div></div>
+            <div class="d t"><div class="ic">YRL</div><div><h5>Yerel Yönetimler</h5><p>1 rapor · 8 grafik</p></div></div>
+            <div class="d e"><div class="ic">AFT</div><div><h5>Afet ve Saha</h5><p>1 rapor · 7 grafik</p></div></div>
+          </div>
+        </div>
+
+        <div class="two sec" style="grid-template-columns:1fr 1fr">
+          <div class="card n">
+            <div class="tag">Topluluk</div>
+            <h4 style="margin:4px 0 6px;font-size:1.1rem;color:var(--siy)">Saha ağına katılın</h4>
+            <p class="small muted" style="margin:0 0 10px">Yeni bir anket başladığında e-posta ile haber verelim. Kaydınızı dilediğiniz an iptal edebilirsiniz.</p>
+            <div class="grid2"><div><label class="l">E-posta</label><input class="f" value="ornek@eposta.com"></div><div><label class="l">İlgi alanı</label><select class="f"><option>Afet ve Saha</option></select></div></div>
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-top:10px"><span class="small muted">KVKK aydınlatma metnini okudum.</span><span class="btn pr sm">Kaydol</span></div>
+          </div>
+          <div class="card">
+            <div class="tag e">Haberler</div>
+            <div class="ops">
+              <div class="op"><div class="id">21<br>EKİ</div><div><h5>Hatay saha bulguları yayında</h5><div class="meta">7 grafik ve kısa değerlendirme</div></div><span class="pill t">Yeni</span></div>
+              <div class="op"><div class="id">14<br>EKİ</div><div><h5>MASK Meclis 2026 başvuruları açıldı</h5><div class="meta">Gençlik ve Üniversite</div></div><span class="pill g">Duyuru</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="foot">
+        <div><b>MASKDER</b>Modern Araştırmalar ve Stratejik Kalkınma Derneği. Bağımsız toplumsal araştırma.</div>
+        <div><b>Ofis</b>Hakkımızda<br>Yöntem ve ilkeler<br>İletişim</div>
+        <div><b>Veri</b>Brifingler<br>Veri ve istatistikler<br>Yayın arşivi</div>
+        <div><b>Yasal</b>KVKK<br>Çerez politikası<br>Kullanım koşulları</div>
+        <div class="cls2"><span>KAMUYA AÇIK · ANONİM TOPLU VERİ</span><span>© 2026 MASKDER</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 02 ARAŞTIRMA ALANI ============ -->
+  <section class="page" id="p2">
+    <div class="ph"><b>02</b><h2>Araştırma alanı · Masa sayfası (Yerel Yönetimler)</h2></div>
+    <p class="pdesc">Masa künyesi, izlenen konular, il dağılımı haritası/çubuğu, öne çıkan grafikler, ilgili dosyalar ve kaynakça.</p>
+    <div class="frame"><div class="bar"><i></i><i></i><i></i><em>/arastirma-alanlari/yerel-yonetimler</em></div>
+      <div class="cls">KAMUYA AÇIK · ANONİM TOPLU VERİ</div>
+      <div class="nav"><div class="logo"><img src="maskder-logo.png" alt=""><div><b>MASKDER</b><small>ARAŞTIRMA YÖNETİM OFİSİ</small></div></div><div class="menu"><span>Durum</span><span class="on">Araştırma Masaları</span><span>Anketler</span><span>Brifingler</span><span>Veri</span><span>Yayınlar</span><span>Ofis</span></div><span class="btn tu sm">Araştırmaya katıl</span></div>
+      <div class="body">
+        <div class="small muted mono" style="font-size:.66rem;margin-bottom:8px">DURUM / MASALAR / <b style="color:var(--lac)">YEREL YÖNETİMLER</b></div>
+        <div class="bhead">
+          <div>
+            <div class="tag">Masa · YRL</div>
+            <h1>Yerel Yönetimler ve Bölgesel Kalkınma</h1>
+            <p class="small" style="margin:0 0 10px;color:#33415c">Şehir yaşamını, belediye hizmetlerini, afet hazırlığını ve bölgesel ihtiyaçları izleyen araştırma masası.</p>
+            <div class="meta-row"><span>RAPOR <b>1</b></span><span>GRAFİK <b>8</b></span><span>GÖRÜŞME <b>1.598</b></span><span>İL <b>6</b></span><span>İLÇE <b>33</b></span></div>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:8px"><span class="btn pr">Brifingi aç</span><span class="btn">Raporu indir (PDF)</span></div>
+        </div>
+        <div class="three sec" style="grid-template-columns:.8fr 1.2fr 1fr">
+          <div class="card">
+            <div class="tag">İzlenen konular</div>
+            <div class="tl" style="margin-top:10px">
+              <div class="e"><span>Belediye hizmetleri ve şehir memnuniyeti</span></div>
+              <div class="e"><span>Ulaşım, altyapı ve konut</span></div>
+              <div class="e v"><span>Afet hazırlığı ve şehir güvenliği</span></div>
+              <div class="e"><span>Bölgesel ihtiyaçlar ve kalkınma</span></div>
+            </div>
+          </div>
+          <div class="card t"><div class="ch"><div><div class="tag">Saha dağılımı</div><h4>Katılımcıların illere göre dağılımı</h4></div><span class="pill t">%</span></div><div class="chartbox s"><canvas id="c_il"></canvas></div><div class="src">MASKDER, Yerel Yönetimde Beklentiler ve Hizmetler (2024)</div></div>
+          <div class="card e"><div class="ch"><div><div class="tag e">Profil</div><h4>Yaş dağılımı</h4></div></div><div class="chartbox s"><canvas id="c_yas"></canvas></div><div class="src">18 yaş ve üzeri, küme örnekleme</div></div>
+        </div>
+        <div class="two sec">
+          <div class="card"><div class="ch"><div><div class="tag">Bulgu 01</div><h4>Kentin en büyük sorunu</h4></div><span class="pill g">Grafik · Tablo</span></div><div class="chartbox l"><canvas id="c_sorun"></canvas></div><div class="src">%2,5’in altındaki seçenekler gösterilmemiştir.</div></div>
+          <div class="card"><div class="ch"><div><div class="tag">Bulgu 02</div><h4>Hizmet değerlendirmeleri (5’li ölçek)</h4></div><span class="pill e">Yığılmış</span></div><div class="chartbox l"><canvas id="c_stack"></canvas></div><div class="legend"><span><i style="background:#0B1F3A"></i>Çok yetersiz</span><span><i style="background:#3C5A85"></i>Yetersiz</span><span><i style="background:#DCE3EC"></i>Kararsız / kısmen</span><span><i style="background:#9FE3E8"></i>Yeterli</span><span><i style="background:#14B8C4"></i>Çok yeterli</span></div></div>
+        </div>
+        <div class="cite sec"><b>Kaynakça</b><ol><li>MASKDER (Modern Araştırmalar ve Stratejik Kalkınma Derneği). (2024). <i>Yerel Yönetimde Beklentiler ve Hizmetler; Yöneten ve Yönetilen Karşılaştırması Araştırması</i>. MASKDER Yayınları 03. ISBN 978-625-94588-1-6. İstanbul: MASKDER.</li></ol></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 03 ANKETLER ============ -->
+  <section class="page" id="p3">
+    <div class="ph"><b>03</b><h2>Anketler · Operasyon listesi ve anket detayı</h2></div>
+    <p class="pdesc">Filtreli liste (alan, durum, süre) ve anket detay sayfası: amaç, hedef grup, süre, gizlilik güvencesi ve katılım düğmesi.</p>
+    <div class="two">
+      <div class="frame"><div class="bar"><i></i><i></i><i></i><em>/anketler</em></div><div class="body">
+        <div class="tag">Operasyonlar</div><h3 class="sg" style="margin:2px 0 12px;font-size:1.4rem;color:var(--siy)">Anketler</h3>
+        <div class="filters" style="grid-template-columns:1.6fr 1fr 1fr auto"><div><label class="l">Ara</label><input class="f" value="gençlik"></div><div><label class="l">Alan</label><select class="f"><option>Tümü</option></select></div><div><label class="l">Durum</label><select class="f"><option>Sahada</option></select></div><span class="btn pr sm">Filtrele</span></div>
+        <div style="display:flex;gap:6px;margin:12px 0"><span class="pill n">Sahada · 2</span><span class="pill g">Yakında · 1</span><span class="pill g">Tamamlandı · 2</span></div>
+        <div class="card" style="margin-bottom:10px"><div class="ch"><div><div class="tag e">Gençlik ve Üniversite · ANK-2026/31</div><h4>Gençlerin Siyasete Katılımı</h4></div><span class="pill t">SAHADA</span></div><p class="small muted" style="margin:0 0 10px">Üniversiteli gençlerin siyasal katılım biçimlerini ve güven düzeylerini ölçüyoruz.</p><div style="display:flex;justify-content:space-between;align-items:center"><span class="mono small muted">~6 dk · 12 soru · anonim</span><span class="btn tu sm">Katıl →</span></div></div>
+        <div class="card" style="margin-bottom:10px"><div class="ch"><div><div class="tag">Yerel Yönetimler · ANK-2026/29</div><h4>Kentte Ulaşım ve Erişilebilirlik</h4></div><span class="pill t">SAHADA</span></div><div style="display:flex;justify-content:space-between;align-items:center"><span class="mono small muted">~8 dk · 16 soru · anonim</span><span class="btn tu sm">Katıl →</span></div></div>
+        <div class="card"><div class="ch"><div><div class="tag e">Afet ve Saha · ANK-2026/33</div><h4>Afet Hazırlığı Hane Anketi</h4></div><span class="pill g">YAKINDA</span></div><div style="display:flex;justify-content:space-between;align-items:center"><span class="mono small muted">Başlangıç: 1 Kasım</span><span class="btn sm gh">Haber ver</span></div></div>
+      </div></div>
+      <div class="frame"><div class="bar"><i></i><i></i><i></i><em>/anketler/gencler-siyasete-katilim</em></div><div class="body">
+        <div class="small muted mono" style="font-size:.66rem;margin-bottom:8px">ANKETLER / ANK-2026/31</div>
+        <div class="tag e">Gençlik ve Üniversite</div>
+        <h3 class="sg" style="margin:4px 0 8px;font-size:1.6rem;color:var(--siy);line-height:1.15">Gençlerin Siyasete Katılımı</h3>
+        <div class="meta-row" style="margin-bottom:14px"><span>SÜRE <b>~6 dk</b></span><span>SORU <b>12</b></span><span>KAPANIŞ <b>31.10.2026</b></span><span>DURUM <b style="color:var(--tur3)">SAHADA</b></span></div>
+        <div class="grid2">
+          <div class="card"><div class="tag">Amaç</div><p class="small" style="margin:4px 0 0">Gençlerin siyasal katılım biçimlerini, bilgi kaynaklarını ve kurumlara güvenini ölçmek.</p></div>
+          <div class="card"><div class="tag">Hedef grup</div><p class="small" style="margin:4px 0 0">18-29 yaş arası üniversite öğrencileri ve mezunlar.</p></div>
+        </div>
+        <div class="anon" style="margin:12px 0"><span style="font-size:1.1rem">◎</span><div>Katılımınız anonimdir. Size geçici bir kimlik verilir: <b>anon#7f3a</b>. Ad, e-posta veya IP adresi yanıtlarınızla birlikte saklanmaz.</div></div>
+        <div class="card"><div class="tag">Sınırlılıklar</div><p class="small muted" style="margin:4px 0 0">Gönüllü katılıma dayalı çevrim içi anket sonuçları Türkiye genelini temsil etmez; yalnızca katılımcıların görüşlerini yansıtır.</p></div>
+        <div style="display:flex;gap:8px;margin-top:14px"><span class="btn tu">Ankete başla →</span><span class="btn gh">Aydınlatma metni</span></div>
+        <div class="src">Sonuçlar, veri toplama tamamlanıp yayın onayı verildikten sonra Brifingler bölümünde yayımlanır.</div>
+      </div></div>
+    </div>
+  </section>
+
+  <!-- ============ 04 KATILIM ============ -->
+  <section class="page" id="p4">
+    <div class="ph"><b>04</b><h2>Ankete katılım · Adım adım form</h2></div>
+    <p class="pdesc">Onay ekranı, soru adımları (tek seçim, ölçek), ilerleme çubuğu ve teşekkür ekranı. Dikkat dağıtmayan, tek sütunlu, büyük dokunma alanlı tasarım.</p>
+    <div class="three">
+      <div class="frame"><div class="body" style="padding:22px">
+        <div class="tag">Adım 0 · Onay</div><h4 class="sg" style="margin:6px 0 8px;font-size:1.15rem;color:var(--siy)">Başlamadan önce</h4>
+        <p class="small muted">Bu anket MASKDER tarafından bilimsel araştırma amacıyla yürütülmektedir. Katılım gönüllüdür ve dilediğiniz an bırakabilirsiniz.</p>
+        <div class="opt sel"><i></i>Bilgilendirme metnini okudum, katılmayı kabul ediyorum.</div>
+        <div class="anon">Geçici kimliğiniz: <b>anon#7f3a</b></div>
+        <div style="margin-top:14px"><span class="btn tu">Başla →</span></div>
+      </div></div>
+      <div class="frame"><div class="body" style="padding:22px">
+        <div style="display:flex;justify-content:space-between"><span class="tag">Soru 4 / 12</span><span class="mono small muted">%33</span></div>
+        <div class="stepper"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+        <h4 class="sg" style="margin:0 0 12px;font-size:1.1rem;color:var(--siy)">Siyasi görüşleriniz en çok neyle şekillendi?</h4>
+        <div class="opt sel"><i></i>Kendi araştırmalarım ve okumalarım</div>
+        <div class="opt"><i></i>Okul veya üniversite eğitimim</div>
+        <div class="opt"><i></i>Ailem</div>
+        <div class="opt"><i></i>Toplumsal olaylar</div>
+        <div style="display:flex;justify-content:space-between;margin-top:12px"><span class="btn gh sm">← Geri</span><span class="btn pr sm">İleri →</span></div>
+      </div></div>
+      <div class="frame"><div class="body" style="padding:22px">
+        <div style="display:flex;justify-content:space-between"><span class="tag">Soru 7 / 12</span><span class="mono small muted">%58</span></div>
+        <div class="stepper"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i><i></i><i></i><i></i></div>
+        <h4 class="sg" style="margin:0 0 12px;font-size:1.1rem;color:var(--siy)">Siyasilerin söylemlerine ne kadar güveniyorsunuz?</h4>
+        <div class="likert"><span>Hiç</span><span>Az</span><span class="sel">Kararsız</span><span>Güveniyorum</span><span>Çok</span></div>
+        <div class="card" style="margin-top:16px;text-align:center;border-style:dashed">
+          <div class="tag">Son ekran</div>
+          <h4 class="sg" style="margin:4px 0;color:var(--siy)">Teşekkürler, yanıtınız kaydedildi.</h4>
+          <p class="small muted" style="margin:0 0 8px">Kayıt kodu: <span class="mono">a91c-7f3a</span></p>
+          <span class="btn sm">Sonuçlar yayımlanınca haber ver</span>
+        </div>
+      </div></div>
+    </div>
+  </section>
+
+  <!-- ============ 05 BRİFİNG ============ -->
+  <section class="page" id="p5">
+    <div class="ph"><b>05</b><h2>Brifing · Araştırma sonucu detay sayfası (Hatay)</h2></div>
+    <p class="pdesc">Künye satırı, yönetici özeti, numaralı “temel değerlendirmeler” ve güven düzeyi, yöntem kutusu, grafikler, kaynakça. Sol tarafta sayfa içi gezinme.</p>
+    <div class="frame"><div class="bar"><i></i><i></i><i></i><em>/brifingler/hatay-deprem-saha-arastirmasi</em></div>
+      <div class="cls">KAMUYA AÇIK · BRİFİNG · BRF-01</div>
+      <div class="body" style="display:grid;grid-template-columns:200px 1fr;gap:22px">
+        <div>
+          <div class="side-nav" style="position:sticky;top:10px">
+            <span class="on">Yönetici özeti</span><span>Temel değerlendirmeler</span><span>Yöntem</span><span>Arama kurtarma</span><span>Yardım dağıtımı</span><span>Değerlendirme</span><span>Kaynakça</span>
+          </div>
+          <div class="card" style="margin-top:14px"><div class="tag">Dosya</div><div class="small" style="margin-top:6px">Saha: Hatay (İBBS TR631)<br>Yöntem: Karma<br>Anket: 288 kişi<br>Hata payı: ±%5,77</div><span class="btn sm" style="margin-top:10px">PDF indir</span></div>
+        </div>
+        <div>
+          <div class="bhead">
+            <div>
+              <div class="tag e">Afet ve Saha Araştırmaları · BRF-01</div>
+              <h1>Hatay deprem saha araştırması: arama kurtarma ve yardım dağıtımı</h1>
+              <div class="meta-row"><span>YAYIN <b>06.02.2024</b></span><span>DİZİ <b>MASKDER Yayınları 01</b></span><span>GRAFİK <b>7</b></span><span>DURUM <b style="color:var(--tur3)">YAYIN ONAYLI</b></span></div>
+            </div>
+            <svg width="86" height="86" viewBox="0 0 86 86" aria-hidden="true"><circle cx="43" cy="43" r="38" fill="none" stroke="#6F52A8" stroke-width="2"/><circle cx="43" cy="43" r="32" fill="none" stroke="#6F52A8" stroke-width="1"/><text x="43" y="38" text-anchor="middle" font-family="IBM Plex Mono" font-size="8" fill="#6F52A8" font-weight="600">MASKDER</text><text x="43" y="49" text-anchor="middle" font-family="IBM Plex Mono" font-size="7" fill="#6F52A8">YAYIN</text><text x="43" y="58" text-anchor="middle" font-family="IBM Plex Mono" font-size="7" fill="#6F52A8">ONAYLI</text></svg>
+          </div>
+          <div class="card sec" style="border-left:4px solid var(--tur);border-radius:0 10px 10px 0"><div class="tag">Yönetici özeti</div><p style="margin:6px 0 0;font-size:.92rem;color:var(--siy)">Depremzedeler arama kurtarma hızını ve koordinasyonu büyük ölçüde yetersiz bulurken sahadaki görevli ve gönüllüleri daha olumlu değerlendirdi. Yardım dağıtımında barınma, doğru yönlendirme ve standart yardım malzemesi öne çıkan sorun alanları oldu.</p></div>
+          <div class="card sec"><div class="ch"><div><div class="tag">Temel değerlendirmeler</div><h4>Analistin özet yargıları</h4></div><span class="pill e">Güven düzeyi: veri dayanağı</span></div>
+            <ol class="judg" style="margin:0;padding:0">
+              <li><span>Arama kurtarma hızı en olumsuz değerlendirilen boyut: <b>%65,1</b> “hiç yeterli değil”.</span><span class="conf">YÜKSEK <i class="on"></i><i class="on"></i><i class="on"></i></span></li>
+              <li><span>Görevli ve gönüllüler en olumlu boyut: <b>%52,9</b> yeterli ya da çok yeterli.</span><span class="conf">YÜKSEK <i class="on"></i><i class="on"></i><i class="on"></i></span></li>
+              <li><span>Barınma en kritik eksik: her on depremzededen dördü çadır ihtiyacının karşılanmadığını belirtti.</span><span class="conf">YÜKSEK <i class="on"></i><i class="on"></i><i class="on"></i></span></li>
+              <li><span>Yardım dağıtımı genel görüşleri bölünmüş (%45,2 yetersiz, %38,2 yeterli); bölgesel farklılık olası.</span><span class="conf">ORTA <i class="on"></i><i class="on"></i><i></i></span></li>
+            </ol>
+          </div>
+          <div class="two sec">
+            <div class="card t"><div class="ch"><div><div class="tag">Grafik 1</div><h4>“Hiç yeterli değil” ile “yeterli” karşılaştırması</h4></div></div><div class="chartbox l"><canvas id="c_grouped"></canvas></div><div class="src">Yeterli = “yeterli” + “çok yeterli”. MASKDER, Hatay Saha Araştırması (2024)</div></div>
+            <div class="card e"><div class="ch"><div><div class="tag e">Grafik 2</div><h4>Karşılanmayan ihtiyaçlar</h4></div></div><div class="chartbox l"><canvas id="c_ihtiyac"></canvas></div><div class="src">“Halihazırda hangi yardımlara ihtiyacınız karşılanmadı?”</div></div>
+          </div>
+          <div class="card sec"><div class="tag">Yöntem</div><p class="small" style="margin:6px 0 0">Karma yöntem. Rastgele örneklemeyle 288 depremzedeyle yüz yüze kâğıt-kalem anket (ortalama 10 dk); amaçlı örneklemeyle STK yöneticileriyle yarı yapılandırılmış mülakatlar ve saha gözlemleri. SPSS ile frekans analizi; hata payı %95 güven düzeyinde ±%5,77.</p></div>
+          <div class="cite sec"><b>Kaynakça</b><ol><li>MASKDER (Modern Araştırmalar ve Stratejik Kalkınma Derneği). (2024). <i>Türkiye’de Afet Krizi Yönetimi ve Hatay İli Deprem Saha Araştırması Raporu</i>. MASKDER Yayınları 01. İstanbul: MASKDER. <u>Raporu görüntüle</u></li></ol></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 06 VERİ ============ -->
+  <section class="page" id="p6">
+    <div class="ph"><b>06</b><h2>Veri ve istatistikler · Analiz panosu</h2></div>
+    <p class="pdesc">Rapor, alan ve grafik türü filtreleri; gösterge şeridi; karşılaştırmalı grafikler; ısı haritası; dışa aktarma (PNG, CSV) düğmeleri.</p>
+    <div class="frame"><div class="bar"><i></i><i></i><i></i><em>/veri-ve-istatistikler</em></div>
+      <div class="body">
+        <div class="sech" style="border:0;margin-bottom:8px"><div><div class="tag">Analiz panosu</div><h3 style="font-size:1.5rem">Veri ve istatistikler</h3></div><div style="display:flex;gap:6px"><span class="btn sm gh">PNG indir</span><span class="btn sm gh">CSV indir</span><span class="btn sm">Göm (embed)</span></div></div>
+        <div class="filters"><div><label class="l">Gösterge ara</label><input class="f" value="afet"></div><div><label class="l">Rapor</label><select class="f"><option>Tüm raporlar</option></select></div><div><label class="l">Alan</label><select class="f"><option>Tümü</option></select></div><div><label class="l">Görünüm</label><select class="f"><option>Grafik</option></select></div><span class="btn pr">Uygula</span></div>
+        <div class="grid4 sec">
+          <div class="kpi"><span>Yayımlanan rapor</span><b>3</b><small>2024</small></div>
+          <div class="kpi e"><span>Yüz yüze görüşme</span><b>1.886+</b><small>Yerel + Hatay</small></div>
+          <div class="kpi n"><span>Yayımlanan grafik</span><b>22</b><small>3 rapor</small></div>
+          <div class="kpi"><span>Saha ili</span><b>6+1</b><small>Yerel + Hatay</small></div>
+        </div>
+        <div class="two sec" style="grid-template-columns:1.1fr .9fr">
+          <div class="card"><div class="ch"><div><div class="tag e">Gençlik · değer profili</div><h4>Gençlerin destek oranları (radar)</h4></div><span class="pill e">%</span></div><div class="chartbox l"><canvas id="c_radar"></canvas></div><div class="src">“Destekliyorum / önemli” yanıtlarının toplamı. MASKDER, Siyasi Bilinç Araştırması Raporu (2024)</div></div>
+          <div class="card"><div class="ch"><div><div class="tag">Hatay · ısı haritası</div><h4>Arama kurtarma boyutları × yanıt</h4></div></div>
+            <div class="heat" id="heat1"></div>
+            <div class="legend"><span><i style="background:#E3F7F8"></i>düşük</span><span><i style="background:#14B8C4"></i>orta</span><span><i style="background:#0B1F3A"></i>yüksek</span></div>
+            <div class="src">Değerler yüzde. MASKDER, Hatay Saha Araştırması (2024)</div>
+          </div>
+        </div>
+        <div class="two sec">
+          <div class="card"><div class="ch"><div><div class="tag">Karşılaştırma</div><h4>İki sahanın yaş profili (çizgi)</h4></div></div><div class="chartbox"><canvas id="c_line"></canvas></div><div class="src">Yerel: 1.598 kişi · Hatay: 288 kişi</div></div>
+          <div class="card"><div class="ch"><div><div class="tag e">Hatay · konut</div><h4>Bina yaşı ve birikimli oran (karma)</h4></div></div><div class="chartbox"><canvas id="c_mixed"></canvas></div><div class="src">Depremzedelerin ikamet ettiği bina yaşları</div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 07 YAYINLAR ============ -->
+  <section class="page" id="p7">
+    <div class="ph"><b>07</b><h2>Yayınlar · Arşiv</h2></div>
+    <p class="pdesc">Dosya numaralı rapor arşivi, tür filtreleri (rapor, politika notu, veri analizi), kapak, künye ve indirme.</p>
+    <div class="frame"><div class="bar"><i></i><i></i><i></i><em>/yayinlar</em></div>
+      <div class="body">
+        <div class="sech" style="border:0"><div><div class="tag">Arşiv</div><h3 style="font-size:1.5rem">Yayınlar ve raporlar</h3></div><div style="display:flex;gap:6px"><span class="pill n">Tümü · 3</span><span class="pill g">Araştırma raporu · 3</span><span class="pill g">Politika notu · 0</span><span class="pill g">Veri analizi · 0</span></div></div>
+        <div class="grid3">
+          <div class="card" style="padding:0;overflow:hidden">
+            <div style="height:150px;background:var(--lac);color:#fff;padding:16px;display:flex;flex-direction:column;justify-content:space-between"><span class="mono" style="font-size:.62rem;color:var(--tur-mid)">MASKDER YAYINLARI 03 · 2024</span><b class="sg" style="font-size:1.05rem;line-height:1.2">Yerel Yönetimde Beklentiler ve Hizmetler</b></div>
+            <div style="padding:14px 16px"><div class="tag">Yerel Yönetimler</div><p class="small muted" style="margin:4px 0 10px">6 il, 33 ilçe, 1.598 katılımcı. ISBN 978-625-94588-1-6</p><div style="display:flex;gap:6px"><span class="btn sm pr">PDF</span><span class="btn sm gh">Brifing</span></div></div>
+          </div>
+          <div class="card" style="padding:0;overflow:hidden">
+            <div style="height:150px;background:var(--efl-soft);color:var(--efl2);padding:16px;display:flex;flex-direction:column;justify-content:space-between;border-bottom:1px solid var(--efl-mid)"><span class="mono" style="font-size:.62rem">MASKDER YAYINLARI 02 · 2024</span><b class="sg" style="font-size:1.05rem;line-height:1.2;color:var(--siy)">Siyasi Bilinç Araştırması Raporu</b></div>
+            <div style="padding:14px 16px"><div class="tag e">Gençlik ve Üniversite</div><p class="small muted" style="margin:4px 0 10px">MASK Meclis katılımcıları, tam sayım. ISBN 978-625-94588-2-3</p><div style="display:flex;gap:6px"><span class="btn sm pr">PDF</span><span class="btn sm gh">Brifing</span></div></div>
+          </div>
+          <div class="card" style="padding:0;overflow:hidden">
+            <div style="height:150px;background:var(--tur-soft);color:var(--tur3);padding:16px;display:flex;flex-direction:column;justify-content:space-between;border-bottom:1px solid var(--tur-mid)"><span class="mono" style="font-size:.62rem">MASKDER YAYINLARI 01 · 2024</span><b class="sg" style="font-size:1.05rem;line-height:1.2;color:var(--siy)">Türkiye’de Afet Krizi Yönetimi ve Hatay İli Deprem Saha Araştırması</b></div>
+            <div style="padding:14px 16px"><div class="tag">Afet ve Saha</div><p class="small muted" style="margin:4px 0 10px">288 depremzede, STK mülakatları, saha gözlemi.</p><div style="display:flex;gap:6px"><span class="btn sm pr">PDF</span><span class="btn sm gh">Brifing</span></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 08 ÜYE PANELİ ============ -->
+  <section class="page" id="p8">
+    <div class="ph"><b>08</b><h2>Üye paneli · Operasyon masası</h2></div>
+    <p class="pdesc">Sol menü, komut arama, plan kullanım göstergeleri, anket dosyaları tablosu, yanıt eğilimi ve son etkinlikler.</p>
+    <div class="frame"><div class="bar"><i></i><i></i><i></i><em>/panel</em></div>
+      <div class="app">
+        <div class="aside">
+          <div class="who"><div class="av">AY</div><div><b>Ayşe Yılmaz</b><small>AKADEMİK PLAN</small></div></div>
+          <div class="grp">ÇALIŞMA</div>
+          <div class="lnk on">Genel bakış</div><div class="lnk">Anketlerim <em>3</em></div><div class="lnk">Yeni anket</div><div class="lnk">Raporlar</div>
+          <div class="grp">HESAP</div>
+          <div class="lnk">Arşiv</div><div class="lnk">Profil ve güvenlik</div><div class="lnk">Üyelik</div>
+        </div>
+        <div class="main">
+          <div class="topbar"><h3>Genel bakış</h3><div class="cmd"><span>Anket ara veya komut yaz…</span><kbd>⌘ K</kbd></div><span class="btn pr sm">+ Yeni anket</span></div>
+          <div class="grid4">
+            <div class="kpi"><span>Toplam yanıt</span><b>743</b><small>örnek veri</small></div>
+            <div class="kpi e"><span>Bu hafta</span><b>+126</b><small>örnek veri</small></div>
+            <div class="kpi n"><span>Anket hakkı</span><b>2 / 5</b><div class="lv"><i style="width:40%"></i></div></div>
+            <div class="kpi"><span>Analiz hakkı</span><b>7 / 20</b><div class="lv"><i style="width:35%"></i></div></div>
+          </div>
+          <div class="two sec" style="grid-template-columns:1.3fr .7fr">
+            <div>
+              <table class="t" style="border:1px solid var(--cizgi);border-radius:10px;overflow:hidden">
+                <tr><th>Dosya</th><th>Anket</th><th style="text-align:right">Yanıt</th><th>Durum</th><th></th></tr>
+                <tr><td class="mono small muted">ANK-31</td><td>Kampüs yaşamı 2026</td><td class="n">214</td><td><span class="pill t">SAHADA</span></td><td><span class="btn sm gh">Sonuçlar</span></td></tr>
+                <tr><td class="mono small muted">ANK-29</td><td>Kent ulaşımı</td><td class="n">98</td><td><span class="pill g">HAZIRLIK</span></td><td><span class="btn sm gh">Düzenle</span></td></tr>
+                <tr><td class="mono small muted">ANK-12</td><td>Medya güveni</td><td class="n">431</td><td><span class="pill e">ANALİZ TAMAM</span></td><td><span class="btn sm gh">Rapor</span></td></tr>
+              </table>
+              <div class="card sec"><div class="ch"><div><div class="tag">Yanıt eğilimi</div><h4>Kampüs yaşamı 2026 · son 14 gün</h4></div><span class="pill g">örnek veri</span></div><div class="chartbox s"><canvas id="c_area"></canvas></div></div>
+            </div>
+            <div class="card"><div class="tag e">Son etkinlik</div>
+              <div class="tl" style="margin-top:10px">
+                <div class="e"><b>14:02</b><span>Kampüs yaşamı: 12 yeni yanıt</span></div>
+                <div class="e v"><b>Dün</b><span>Medya güveni analizi tamamlandı</span></div>
+                <div class="e"><b>18 Eki</b><span>Rapor PDF indirildi</span></div>
+                <div class="e k"><b>15 Eki</b><span>Kent ulaşımı taslağı oluşturuldu</span></div>
+              </div>
+              <div class="anon" style="margin-top:8px">Katılımcı kimlikleri hiçbir ekranda gösterilmez.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 09 ANKET OLUŞTURUCU ============ -->
+  <section class="page" id="p9">
+    <div class="ph"><b>09</b><h2>Anket oluşturucu</h2></div>
+    <p class="pdesc">Soru araç kutusu, sürüklenebilir soru blokları, seçili sorunun ayarları ve canlı telefon önizlemesi.</p>
+    <div class="frame"><div class="bar"><i></i><i></i><i></i><em>/anket/yeni</em></div>
+      <div class="body" style="display:grid;grid-template-columns:200px 1fr 260px;gap:16px">
+        <div><div class="tag">Araç kutusu</div><div class="tools" style="margin-top:8px"><span>◉ Tek seçim</span><span>☑ Çoklu seçim</span><span>▭ Kısa metin</span><span>¶ Uzun metin</span><span>⋯ 5’li ölçek</span><span>★ Puan</span><span># Sayı</span><span>▾ Açılır liste</span><span>↕ Sıralama</span><span>▦ Matris</span></div>
+          <div class="card" style="margin-top:12px"><div class="tag e">Şablon</div><p class="small" style="margin:4px 0 0">Gençlik, kent memnuniyeti, afet hazırlığı şablonları</p></div></div>
+        <div>
+          <input class="f" value="Kampüs yaşamı 2026" style="font-size:1.1rem;font-weight:700;margin-bottom:10px">
+          <div class="qb"><span class="n">01</span><div><h6>Kaçıncı sınıftasınız?</h6><div class="small muted">Tek seçim · 5 seçenek · zorunlu</div></div><span class="pill g">⋮⋮</span></div>
+          <div class="qb sel"><span class="n">02</span><div><h6>Kampüsteki sosyal olanaklardan memnun musunuz?</h6><div class="likert"><span>Hiç</span><span>Az</span><span>Kararsız</span><span>Memnun</span><span>Çok</span></div></div><span class="pill t">Seçili</span></div>
+          <div class="qb"><span class="n">03</span><div><h6>En çok hangi alanda iyileştirme istersiniz?</h6><div class="small muted">Çoklu seçim · en fazla 3</div></div><span class="pill g">⋮⋮</span></div>
+          <div class="qb" style="border-style:dashed;justify-content:center;display:flex;color:var(--gri);font-size:.8rem">+ Soru ekle</div>
+        </div>
+        <div>
+          <div class="card"><div class="tag">Soru ayarları</div>
+            <label class="l" style="margin-top:8px">Soru türü</label><select class="f"><option>5’li ölçek</option></select>
+            <label class="l" style="margin-top:8px">Ölçek etiketleri</label><input class="f" value="Hiç memnun değilim → Çok memnunum">
+            <div class="opt sel" style="margin-top:10px"><i></i>Zorunlu soru</div>
+            <div class="opt"><i></i>Koşullu göster (mantık)</div>
+          </div>
+          <div style="display:flex;gap:6px;margin-top:10px"><span class="btn sm gh">Önizle</span><span class="btn sm gh">Taslak</span><span class="btn sm tu">Yayına al</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 10 YÖNETİM DURUM ============ -->
+  <section class="page" id="p10">
+    <div class="ph"><b>10</b><h2>Yönetim paneli · Komuta ekranı</h2></div>
+    <p class="pdesc">Yetkiye göre şekillenen menü, onay kuyruğu (paraf zinciri), sistem göstergeleri, katılım hunisi, erişim kayıtları ve güvenlik uyarıları.</p>
+    <div class="frame"><div class="bar"><i></i><i></i><i></i><em>/yonetim</em></div>
+      <div class="cls">YETKİLİ PERSONEL EKRANI · HAM VERİYE ERİŞİM YETKİYE BAĞLIDIR</div>
+      <div class="app">
+        <div class="aside">
+          <div class="who"><div class="av" style="background:var(--efl2)">EÇ</div><div><b>Enes Çifçi</b><small>YÖNETİCİ</small></div></div>
+          <div class="grp">OFİS</div>
+          <div class="lnk on">Komuta ekranı</div><div class="lnk">Onay kuyruğu <em>2</em></div><div class="lnk">Anketler</div><div class="lnk">Brifingler</div>
+          <div class="grp">İÇERİK</div>
+          <div class="lnk">Rapor verileri</div><div class="lnk">Haberler</div><div class="lnk">Yayınlar</div><div class="lnk">Sayfalar</div><div class="lnk">Medya</div><div class="lnk">Araştırma masaları</div>
+          <div class="grp">KURUM</div>
+          <div class="lnk">Gönüllüler <em>18</em></div><div class="lnk">Personel ve roller</div><div class="lnk">Erişim kayıtları</div><div class="lnk">Paketler</div>
+        </div>
+        <div class="main">
+          <div class="topbar"><h3>Komuta ekranı</h3><div class="cmd"><span>Komut: “Hatay brifingini yayımla”</span><kbd>⌘ K</kbd></div><span class="pill t">● Sistem sağlıklı</span></div>
+          <div class="grid4">
+            <div class="kpi e"><span>Onay bekleyen</span><b>2</b><small>sonuç, haber</small></div>
+            <div class="kpi"><span>Yanıt / 24 saat</span><b>126</b><small>örnek veri</small></div>
+            <div class="kpi n"><span>Yeni gönüllü</span><b>18</b><small>örnek veri</small></div>
+            <div class="kpi"><span>Ziyaret / gün</span><b>1,2 B</b><small>örnek veri</small><div class="spark" style="margin-top:6px"><i style="height:30%"></i><i style="height:44%"></i><i style="height:38%"></i><i style="height:60%"></i><i style="height:52%"></i><i style="height:70%"></i><i style="height:88%"></i><i style="height:100%"></i></div></div>
+          </div>
+          <div class="two sec" style="grid-template-columns:1.25fr .75fr">
+            <div>
+              <table class="t" style="border:1px solid var(--cizgi)">
+                <tr><th>Dosya</th><th>İçerik</th><th>Paraf zinciri</th><th>Durum</th></tr>
+                <tr><td class="mono small muted">SNÇ-26/04</td><td>Gençlik anketi sonuçları</td><td><div class="chain"><i class="ok">Editör</i><i class="ok">Sorumlu</i><i class="now">Yönetici</i></div></td><td><span class="pill e">ONAYINIZDA</span></td></tr>
+                <tr><td class="mono small muted">HBR-26/11</td><td>Çalıştay duyurusu</td><td><div class="chain"><i class="ok">Editör</i><i class="now">Sorumlu</i><i>Yönetici</i></div></td><td><span class="pill g">İNCELEMEDE</span></td></tr>
+                <tr><td class="mono small muted">VRİ-24/01</td><td>Hatay saha bulguları</td><td><div class="chain"><i class="ok">Editör</i><i class="ok">Sorumlu</i><i class="ok">Yönetici</i></div></td><td><span class="pill t">YAYINDA</span></td></tr>
+              </table>
+              <div class="card sec"><div class="tag e">Erişim kayıtları · canlı</div><div class="log" style="margin-top:6px">
+                <span class="ts">14:02:11</span> yanıt alındı · anon#c41e · ANK-31<br>
+                <span class="ts">14:01:47</span> editör taslak kaydetti · HBR-26/11<br>
+                <span class="ts">13:58:03</span> <span class="w">uyarı</span> 3 başarısız giriş · IP 15 dk engellendi<br>
+                <span class="ts">13:55:20</span> <span class="ok">yayın onayı</span> · VRİ-24/01
+              </div></div>
+            </div>
+            <div class="card"><div class="tag">Katılım hunisi · ANK-31</div><p class="small muted" style="margin:2px 0 10px">örnek veri</p>
+              <div class="funnel">
+                <div style="width:100%;background:var(--lac)"><span>Sayfayı açan</span><b>1.000</b></div>
+                <div style="width:82%;background:var(--lac2)"><span>Onay veren</span><b>640</b></div>
+                <div style="width:66%;background:var(--tur2)"><span>Yarıya gelen</span><b>410</b></div>
+                <div style="width:52%;background:var(--tur)"><span>Tamamlayan</span><b>214</b></div>
+              </div>
+              <div class="src">Tamamlama oranı %33 · ortalama süre 5 dk 40 sn</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 11 YÖNETİM İÇERİK ============ -->
+  <section class="page" id="p11">
+    <div class="ph"><b>11</b><h2>Yönetim paneli · Rapor verisi (brifing) düzenleyici</h2></div>
+    <p class="pdesc">Sol tarafta form (künye, öne çıkan rakamlar, grafik blokları, kaynakça), sağda canlı önizleme. Grafik türü tek tıkla değişir.</p>
+    <div class="frame"><div class="bar"><i></i><i></i><i></i><em>/yonetim?sekme=findings&veri=hatay</em></div>
+      <div class="body" style="display:grid;grid-template-columns:1fr 1fr;gap:18px">
+        <div>
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px"><div><div class="tag">Dosya VRİ-24/01</div><h3 class="sg" style="margin:0;color:var(--siy)">Hatay saha bulguları</h3></div><div style="display:flex;gap:6px"><span class="btn sm gh">Taslak kaydet</span><span class="btn sm pr">Onaya gönder</span></div></div>
+          <div class="card"><div class="tag">Künye</div>
+            <div class="grid2" style="margin-top:8px"><div><label class="l">Araştırma masası</label><select class="f"><option>Afet ve Saha</option></select></div><div><label class="l">Gizlilik etiketi</label><select class="f"><option>Kamuya açık</option></select></div></div>
+            <label class="l" style="margin-top:8px">Kaynak rapor</label><input class="f" value="Türkiye’de Afet Krizi Yönetimi ve Hatay İli Deprem Saha Araştırması Raporu">
+          </div>
+          <div class="card sec"><div class="tag">Öne çıkan rakamlar</div><textarea class="f mono" rows="3" style="margin-top:8px;font-size:.74rem">288 | Depremzedeyle yüz yüze anket
+%65,1 | Arama kurtarma hızını “hiç yeterli değil” bulanlar
+%60,2 | Yardım noktalarına doğru yönlendirilmeyenler</textarea></div>
+          <div class="card sec"><div class="ch"><div><div class="tag e">Grafik 3 / 7</div><h4>Karşılanmayan ihtiyaçlar</h4></div><span class="btn sm gh">+ Grafik</span></div>
+            <label class="l">Grafik türü</label>
+            <div style="display:flex;gap:4px;flex-wrap:wrap;margin-bottom:8px"><span class="pill n">Yatay çubuk</span><span class="pill g">Sütun</span><span class="pill g">Halka</span><span class="pill g">Ağaç haritası</span><span class="pill g">Waffle</span><span class="pill g">İnsan simgesi</span><span class="pill g">Lolipop</span></div>
+            <textarea class="f mono" rows="4" style="font-size:.74rem">Çadır | 40
+Battaniye / giysi | 22,67
+Diğer | 20,89
+İlaç | 6,67</textarea>
+          </div>
+        </div>
+        <div>
+          <div class="tag" style="margin-bottom:8px">Canlı önizleme</div>
+          <div class="card e"><div class="ch"><div><div class="tag e">Afet ve Saha</div><h4>Karşılanmayan ihtiyaçlar</h4></div><span class="pill g">Grafik · Tablo</span></div><div class="chartbox"><canvas id="c_prev"></canvas></div><div class="card" style="background:var(--efl-soft);border-color:var(--efl-mid);margin-top:10px;padding:10px 12px;font-size:.8rem;color:var(--efl2)">Barınma en kritik eksik: her on depremzededen dördü çadır ihtiyacının karşılanmadığını belirtti.</div><div class="src">Kaynak: MASKDER, Hatay İli Deprem Saha Araştırması (2024)</div></div>
+          <div class="card sec"><div class="tag">Yayın kontrol listesi</div>
+            <div class="opt sel" style="margin-top:8px"><i></i>Kaynakça eklendi</div><div class="opt sel"><i></i>Yöntem notu eklendi</div><div class="opt"><i></i>Araştırma sorumlusu onayı</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 12 ROLLER ============ -->
+  <section class="page" id="p12">
+    <div class="ph"><b>12</b><h2>Yönetim paneli · Personel ve yetki matrisi</h2></div>
+    <p class="pdesc">Rollerin hangi işlere erişebildiğini gösteren matris ve personel listesi. Ham yanıt verisine erişim yalnızca yetkili rollerle sınırlıdır.</p>
+    <div class="frame"><div class="body">
+      <div class="role">
+        <div class="h">YETKİ</div><div class="h">YÖNETİCİ</div><div class="h">ARAŞTIRMA SORUMLUSU</div><div class="h">EDİTÖR</div><div class="h">ANALİST</div>
+        <div style="text-align:left">Anket oluşturma</div><div>●</div><div>●</div><div>—</div><div>—</div>
+        <div style="text-align:left">Ham yanıt verisi</div><div>●</div><div>●</div><div>—</div><div>●</div>
+        <div style="text-align:left">Analiz ve rapor</div><div>●</div><div>●</div><div>—</div><div>●</div>
+        <div style="text-align:left">Yayın onayı</div><div>●</div><div>●</div><div>—</div><div>—</div>
+        <div style="text-align:left">Haber ve sayfa</div><div>●</div><div>—</div><div>●</div><div>—</div>
+        <div style="text-align:left">Kullanıcı ve roller</div><div>●</div><div>—</div><div>—</div><div>—</div>
+      </div>
+      <table class="t sec" style="border:1px solid var(--cizgi)">
+        <tr><th>Personel</th><th>Rol</th><th>Son giriş</th><th>2 adımlı doğrulama</th><th></th></tr>
+        <tr><td>Enes Çifçi</td><td><span class="pill k">YÖNETİCİ</span></td><td class="mono small">21.10 · 13:40</td><td><span class="pill t">AÇIK</span></td><td><span class="btn sm gh">Düzenle</span></td></tr>
+        <tr><td>Örnek Editör</td><td><span class="pill e">EDİTÖR</span></td><td class="mono small">20.10 · 18:12</td><td><span class="pill g">KAPALI</span></td><td><span class="btn sm gh">Düzenle</span></td></tr>
+        <tr><td>Örnek Analist</td><td><span class="pill t">ANALİST</span></td><td class="mono small">19.10 · 10:05</td><td><span class="pill t">AÇIK</span></td><td><span class="btn sm gh">Düzenle</span></td></tr>
+      </table>
+    </div></div>
+  </section>
+
+  <!-- ============ 13 GRAFİK KÜTÜPHANESİ ============ -->
+  <section class="page" id="p13">
+    <div class="ph"><b>13</b><h2>Grafik kütüphanesi · Tüm grafik türleri</h2></div>
+    <p class="pdesc">Platformda kullanılabilecek 24 grafik türü, aynı renk sistemiyle. Turkuaz saha verisi, eflatun analiz ve vurgu, lacivert ana seri. Rakamlar raporlardan alınmıştır; “örnek veri” etiketli olanlar yalnızca biçimi göstermek içindir.</p>
+    <div class="gal">
+      <div class="card"><span class="kind">01 · Yatay çubuk</span><h4>Kent sorunlarını kim çözmeli?</h4><div class="chartbox"><canvas id="g_hbar"></canvas></div><div class="src">Yerel Yönetimler (2024)</div></div>
+      <div class="card"><span class="kind">02 · Sütun</span><h4>Güvenli toplanma alanı biliniyor mu?</h4><div class="chartbox"><canvas id="g_col"></canvas></div><div class="src">Yerel Yönetimler (2024)</div></div>
+      <div class="card"><span class="kind">03 · Halka (doughnut)</span><h4>Belediyeye ulaşma kanalı</h4><div class="chartbox"><canvas id="g_donut"></canvas></div><div class="src">Yerel Yönetimler (2024)</div></div>
+      <div class="card"><span class="kind">04 · Pasta</span><h4>Demokrasiye destek</h4><div class="chartbox"><canvas id="g_pie"></canvas></div><div class="src">Siyasi Bilinç (2024)</div></div>
+      <div class="card"><span class="kind">05 · Gruplu çubuk</span><h4>Arama kurtarma: olumsuz ve olumlu</h4><div class="chartbox"><canvas id="g_grouped"></canvas></div><div class="src">Hatay Saha (2024)</div></div>
+      <div class="card"><span class="kind">06 · %100 yığılmış çubuk</span><h4>Yardımlar ihtiyacı karşıladı mı?</h4><div class="chartbox"><canvas id="g_stack100"></canvas></div><div class="src">Hatay Saha (2024)</div></div>
+      <div class="card wide"><span class="kind">07 · Iraksak (diverging) Likert</span><h4>Yerel hizmet değerlendirmeleri: olumsuz ← | → olumlu</h4>
+        <div class="diverge" id="div1"></div>
+        <div class="legend"><span><i style="background:#0B1F3A"></i>Çok olumsuz</span><span><i style="background:#3C5A85"></i>Olumsuz</span><span><i style="background:#DCE3EC"></i>Kararsız</span><span><i style="background:#9FE3E8"></i>Olumlu</span><span><i style="background:#14B8C4"></i>Çok olumlu</span></div>
+        <div class="src">Kararsız yanıtlar merkez çizginin iki yanına eşit bölünür. Yerel Yönetimler (2024)</div></div>
+      <div class="card"><span class="kind">08 · Radar</span><h4>Gençlerin değer profili</h4><div class="chartbox"><canvas id="g_radar"></canvas></div><div class="src">Siyasi Bilinç (2024)</div></div>
+      <div class="card"><span class="kind">09 · Kutupsal alan</span><h4>Enerji sorunları</h4><div class="chartbox"><canvas id="g_polar"></canvas></div><div class="src">Yerel Yönetimler (2024)</div></div>
+      <div class="card"><span class="kind">10 · Çizgi</span><h4>Yaş profili: Yerel ve Hatay</h4><div class="chartbox"><canvas id="g_line"></canvas></div><div class="src">Yerel + Hatay (2024)</div></div>
+      <div class="card"><span class="kind">11 · Alan</span><h4>Günlük katılım</h4><div class="chartbox"><canvas id="g_area"></canvas></div><div class="src">örnek veri</div></div>
+      <div class="card"><span class="kind">12 · Karma (çubuk + çizgi)</span><h4>Bina yaşı ve birikimli oran</h4><div class="chartbox"><canvas id="g_mixed"></canvas></div><div class="src">Hatay Saha (2024)</div></div>
+      <div class="card"><span class="kind">13 · Dağılım (scatter)</span><h4>Sorun önemi ve memnuniyet</h4><div class="chartbox"><canvas id="g_scatter"></canvas></div><div class="src">örnek veri</div></div>
+      <div class="card"><span class="kind">14 · Kabarcık (bubble)</span><h4>Araştırma kapsamı: katılımcı × il × süre</h4><div class="chartbox"><canvas id="g_bubble"></canvas></div><div class="src">örnek veri</div></div>
+      <div class="card"><span class="kind">15 · Isı haritası</span><h4>Arama kurtarma boyutları × yanıt</h4><div class="heat" id="heat2"></div><div class="src">Hatay Saha (2024)</div></div>
+      <div class="card wide"><span class="kind">16 · Ağaç haritası (treemap)</span><h4>Kentin en büyük sorunu · alan büyüklüğü = oran</h4>
+        <div class="tree">
+          <div style="grid-column:span 4;grid-row:span 2;background:#0B1F3A"><span>Sığınmacılar ve göçmenler</span><b>%18,6</b></div>
+          <div style="grid-column:span 4;grid-row:span 2;background:#1E3A64"><span>Afet önlemleri yetersiz</span><b>%18,0</b></div>
+          <div style="grid-column:span 4;grid-row:span 2;background:#0E8C96"><span>Çarpık kentleşme</span><b>%16,1</b></div>
+          <div style="grid-column:span 3;grid-row:span 2;background:#14B8C4;color:#05070C"><span>Ulaşım</span><b>%14,4</b></div>
+          <div style="grid-column:span 3;grid-row:span 2;background:#6F52A8"><span>Temel ihtiyaç pahalılığı</span><b>%11,6</b></div>
+          <div style="grid-column:span 2;grid-row:span 2;background:#9B7FD1"><span>Çevre kirliliği</span><b>%9,4</b></div>
+          <div style="grid-column:span 2;background:#CDBDEB;color:#05070C"><span>Güvenlik</span><b>%3,4</b></div>
+          <div style="grid-column:span 2;background:#9FE3E8;color:#05070C"><span>Kültür-sanat</span><b>%3,0</b></div>
+          <div style="grid-column:span 2;background:#DCE3EC;color:#05070C"><span>Diğer</span><b>%5,7</b></div>
+        </div>
+        <div class="src">Yerel Yönetimler (2024)</div></div>
+      <div class="card"><span class="kind">17 · Waffle (100 kare)</span><h4>Güvenli toplanma alanı</h4><div class="waffle" id="waf"></div><div class="legend"><span><i style="background:#14B8C4"></i>Evet %18,7</span><span><i style="background:#9B7FD1"></i>Emin değil %38,9</span><span><i style="background:#0B1F3A"></i>Hayır %42,5</span></div><div class="src">Yerel Yönetimler (2024)</div></div>
+      <div class="card"><span class="kind">18 · İnsan simgeli (pictogram)</span><h4>Her 10 depremzededen 4’ünün çadırı yok</h4><div class="people" id="ppl"></div><div class="src">Hatay Saha (2024)</div></div>
+      <div class="card"><span class="kind">19 · Gösterge (gauge)</span><h4>Afet hazırlığını yetersiz bulan</h4><div class="gauge"><svg viewBox="0 0 240 140"><path d="M20 120 A100 100 0 0 1 220 120" fill="none" stroke="#EBEFF5" stroke-width="18" stroke-linecap="round"/><path d="M20 120 A100 100 0 0 1 192.6 50.6" fill="none" stroke="#14B8C4" stroke-width="18" stroke-linecap="round"/><text x="120" y="104" text-anchor="middle" font-family="Space Grotesk" font-size="34" font-weight="700" fill="#05070C">%74,7</text><text x="120" y="128" text-anchor="middle" font-family="Inter" font-size="10" fill="#5A6680">1.598 katılımcı</text></svg></div><div class="src">Yerel Yönetimler (2024)</div></div>
+      <div class="card"><span class="kind">20 · Lolipop</span><h4>Enerji sorunları</h4><div class="lolli" id="lol"></div><div class="src">Yerel Yönetimler (2024)</div></div>
+      <div class="card"><span class="kind">21 · Nokta karşılaştırma (dot plot)</span><h4>“Hiç yeterli değil” ile “yeterli”</h4><div class="dotp" id="dot"></div><div class="legend"><span><i style="background:#0B1F3A;border-radius:50%"></i>Hiç yeterli değil</span><span><i style="background:#14B8C4;border-radius:50%"></i>Yeterli + çok yeterli</span></div><div class="src">Hatay Saha (2024)</div></div>
+      <div class="card"><span class="kind">22 · Halka göstergeler</span><h4>Gençlik: üç temel oran</h4><div class="rings" id="rings"></div><div class="src">Siyasi Bilinç (2024)</div></div>
+      <div class="card"><span class="kind">23 · Huni</span><h4>Anket tamamlama hunisi</h4><div class="funnel"><div style="width:100%;background:#0B1F3A"><span>Açan</span><b>1.000</b></div><div style="width:80%;background:#1E3A64"><span>Onay</span><b>640</b></div><div style="width:62%;background:#0E8C96"><span>Yarı</span><b>410</b></div><div style="width:46%;background:#14B8C4;color:#05070C"><span>Tamam</span><b>214</b></div></div><div class="src">örnek veri</div></div>
+      <div class="card"><span class="kind">24 · İlerleme çubukları + mini grafik</span><h4>İl dağılımı ve günlük eğilim</h4>
+        <div class="prog"><div class="r">İstanbul · %59,4<div><i style="width:59.4%;background:#0B1F3A"></i></div></div><div class="r">Sakarya · %18,9<div><i style="width:18.9%;background:#0E8C96"></i></div></div><div class="r">Bursa · %10,7<div><i style="width:10.7%;background:#14B8C4"></i></div></div><div class="r">Bolu · %5,1<div><i style="width:5.1%;background:#9B7FD1"></i></div></div></div>
+        <div class="spark"><i style="height:20%"></i><i style="height:35%"></i><i style="height:30%"></i><i style="height:50%"></i><i style="height:42%"></i><i style="height:64%"></i><i style="height:58%"></i><i style="height:80%"></i><i style="height:72%"></i><i style="height:100%;background:#9B7FD1"></i></div>
+        <div class="src">İl dağılımı: Yerel (2024) · eğilim: örnek veri</div></div>
+      <div class="card wide"><span class="kind">25 · Harita (il düzeyi)</span><h4>Saha çalışması yapılan iller</h4>
+        <svg viewBox="25.6 -42.4 19.6 6.9" style="width:100%;height:auto">
+          <polygon points="26,-40.1 26.6,-41 28,-41.6 29.1,-41.2 31.4,-41.2 33.3,-42 35.2,-42 36.9,-41.3 38.3,-40.9 40.1,-41 41.5,-41.5 43.4,-41.1 44.8,-39.7 44.3,-38.4 44.2,-37.2 42.3,-37.1 40.7,-37.1 38.8,-36.7 36.6,-36.9 36.2,-36 35.6,-36.6 34.6,-36.8 32.8,-36 30.6,-36.6 29.6,-36.2 28.3,-36.8 27.3,-37.4 26.3,-38.3 26.8,-39.2" fill="#F5F7FB" stroke="#3C5A85" stroke-width=".04"/>
+          <circle cx="29" cy="-41" r=".55" fill="#0B1F3A"/><circle cx="30.4" cy="-40.75" r=".33" fill="#0E8C96"/><circle cx="29.06" cy="-40.18" r=".26" fill="#14B8C4"/><circle cx="31.6" cy="-40.73" r=".17" fill="#9FE3E8"/><circle cx="36.2" cy="-36.25" r=".32" fill="#9B7FD1"/>
+          <text x="29.65" y="-41.25" font-size=".24" font-family="IBM Plex Mono" fill="#05070C">İstanbul 949</text><text x="30.8" y="-40.5" font-size=".22" font-family="IBM Plex Mono" fill="#05070C">Sakarya 302</text><text x="27.6" y="-39.7" font-size=".22" font-family="IBM Plex Mono" fill="#05070C">Bursa 171</text><text x="31.85" y="-40.95" font-size=".22" font-family="IBM Plex Mono" fill="#05070C">Bolu 82</text><text x="36.6" y="-36.2" font-size=".24" font-family="IBM Plex Mono" fill="#05070C">Hatay 288</text>
+        </svg><div class="src">Yerel Yönetimler + Hatay Saha (2024)</div></div>
+      <div class="card"><span class="kind">26 · Tablo içi çubuk</span><h4>Müracaat eğilimi</h4>
+        <table class="t tblchart"><tr><th>Yanıt</th><th></th><th style="text-align:right">%</th></tr>
+          <tr><td>Bazen ederim</td><td class="bar"><i style="width:100%"></i></td><td class="n">38,9</td></tr>
+          <tr><td>Genellikle ederim</td><td class="bar"><i style="width:55%"></i></td><td class="n">21,2</td></tr>
+          <tr><td>Kararsızım</td><td class="bar"><i style="width:53%;background:#9B7FD1"></i></td><td class="n">20,5</td></tr>
+          <tr><td>Kesinlikle etmem</td><td class="bar"><i style="width:50%;background:#0B1F3A"></i></td><td class="n">19,3</td></tr>
+        </table><div class="src">Yerel Yönetimler (2024)</div></div>
+      <div class="card wide"><span class="kind">27 · Zaman çizelgesi</span><h4>Araştırma takvimi</h4>
+        <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:0;position:relative;margin-top:14px">
+          <div style="position:absolute;left:0;right:0;top:9px;height:2px;background:#DCE3EC"></div>
+          <div style="position:relative"><i style="display:block;width:20px;height:20px;border-radius:50%;background:#05070C"></i><b class="mono" style="font-size:.64rem;color:#5A6680">06.02.2023</b><div class="small">Depremler</div></div>
+          <div style="position:relative"><i style="display:block;width:20px;height:20px;border-radius:50%;background:#14B8C4"></i><b class="mono" style="font-size:.64rem;color:#5A6680">06.02.2024</b><div class="small">Hatay raporu</div></div>
+          <div style="position:relative"><i style="display:block;width:20px;height:20px;border-radius:50%;background:#14B8C4"></i><b class="mono" style="font-size:.64rem;color:#5A6680">01.03.2024</b><div class="small">Yerel saha</div></div>
+          <div style="position:relative"><i style="display:block;width:20px;height:20px;border-radius:50%;background:#9B7FD1"></i><b class="mono" style="font-size:.64rem;color:#5A6680">30.09.2024</b><div class="small">MASK Meclis anketi</div></div>
+          <div style="position:relative"><i style="display:block;width:20px;height:20px;border-radius:50%;background:#0B1F3A"></i><b class="mono" style="font-size:.64rem;color:#5A6680">KASIM 2024</b><div class="small">İki rapor yayımlandı</div></div>
+        </div><div class="src">Raporlardaki tarihlerden</div></div>
+    </div>
+  </section>
+
+  <!-- ============ 14 MOBİL ============ -->
+  <section class="page" id="p14">
+    <div class="ph"><b>14</b><h2>Mobil görünüm</h2></div>
+    <p class="pdesc">Ana sayfa, brifing ve anket ekranlarının telefon uyarlaması: tek sütun, yapışkan katılım düğmesi, kaydırılabilir gösterge kartları.</p>
+    <div class="phones">
+      <div class="phone"><div class="scr"><div class="notch"><i></i></div>
+        <div class="cls" style="font-size:.56rem;letter-spacing:.18em">KAMUYA AÇIK · ANONİM VERİ</div>
+        <div class="nav" style="padding:10px 14px"><div class="logo"><img src="maskder-logo.png" alt="" style="width:28px;height:28px"><div><b style="font-size:.86rem">MASKDER</b></div></div><span class="btn sm gh">☰</span></div>
+        <div style="padding:14px">
+          <div class="tag">Durum raporu · Yerel</div>
+          <h1 class="sg" style="font-size:1.5rem;line-height:1.1;margin:6px 0 8px;color:var(--siy)">Kentler afete <span style="color:var(--tur2)">hazır değil.</span></h1>
+          <p class="small muted" style="margin:0 0 12px">6 ilde 1.598 yüz yüze görüşme.</p>
+          <div style="display:flex;gap:8px;overflow:hidden;margin-bottom:12px"><div class="kpi" style="min-width:140px"><span>Afet</span><b>%74,7</b></div><div class="kpi e" style="min-width:140px"><span>Güvensizlik</span><b>%67,8</b></div></div>
+          <div class="feed"><div class="it"><div class="h"><span>BRF-01 · AFET</span></div><p>Depremzedelerin <b>%65,1</b>’i arama kurtarma hızını yetersiz buldu.</p></div><div class="it e"><div class="h"><span>BRF-02 · GENÇLİK</span></div><p>Gençlerin <b>%72,6</b>’sı demokrasiyi destekliyor.</p></div></div>
+        </div>
+        <div style="position:absolute;left:12px;right:12px;bottom:14px"><span class="btn tu" style="width:100%;justify-content:center">Ankete katıl →</span></div>
+      </div></div>
+      <div class="phone"><div class="scr"><div class="notch"><i></i></div>
+        <div style="padding:14px">
+          <div class="mono small muted" style="font-size:.6rem">BRİFİNG · BRF-01</div>
+          <h1 class="sg" style="font-size:1.2rem;line-height:1.15;margin:6px 0 10px;color:var(--siy)">Hatay deprem saha araştırması</h1>
+          <div class="card e" style="padding:12px"><div class="tag e">Grafik</div><h4 style="margin:2px 0 6px;font-size:.86rem;color:var(--siy)">Karşılanmayan ihtiyaçlar</h4><div class="chartbox s"><canvas id="m_bar"></canvas></div></div>
+          <ol class="judg" style="margin:10px 0 0;padding:0"><li style="grid-template-columns:34px 1fr"><span>Arama kurtarma hızı en olumsuz boyut.</span></li><li style="grid-template-columns:34px 1fr"><span>Görevli ve gönüllüler en olumlu boyut.</span></li></ol>
+        </div>
+      </div></div>
+      <div class="phone"><div class="scr"><div class="notch"><i></i></div>
+        <div style="padding:16px">
+          <div style="display:flex;justify-content:space-between"><span class="tag">Soru 4 / 12</span><span class="mono small muted">%33</span></div>
+          <div class="stepper"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i><i></i><i></i></div>
+          <h4 class="sg" style="margin:0 0 12px;font-size:1.05rem;color:var(--siy)">Siyasi görüşleriniz en çok neyle şekillendi?</h4>
+          <div class="opt sel"><i></i>Kendi okumalarım</div><div class="opt"><i></i>Okul / üniversite</div><div class="opt"><i></i>Ailem</div><div class="opt"><i></i>Toplumsal olaylar</div>
+          <div class="anon" style="margin-top:12px">Anonim · <b>anon#7f3a</b></div>
+        </div>
+        <div style="position:absolute;left:14px;right:14px;bottom:14px;display:flex;gap:8px"><span class="btn gh" style="flex:1;justify-content:center">← Geri</span><span class="btn pr" style="flex:1;justify-content:center">İleri →</span></div>
+      </div></div>
+    </div>
+  </section>
+</div>
+
+<script>
+const C={lac:"#0B1F3A",lac2:"#1E3A64",lac3:"#3C5A85",tur:"#14B8C4",tur2:"#0E8C96",turm:"#9FE3E8",tursoft:"#E3F7F8",efl:"#9B7FD1",efl2:"#6F52A8",eflm:"#CDBDEB",cz:"#DCE3EC",cz2:"#EBEFF5",siy:"#05070C",gri:"#5A6680"};
+const PAL=[C.lac,C.tur,C.efl,C.lac3,C.tur2,C.eflm,C.turm,C.cz];
+const pct=v=>"%"+(Math.round(v*10)/10).toLocaleString("tr-TR");
+if(window.Chart){
+Chart.defaults.font.family="Inter, sans-serif";Chart.defaults.font.size=11;Chart.defaults.color=C.gri;
+Chart.defaults.plugins.legend.labels.boxWidth=10;Chart.defaults.plugins.legend.labels.boxHeight=10;
+Chart.defaults.plugins.tooltip.backgroundColor=C.lac;Chart.defaults.maintainAspectRatio=false;Chart.defaults.animation.duration=500;
+const grid={color:C.cz2},nog={display:false};
+const tipPct={callbacks:{label:c=>" "+pct(c.parsed.y??c.parsed.x??c.parsed)}};
+const valLbl={id:"vl",afterDatasetsDraw(ch){if(ch.config.type!=="bar"||ch.options.plugins.vl===false)return;const x=ch.ctx;x.save();x.font="600 10px IBM Plex Mono";x.fillStyle=C.siy;const h=ch.options.indexAxis==="y";ch.data.datasets.forEach((d,di)=>{if(ch.options.scales?.x?.stacked)return;ch.getDatasetMeta(di).data.forEach((el,i)=>{const v=d.data[i];x.textAlign=h?"left":"center";x.textBaseline=h?"middle":"bottom";x.fillText(pct(v),h?el.x+5:el.x,h?el.y:el.y-3)})});x.restore()}};
+Chart.register(valLbl);
+const hl=(vals,base=C.lac3,hi=C.tur)=>{const m=Math.max(...vals);return vals.map(v=>v===m?hi:base)};
+function mk(id,cfg){const el=document.getElementById(id);if(el)new Chart(el,cfg)}
+function hbar(id,labels,vals,o={}){mk(id,{type:"bar",data:{labels,datasets:[{data:vals,backgroundColor:o.colors||hl(vals),borderRadius:3,maxBarThickness:20}]},options:{indexAxis:"y",layout:{padding:{right:40}},plugins:{legend:{display:false},tooltip:tipPct},scales:{x:{grid,ticks:{callback:v=>"%"+v},suggestedMax:o.max},y:{grid:nog,ticks:{color:C.siy}}}}})}
+function col(id,labels,vals,o={}){mk(id,{type:"bar",data:{labels,datasets:[{data:vals,backgroundColor:o.colors||hl(vals),borderRadius:4,maxBarThickness:46}]},options:{layout:{padding:{top:16}},plugins:{legend:{display:false},tooltip:tipPct},scales:{y:{grid,ticks:{callback:v=>"%"+v},suggestedMax:o.max},x:{grid:nog,ticks:{color:C.siy}}}}})}
+function donut(id,labels,vals,type="doughnut",colors){mk(id,{type,data:{labels,datasets:[{data:vals,backgroundColor:colors||PAL,borderColor:"#fff",borderWidth:2}]},options:{cutout:type==="doughnut"?"62%":0,plugins:{legend:{position:"right"},tooltip:{callbacks:{label:c=>" "+c.label+": "+pct(c.parsed)}}}}})}
+
+donut("c_home_donut",["Kesinlikle yetersiz","Yetersiz","Emin değilim","Yeterli","Kesinlikle yeterli"],[41.1,33.61,16.07,7.43,1.73],"doughnut",[C.lac,C.lac3,C.cz,C.turm,C.tur]);
+hbar("c_il",["İstanbul","Sakarya","Bursa","Bolu","Diğer"],[59.4,18.9,10.7,5.1,5.9],{colors:[C.lac,C.tur2,C.tur,C.efl,C.cz]});
+col("c_yas",["18-24","25-34","35-44","45-54","55-64","65+"],[32.9,22,16.8,13.9,7.4,6.3],{colors:[C.efl2,C.efl,C.efl,C.eflm,C.eflm,C.eflm]});
+hbar("c_sorun",["Sığınmacılar ve göçmenler","Afet önlemleri yetersiz","Çarpık kentleşme","Ulaşım","Temel ihtiyaç pahalılığı","Çevre kirliliği","Güvenlik","Kültür-sanat"],[18.6,17.96,16.1,14.37,11.61,9.36,3.4,2.95]);
+const L5=[C.lac,C.lac3,C.cz,C.turm,C.tur];
+const likertRows={"Afet hazırlığı":[41.1,33.61,16.07,7.43,1.73],"Sivil katılım":[25.78,38.1,24.83,9.14,2.18],"Altyapı":[12.72,23.99,38.29,20.89,4.11],"Yöneticiler":[32.46,16.07,17.92,26.08,7.46]};
+mk("c_stack",{type:"bar",data:{labels:Object.keys(likertRows),datasets:["Çok yetersiz","Yetersiz","Kararsız / kısmen","Yeterli","Çok yeterli"].map((l,i)=>({label:l,data:Object.values(likertRows).map(r=>r[i]),backgroundColor:L5[i]}))},options:{indexAxis:"y",plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>" "+c.dataset.label+": "+pct(c.parsed.x)}}},scales:{x:{stacked:true,max:100,grid,ticks:{callback:v=>"%"+v}},y:{stacked:true,grid:nog,ticks:{color:C.siy}}}}});
+const dims=["Hız","İletişim","Koordinasyon","Önlemler","İhtiyaçlar","Görevli/gönüllü"];
+const neg=[65.12,54.68,48.12,42.8,42.65,24.26],posv=[14.92,19.53,22.93,33.95,28.68,52.94];
+mk("c_grouped",{type:"bar",data:{labels:dims,datasets:[{label:"Hiç yeterli değil",data:neg,backgroundColor:C.lac,borderRadius:3},{label:"Yeterli + çok yeterli",data:posv,backgroundColor:C.tur,borderRadius:3}]},options:{plugins:{vl:false,legend:{position:"bottom"},tooltip:{callbacks:{label:c=>" "+c.dataset.label+": "+pct(c.parsed.y)}}},scales:{y:{grid,ticks:{callback:v=>"%"+v}},x:{grid:nog,ticks:{color:C.siy}}}}});
+hbar("c_ihtiyac",["Çadır","Battaniye / giysi","Diğer","İlaç","Su","Yiyecek"],[40,22.67,20.89,6.67,6.22,3.56],{colors:[C.efl2,C.eflm,C.eflm,C.eflm,C.eflm,C.eflm]});
+hbar("c_prev",["Çadır","Battaniye / giysi","Diğer","İlaç"],[40,22.67,20.89,6.67],{colors:[C.efl2,C.eflm,C.eflm,C.eflm]});
+hbar("m_bar",["Çadır","Battaniye","Diğer","İlaç"],[40,22.67,20.89,6.67],{colors:[C.efl2,C.eflm,C.eflm,C.eflm]});
+const radarL=["Demokrasi","Çevre koruma","İşçi hakları","Özel mülkiyet","Vatanseverlik","Seferberlik"],radarV=[72.6,88.3,91.8,87.0,90.4,85.6];
+const radarCfg={type:"radar",data:{labels:radarL,datasets:[{label:"Destek / önemli",data:radarV,borderColor:C.efl2,backgroundColor:"rgba(155,127,209,.22)",pointBackgroundColor:C.efl2,borderWidth:2}]},options:{plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>" "+pct(c.parsed.r)}}},scales:{r:{min:50,max:100,ticks:{stepSize:10,backdropColor:"transparent",callback:v=>"%"+v},grid:{color:C.cz},angleLines:{color:C.cz},pointLabels:{color:C.siy,font:{size:11}}}}}};
+mk("c_radar",radarCfg);mk("g_radar",JSON.parse(JSON.stringify(radarCfg)));
+const ageL=["18-24","25-34","35-44","45-54","55-64","65+"];
+const lineCfg=(fill)=>({type:"line",data:{labels:ageL,datasets:[{label:"Yerel (1.598)",data:[32.9,22,16.8,13.9,7.4,6.3],borderColor:C.tur2,backgroundColor:"rgba(20,184,196,.15)",fill,tension:.35,pointRadius:3},{label:"Hatay (288)",data:[14.93,21.18,23.26,16.67,15.63,8.33],borderColor:C.efl2,backgroundColor:"rgba(155,127,209,.15)",fill,tension:.35,pointRadius:3}]},options:{plugins:{legend:{position:"bottom"},tooltip:{callbacks:{label:c=>" "+c.dataset.label+": "+pct(c.parsed.y)}}},scales:{y:{grid,ticks:{callback:v=>"%"+v}},x:{grid:nog}}}});
+mk("c_line",lineCfg(false));mk("g_line",lineCfg(false));
+const days=["7","8","9","10","11","12","13","14","15","16","17","18","19","20"],dv=[8,12,9,15,14,18,16,22,19,25,21,28,26,31];
+const areaCfg={type:"line",data:{labels:days,datasets:[{data:dv,borderColor:C.tur2,backgroundColor:"rgba(20,184,196,.2)",fill:true,tension:.4,pointRadius:0,borderWidth:2}]},options:{plugins:{legend:{display:false}},scales:{y:{grid,beginAtZero:true},x:{grid:nog}}}};
+mk("c_area",areaCfg);mk("g_area",JSON.parse(JSON.stringify(areaCfg)));
+const bina=[6.43,10.36,17.14,66.07],cum=[6.43,16.79,33.93,100];
+const mixCfg={data:{labels:["1-5 yıl","5-10 yıl","10-20 yıl","20+ yıl"],datasets:[{type:"bar",label:"Oran",data:bina,backgroundColor:[C.cz,C.turm,C.tur,C.lac],borderRadius:4,maxBarThickness:46},{type:"line",label:"Birikimli",data:cum,borderColor:C.efl2,backgroundColor:C.efl2,pointRadius:4,tension:.2}]},options:{layout:{padding:{top:16}},plugins:{vl:false,legend:{position:"bottom"},tooltip:{callbacks:{label:c=>" "+c.dataset.label+": "+pct(c.parsed.y)}}},scales:{y:{grid,max:110,ticks:{callback:v=>v<=100?"%"+v:""}},x:{grid:nog}}}};
+mk("c_mixed",mixCfg);mk("g_mixed",JSON.parse(JSON.stringify(mixCfg)));
+hbar("g_hbar",["İl / ilçe belediyesi","Cumhurbaşkanlığı","Bakanlıklar","TBMM","Valilik","STK’lar","Kaymakamlık"],[41.99,24.79,10.45,7.46,7.2,4.35,3.76]);
+col("g_col",["Evet","Hayır","Emin değilim"],[18.65,42.45,38.9],{colors:[C.tur,C.lac,C.efl]});
+donut("g_donut",["İnternet","Telefon","Yüz yüze","Beyaz masa","Tanıdık"],[36.23,30.37,13.64,11.13,8.63],"doughnut",[C.tur,C.lac,C.efl,C.lac3,C.eflm]);
+donut("g_pie",["Kesinlikle evet","Evet","Kararsızım","Hayır","Kesinlikle hayır"],[32.9,39.7,17.8,6.8,2.7],"pie",[C.tur2,C.tur,C.cz,C.efl,C.efl2]);
+mk("g_grouped",{type:"bar",data:{labels:["Hız","İletişim","Koord.","Önlem","İhtiyaç","Gönüllü"],datasets:[{label:"Hiç yeterli değil",data:neg,backgroundColor:C.lac,borderRadius:3},{label:"Yeterli",data:posv,backgroundColor:C.tur,borderRadius:3}]},options:{plugins:{vl:false,legend:{position:"bottom"}},scales:{y:{grid,ticks:{callback:v=>"%"+v}},x:{grid:nog}}}});
+mk("g_stack100",{type:"bar",data:{labels:["İhtiyaç karşılama","Doğru yönlendirme"],datasets:[{label:"Evet",data:[22.22,22.22],backgroundColor:C.tur},{label:"Kısmen",data:[28.67,17.56],backgroundColor:C.eflm},{label:"Hayır",data:[49.1,60.22],backgroundColor:C.lac}]},options:{indexAxis:"y",plugins:{legend:{position:"bottom"},tooltip:{callbacks:{label:c=>" "+c.dataset.label+": "+pct(c.parsed.x)}}},scales:{x:{stacked:true,max:100,grid,ticks:{callback:v=>"%"+v}},y:{stacked:true,grid:nog,ticks:{color:C.siy}}}}});
+donut("g_polar",["Yüksek maliyet","Sık kesinti","Yetersiz bağlantı","Altyapı","Diğer","Düşük voltaj"],[28.94,19.21,17.14,15.25,10.11,9.35],"polarArea",["rgba(11,31,58,.85)","rgba(20,184,196,.8)","rgba(155,127,209,.8)","rgba(60,90,133,.8)","rgba(205,189,235,.9)","rgba(159,227,232,.9)"]);
+mk("g_scatter",{type:"scatter",data:{datasets:[{label:"Konu",data:[{x:18.6,y:22},{x:18,y:9},{x:16.1,y:18},{x:14.4,y:30},{x:11.6,y:26},{x:9.4,y:35},{x:3.4,y:48},{x:3,y:40}],backgroundColor:C.tur,pointRadius:6,borderColor:C.tur2}]},options:{plugins:{legend:{display:false}},scales:{x:{grid,title:{display:true,text:"Sorun önemi (%)"}},y:{grid,title:{display:true,text:"Memnuniyet (%)"}}}}});
+mk("g_bubble",{type:"bubble",data:{datasets:[{label:"Yerel",data:[{x:1598,y:40,r:18}],backgroundColor:"rgba(20,184,196,.6)",borderColor:C.tur2},{label:"Hatay",data:[{x:288,y:30,r:8}],backgroundColor:"rgba(155,127,209,.6)",borderColor:C.efl2},{label:"Gençlik",data:[{x:600,y:35,r:6}],backgroundColor:"rgba(11,31,58,.55)",borderColor:C.lac}]},options:{plugins:{legend:{position:"bottom"}},scales:{x:{grid,title:{display:true,text:"Katılımcı"}},y:{grid,title:{display:true,text:"Soru sayısı"},min:20,max:50}}}});
+}
+
+/* özel grafikler */
+const heatData={rows:["Hız","İletişim","Görevli/gönüllü","Önlemler","Koordinasyon","İhtiyaçlar"],cols:["Hiç yeterli değil","Biraz yeterli","Nötr","Yeterli","Çok yeterli"],v:[[65.12,15.66,4.27,9.96,4.96],[54.68,13.31,11.87,12.23,7.3],[24.26,8.82,13.97,23.9,29.04],[42.8,11.44,11.81,19.56,14.39],[48.12,16.54,12.41,12.78,10.15],[42.65,16.54,12.13,20.96,7.72]]};
+function heatColor(v){if(v>=50)return["#0B1F3A","#fff"];if(v>=35)return["#1E3A64","#fff"];if(v>=20)return["#0E8C96","#fff"];if(v>=12)return["#14B8C4","#05070C"];if(v>=8)return["#9FE3E8","#05070C"];return["#E3F7F8","#05070C"]}
+["heat1","heat2"].forEach(id=>{const el=document.getElementById(id);if(!el)return;let h='<div class="hh"></div>'+heatData.cols.map(c=>'<div class="hh">'+c+'</div>').join("");heatData.rows.forEach((r,i)=>{h+='<div class="rh">'+r+'</div>'+heatData.v[i].map(v=>{const[b,f]=heatColor(v);return'<div style="background:'+b+';color:'+f+'">'+(Math.round(v*10)/10).toLocaleString("tr-TR")+'</div>'}).join("")});el.innerHTML=h});
+(function(){const el=document.getElementById("div1");if(!el)return;const rows={"Afet hazırlığı":[41.1,33.61,16.07,7.43,1.73],"Sivil katılım":[25.78,38.1,24.83,9.14,2.18],"Altyapı":[12.72,23.99,38.29,20.89,4.11],"Yöneticiler":[32.46,16.07,17.92,26.08,7.46]};const cs=["#0B1F3A","#3C5A85","#DCE3EC","#9FE3E8","#14B8C4"];let h="";for(const[k,r]of Object.entries(rows)){const left=r[0]+r[1]+r[2]/2;const S=.55,off=50-left*S;h+='<div class="row"><span>'+k+'</span><div class="trk"><span style="width:'+off+'%"></span>'+r.map((v,i)=>'<span title="'+v+'" style="width:'+(v*S)+'%;background:'+cs[i]+'"></span>').join("")+'</div></div>'}h+='<div class="row"><span></span><div style="display:flex;justify-content:space-between;font-size:.6rem;color:#5A6680" class="mono"><span>← olumsuz</span><span>|</span><span>olumlu →</span></div></div>';el.innerHTML=h})();
+(function(){const el=document.getElementById("waf");if(!el)return;let h="";for(let i=0;i<100;i++)h+='<i class="'+(i<19?"a":i<58?"b":"c")+'"></i>';el.innerHTML=h})();
+(function(){const el=document.getElementById("ppl");if(!el)return;const s=(c)=>'<svg viewBox="0 0 20 34"><circle cx="10" cy="6" r="5" fill="'+c+'"/><path d="M2 32 V18 a8 8 0 0 1 16 0 V32 z" fill="'+c+'"/></svg>';let h="";for(let i=0;i<10;i++)h+=s(i<4?"#6F52A8":"#DCE3EC");el.innerHTML=h})();
+(function(){const el=document.getElementById("lol");if(!el)return;const d=[["Yüksek maliyet",28.94],["Sık kesinti",19.21],["Yetersiz bağlantı",17.14],["Altyapı",15.25],["Diğer",10.11],["Düşük voltaj",9.35]];el.innerHTML=d.map(([l,v])=>'<div class="r"><span>'+l+'</span><div class="ln"><i style="width:'+(v/30*100)+'%"></i><b style="left:'+(v/30*100)+'%"></b></div><span class="mono">'+v.toLocaleString("tr-TR")+'</span></div>').join("")})();
+(function(){const el=document.getElementById("dot");if(!el)return;const d=[["Hız",65.12,14.92],["İletişim",54.68,19.53],["Koordinasyon",48.12,22.93],["Önlemler",42.8,33.95],["İhtiyaçlar",42.65,28.68],["Görevli",24.26,52.94]];el.innerHTML=d.map(([l,a,b])=>'<div class="r"><span>'+l+'</span><div class="ax"><i style="left:'+(Math.min(a,b)/70*100)+'%;width:'+(Math.abs(a-b)/70*100)+'%;height:2px;top:6px;border-radius:0;margin:0;background:#CDBDEB"></i><i style="left:'+(a/70*100)+'%;background:#0B1F3A"></i><i style="left:'+(b/70*100)+'%;background:#14B8C4"></i></div></div>').join("")})();
+(function(){const el=document.getElementById("rings");if(!el)return;const d=[["Kendi okuması",74,"#14B8C4"],["Demokrasi",72.6,"#9B7FD1"],["Güvensizlik",67.8,"#0B1F3A"]];el.innerHTML=d.map(([l,v,c])=>'<figure><svg viewBox="0 0 36 36"><circle cx="18" cy="18" r="15.9" fill="none" stroke="#EBEFF5" stroke-width="3.5"/><circle cx="18" cy="18" r="15.9" fill="none" stroke="'+c+'" stroke-width="3.5" stroke-dasharray="'+v+' 100" transform="rotate(-90 18 18)" stroke-linecap="round"/><text x="18" y="20.5" text-anchor="middle" font-size="7" font-weight="700" font-family="Space Grotesk" fill="#05070C">%'+String(v).replace(".",",")+'</text></svg><figcaption>'+l+'</figcaption></figure>').join("")})();
+</script>
+</body>
+</html>
