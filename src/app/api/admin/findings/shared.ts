@@ -13,6 +13,7 @@ export function findingData(b: Record<string, unknown>) {
     summary: str(b.summary, 1200),
     body: str(b.body, 20000),
     categoryId: idOrNull(b.categoryId),
+    coverId: idOrNull(b.coverId),
     sourceTitle: str(b.sourceTitle, 300),
     sourceUrl: url,
     sourceSeries: str(b.sourceSeries, 200),

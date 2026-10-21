@@ -18,6 +18,8 @@ export const CHART_KINDS = {
 export type FindingChartKind = keyof typeof CHART_KINDS;
 export type FindingChart = { title: string; question: string; kind: FindingChartKind; items: { label: string; value: number }[]; insight: string };
 export type FindingStat = { value: string; label: string };
+/** Görsel: adres, açıklama ve künye (fotoğrafçı · lisans · kaynak) */
+export type PublicImage = { src: string; alt: string; credit: string; sourceUrl: string };
 
 export type PublicFinding = {
   id: string;
@@ -26,6 +28,7 @@ export type PublicFinding = {
   summary: string;
   body: string;
   category: { name: string; slug: string; icon: string } | null;
+  cover: PublicImage | null;
   sourceTitle: string;
   sourceUrl: string;
   sourceSeries: string;

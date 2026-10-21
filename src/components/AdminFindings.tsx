@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { api, useToast } from "./ui";
 import { Icon } from "./icons";
-import { MarkdownEditor } from "./Editor";
+import { ImageField, MarkdownEditor } from "./Editor";
 import { FindingChartCard } from "./FindingCharts";
 import { CHART_KINDS, parseCharts, type FindingChart, type FindingChartKind, type FindingStat } from "@/lib/findings";
 
@@ -15,6 +15,7 @@ export type FindingEdit = {
   summary: string;
   body: string;
   categoryId: string | null;
+  coverId: string | null;
   sourceTitle: string;
   sourceUrl: string;
   sourceSeries: string;
@@ -110,6 +111,7 @@ export function FindingEditor({ f, categories }: { f: FindingEdit; categories: {
           Kısa özet (kartlarda ve sayfa başında görünür)
           <textarea name="summary" rows={3} defaultValue={f.summary} />
         </label>
+        <ImageField name="coverId" label="Görsel (manşet bandında ve kartlarda; boşsa araştırma alanının görseli kullanılır)" value={f.coverId} />
         <div className="grid g3">
           <label className="f">
             Araştırma alanı

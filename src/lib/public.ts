@@ -4,7 +4,13 @@ import { isOpenNow, estMinutes, numericQ } from "./survey";
 import type { Question } from "./types";
 import type { ReportSnapshot } from "./report/types";
 import type { Prisma } from "@prisma/client";
-import { parseCharts, parseStats, type PublicFinding } from "./findings";
+import { parseCharts, parseStats, type PublicFinding, type PublicImage } from "./findings";
+
+/** Görsel künyesi: yalnızca adres, açıklama ve fotoğraf künyesi döner */
+const IMG = { id: true, alt: true, credit: true, sourceUrl: true } as const;
+type ImgRow = { id: string; alt: string; credit: string; sourceUrl: string } | null;
+export const toImage = (m: ImgRow): PublicImage | null => (m ? { src: `/medya/${m.id}`, alt: m.alt, credit: m.credit, sourceUrl: m.sourceUrl } : null);
+const FINDING_INCLUDE = { category: { select: { name: true, slug: true, icon: true, cover: { select: IMG } } }, cover: { select: IMG } } as const;
 
 /** Herkese açık sayfalarda kullanılan sorgular. Yalnızca toplu (anonim) veri döner; tek tek yanıtlar asla dönmez. */
 
@@ -17,7 +23,7 @@ export type PublicSurveyCard = {
   slug: string;
   title: string;
   description: string;
-  category: { name: string; slug: string } | null;
+  category: { name: string; slug: string; cover: PublicImage | null } | null;
   minutes: number;
   questions: number;
   open: boolean;
@@ -39,7 +45,7 @@ export async function publicSurveys(opts: { categorySlug?: string; take?: number
     where: { isPlatform: true, status: { not: "draft" }, ...(opts.categorySlug ? { category: { slug: opts.categorySlug } } : {}) },
     orderBy: { updatedAt: "desc" },
     take: opts.take,
-    include: { category: { select: { name: true, slug: true } }, _count: { select: { responses: true } } },
+    include: { category: { select: { name: true, slug: true, cover: { select: IMG } } }, _count: { select: { responses: true } } },
   });
   return rows.map((s) => {
     const qs = (s.questions as unknown as Question[]) || [];
@@ -48,7 +54,7 @@ export async function publicSurveys(opts: { categorySlug?: string; take?: number
       slug: s.slug,
       title: s.title,
       description: s.description,
-      category: s.category,
+      category: s.category ? { name: s.category.name, slug: s.category.slug, cover: toImage(s.category.cover) } : null,
       minutes: estMinutes(qs),
       questions: qs.length,
       open: isOpenNow(s),
@@ -158,24 +164,25 @@ export async function publishedFindings(opts: { categorySlug?: string; featured?
     where: { published: true, ...(opts.featured ? { featured: true } : {}), ...(opts.categorySlug ? { category: { slug: opts.categorySlug } } : {}) },
     orderBy: [{ sortOrder: "asc" }, { createdAt: "asc" }],
     take: opts.take,
-    include: { category: { select: { name: true, slug: true, icon: true } } },
+    include: FINDING_INCLUDE,
   });
   return rows.map(toPublicFinding);
 }
 
 export async function findingBySlug(slug: string): Promise<PublicFinding | null> {
-  const f = await prisma.finding.findUnique({ where: { slug }, include: { category: { select: { name: true, slug: true, icon: true } } } });
+  const f = await prisma.finding.findUnique({ where: { slug }, include: FINDING_INCLUDE });
   return f && f.published ? toPublicFinding(f) : null;
 }
 
-function toPublicFinding(f: Prisma.FindingGetPayload<{ include: { category: { select: { name: true; slug: true; icon: true } } } }>): PublicFinding {
+function toPublicFinding(f: Prisma.FindingGetPayload<{ include: typeof FINDING_INCLUDE }>): PublicFinding {
   return {
     id: f.id,
     slug: f.slug,
     title: f.title,
     summary: f.summary,
     body: f.body,
-    category: f.category,
+    category: f.category ? { name: f.category.name, slug: f.category.slug, icon: f.category.icon } : null,
+    cover: toImage(f.cover) || toImage(f.category?.cover ?? null),
     sourceTitle: f.sourceTitle,
     sourceUrl: f.sourceUrl,
     sourceSeries: f.sourceSeries,
@@ -186,4 +193,10 @@ function toPublicFinding(f: Prisma.FindingGetPayload<{ include: { category: { se
     charts: parseCharts(f.charts),
     featured: f.featured,
   };
+}
+
+/** Medya kimliğinden görsel künyesi (ana sayfa ayarları vb. için) */
+export async function imageById(id: string | null | undefined): Promise<PublicImage | null> {
+  if (!id) return null;
+  return toImage(await prisma.media.findUnique({ where: { id }, select: IMG }));
 }

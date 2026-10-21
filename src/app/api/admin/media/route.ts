@@ -21,7 +21,7 @@ export async function GET(req: Request) {
     where: kind === "gorsel" ? { mime: { startsWith: "image/" } } : kind === "pdf" ? { mime: "application/pdf" } : {},
     orderBy: { createdAt: "desc" },
     take: 300,
-    select: { id: true, filename: true, mime: true, size: true, width: true, height: true, alt: true, createdAt: true },
+    select: { id: true, filename: true, mime: true, size: true, width: true, height: true, alt: true, credit: true, createdAt: true },
   });
   return ok({ items: rows.map((m) => ({ ...m, url: `/medya/${m.id}`, createdAt: m.createdAt.getTime() })) });
 }

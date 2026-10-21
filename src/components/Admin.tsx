@@ -172,7 +172,7 @@ export function HomeForm({ home, platformSurveys }: { home: HomeContent; platfor
         e.preventDefault();
         const fd = new FormData(e.currentTarget);
         try {
-          await api("/api/admin/home", "PUT", { heroTitle: fd.get("heroTitle"), heroText: fd.get("heroText"), announcement: fd.get("announcement"), heroImageId: fd.get("heroImageId"), featured, hidden });
+          await api("/api/admin/home", "PUT", { heroTitle: fd.get("heroTitle"), heroText: fd.get("heroText"), announcement: fd.get("announcement"), heroImageId: fd.get("heroImageId"), slideImageId: fd.get("slideImageId"), featured, hidden });
           toast("Ana sayfa güncellendi.");
           router.refresh();
         } catch (err) {
@@ -192,7 +192,8 @@ export function HomeForm({ home, platformSurveys }: { home: HomeContent; platfor
         Duyuru (boş bırakılırsa gösterilmez)
         <input type="text" name="announcement" defaultValue={home.announcement} />
       </label>
-      <ImageField name="heroImageId" label="Açılış alanı görseli (isteğe bağlı; boşsa platform özeti gösterilir)" value={home.heroImageId || null} />
+      <ImageField name="heroImageId" label="Açılış alanı görseli (isteğe bağlı; boşsa saha haritası gösterilir)" value={home.heroImageId || null} />
+      <ImageField name="slideImageId" label="Manşet bandı tanıtım haberi görseli (diğer haberlerde rapor veya araştırma alanı görseli kullanılır)" value={home.slideImageId || null} />
       <div className="stack" style={{ gap: 6 }}>
         <span className="eyebrow">Ana sayfa bölümleri</span>
         <div className="row" style={{ gap: 8 }}>

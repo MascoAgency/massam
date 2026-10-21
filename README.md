@@ -146,3 +146,10 @@ Yönetim → **Rapor verileri** sekmesinden yayımlanmış MASKDER raporlarında
 - Rapor verisi grafik türleri: yatay çubuk, sütun, halka, kutupsal alan, radar, çizgi, alan, ıraksak ölçek, ağaç haritası, waffle, lolipop, gösterge, insan simgesi.
 - Saha haritasındaki iller `src/components/FieldMap.tsx` içindeki `FIELD_SITES` listesinden gelir.
 - Başlangıç verilerindeki grafik değişikliklerini, panelden düzenlenmemiş kayıtlara uygulamak için: `npx tsx prisma/sync-findings.ts`.
+
+## Slider görselleri ve künyeler
+
+- Manşet ve aktif araştırmalar bantlarındaki slaytlar fotoğraflıdır: rapor verisinin kendi görseli, yoksa araştırma alanının görseli kullanılır; tanıtım haberinin görseli Yönetim → Site içeriği → “Manşet bandı tanıtım haberi görseli” alanından seçilir.
+- Alan görseli: Yönetim → Araştırma alanları; rapor verisi görseli: Yönetim → Rapor verileri.
+- Fotoğraf künyeleri (fotoğrafçı · lisans · kaynak) medya kütüphanesinde düzenlenir ve `/gorsel-kunyeleri` sayfasında listelenir.
+- Başlangıç fotoğrafları Wikimedia Commons'taki serbest lisanslı görsellerdir: `npx tsx prisma/import-photos.ts` yalnızca boş görsel alanlarını doldurur.

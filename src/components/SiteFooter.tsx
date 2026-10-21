@@ -42,6 +42,7 @@ export async function SiteFooter() {
           <Link href="/kvkk">Gizlilik ve kişisel verilerin korunması</Link>
           <Link href="/cerez-politikasi">Çerez politikası</Link>
           <Link href="/kullanim-kosullari">Kullanım koşulları</Link>
+          <Link href="/gorsel-kunyeleri">Görsel künyeleri</Link>
           {pages.map((p) => (
             <Link key={p.slug} href={`/sayfa/${p.slug}`}>
               {p.title}

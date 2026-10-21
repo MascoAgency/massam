@@ -129,6 +129,7 @@ export interface HomeContent {
   announcement: string;
   featured: string[];
   heroImageId?: string | null; // açılış alanında gösterilecek görsel
+  slideImageId?: string | null; // manşet bandındaki tanıtım haberinin görseli
   hidden?: HomeSection[]; // gizlenen ana sayfa bölümleri
 }
 

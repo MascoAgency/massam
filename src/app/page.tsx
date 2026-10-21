@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { prisma } from "@/lib/db";
 import { getHome } from "@/lib/site";
-import { activeCategories, publicSurveys, publishedResults, highlightQuestions, publishedNews, publishedFindings } from "@/lib/public";
+import { activeCategories, publicSurveys, publishedResults, highlightQuestions, publishedNews, publishedFindings, imageById } from "@/lib/public";
 import { PUBLICATION_TYPES } from "@/lib/defaults";
 import { fmtDate, fmtN } from "@/lib/format";
 import { Icon } from "@/components/icons";
@@ -39,6 +39,7 @@ export default async function Home() {
   const findings = allFindings.some((f) => f.featured) ? allFindings.filter((f) => f.featured) : allFindings;
   const show = (k: HomeSection) => !(h.hidden || []).includes(k);
   const news = featuredNews.length ? featuredNews : latestNews.slice(0, 3);
+  const introImg = await imageById(h.slideImageId);
   const heroImg = h.heroImageId ? await prisma.media.findUnique({ where: { id: h.heroImageId }, select: { id: true, alt: true } }) : null;
   const open = surveys.filter((s) => s.open);
   const soon = surveys.filter((s) => !s.open && s.statusLabel === "Yakında");
@@ -89,6 +90,7 @@ export default async function Home() {
       value: null,
       href: "/hakkimizda",
       source: "Milli, Adalet, Siyaset ve Strateji Araştırmaları Merkezi",
+      image: introImg,
       tone: "n",
     },
   ];
@@ -105,9 +107,10 @@ export default async function Home() {
         key: x.f.id + k,
         kicker: `${x.f.category?.name || "Rapor verisi"} · ${x.c.title}`,
         title,
-        text: m && m[1].length > 30 ? m[2] : x.c.question,
+        text: m && m[1].length > 30 ? m[2].charAt(0).toLocaleUpperCase("tr-TR") + m[2].slice(1) : x.c.question,
         value: pm ? parseFloat(pm[1].replace(",", ".")) : null,
         href: `/bulgular/${x.f.slug}`,
+        image: x.f.cover,
         source: `Kaynak: MASKDER, ${x.f.sourceTitle}${x.f.sourceYear ? ` (${x.f.sourceYear})` : ""}`,
         tone: x.tone,
       });
@@ -124,6 +127,7 @@ export default async function Home() {
       value: null,
       stat: { big: `~${x.minutes} dk`, small: `${x.questions} soru · anonim` },
       href: `/anketler/${x.slug}`,
+      image: x.category?.cover || null,
       cta: "Ankete katıl",
       source: x.endsAt ? `Son katılım: ${fmtDate(x.endsAt)}` : "Katılıma açık · hesap gerekmez",
       tone: (["t", "e", "n"] as const)[k % 3],
