@@ -971,30 +971,3 @@ a.card:hover,.desk:hover,a.feature:hover,.feed a.it:hover{transform:translateY(-
 .auth-side .auth-brand img{background:transparent;box-shadow:none}
 .take-head .eyebrow img{border-radius:50%}
 .news-ph img{opacity:1}
-
-/* fotoğraflı manşet slaytları */
-.hl-slide.has-img{grid-template-columns:minmax(0,1fr) minmax(0,46%);padding:0;gap:0;align-items:stretch;min-height:320px}
-.hl-slide.has-img .hl-copy{padding:26px 28px 18px 30px;justify-content:center}
-.hl-slide.has-img::before{top:0;bottom:0}
-.hl-photo{position:relative;overflow:hidden;background:var(--navy)}
-.hl-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transform:scale(1.04);transition:transform 6s ease-out}
-.hl-slide:hover .hl-img,.hl-slide[aria-hidden="false"] .hl-img{transform:scale(1)}
-.hl-photo::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(11,31,58,.38) 0%,rgba(11,31,58,0) 32%),linear-gradient(0deg,rgba(5,7,12,.55) 0%,rgba(5,7,12,0) 34%);pointer-events:none}
-.hl-chip{position:absolute;left:16px;bottom:16px;z-index:2;background:var(--surface);border-radius:12px;padding:6px;box-shadow:0 10px 30px -12px rgba(0,0,0,.6)}
-.hl-chip svg{width:92px;height:92px;display:block}
-.hl-chip .hl-stat{width:auto;height:auto;border-radius:8px;box-shadow:none;padding:10px 14px;align-items:flex-start}
-.hl-chip .hl-stat b{font-size:1.5rem}
-.hl-chip:empty{display:none}
-.hl-chip-plain{display:contents}
-.hl-credit{position:absolute;right:10px;bottom:8px;z-index:2;max-width:70%;font-size:.6rem;line-height:1.3;color:rgba(255,255,255,.85);text-align:right;text-shadow:0 1px 2px rgba(0,0,0,.6)}
-.headlines.live .hl-slide.has-img{min-height:280px}
-@media (max-width:700px){.hl-slide.has-img{grid-template-columns:1fr;grid-template-rows:180px auto}.hl-slide.has-img .hl-photo{order:-1;display:block}.hl-slide.has-img .hl-copy{padding:18px 20px 14px}.hl-chip svg{width:70px;height:70px}}
-@media (prefers-reduced-motion:reduce){.hl-img{transition:none;transform:none}}
-.credit-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,260px),1fr));gap:14px}
-.credit-card{padding:0;overflow:hidden;margin:0}
-.credit-card img{width:100%;aspect-ratio:16/10;object-fit:cover;display:block}
-.credit-card figcaption{padding:12px 14px}
-.finding-card .fc-img{margin:-22px -22px 4px;aspect-ratio:16/8;overflow:hidden;position:relative;border-radius:var(--r) var(--r) 0 0}
-.finding-card .fc-img img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .4s}
-.finding-card:hover .fc-img img{transform:scale(1.04)}
-.finding-card .fc-img span{position:absolute;right:8px;bottom:6px;font-size:.58rem;color:rgba(255,255,255,.9);text-shadow:0 1px 2px rgba(0,0,0,.7);max-width:80%;text-align:right}

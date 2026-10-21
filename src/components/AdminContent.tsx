@@ -41,7 +41,7 @@ function useSave() {
 }
 
 // ---------- Araştırma alanları ----------
-type Cat = { id: string; name: string; description: string; icon: string; topics: string[]; active: boolean; surveys: number; coverId: string | null };
+type Cat = { id: string; name: string; description: string; icon: string; topics: string[]; active: boolean; surveys: number };
 
 export function CategoriesManager({ categories }: { categories: Cat[] }) {
   const save = useSave();
@@ -92,7 +92,7 @@ export function CategoriesManager({ categories }: { categories: Cat[] }) {
             onSubmit={async (e) => {
               e.preventDefault();
               const fd = new FormData(e.currentTarget);
-              const body = { name: fd.get("name"), description: fd.get("description"), icon: fd.get("icon"), topics: String(fd.get("topics") || ""), coverId: fd.get("coverId") || null, active: fd.get("active") === "on" };
+              const body = { name: fd.get("name"), description: fd.get("description"), icon: fd.get("icon"), topics: String(fd.get("topics") || ""), active: fd.get("active") === "on" };
               const ok = edit === "new" ? await save("/api/admin/categories", "POST", body, "Alan eklendi.") : await save(`/api/admin/categories/${edit.id}`, "PATCH", body, "Alan güncellendi.");
               if (ok) setEdit(null);
             }}
@@ -109,7 +109,6 @@ export function CategoriesManager({ categories }: { categories: Cat[] }) {
               Konular (her satıra bir konu)
               <textarea name="topics" rows={5} defaultValue={edit === "new" ? "" : edit.topics.join("\n")} />
             </label>
-            <ImageField name="coverId" label="Alan görseli (manşet ve aktif araştırma bantlarında bu alana ait slaytlarda kullanılır)" value={edit === "new" ? null : edit.coverId} />
             <div className="grid g2">
               <label className="f">
                 İkon

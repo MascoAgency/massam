@@ -13,7 +13,6 @@ export async function PUT(req: Request) {
     announcement: String(b.announcement || "").trim().slice(0, 300),
     featured: Array.isArray(b.featured) ? b.featured.map(String).slice(0, 30) : [],
     heroImageId: typeof b.heroImageId === "string" && /^[a-z0-9]{10,40}$/.test(b.heroImageId) ? b.heroImageId : null,
-    slideImageId: typeof b.slideImageId === "string" && /^[a-z0-9]{10,40}$/.test(b.slideImageId) ? b.slideImageId : null,
     hidden: Array.isArray(b.hidden) ? (b.hidden.filter((x) => x in HOME_SECTIONS) as HomeSection[]) : [],
   };
   await prisma.siteSetting.upsert({ where: { key: "home" }, update: { value: value as object }, create: { key: "home", value: value as object } });

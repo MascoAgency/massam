@@ -4,7 +4,7 @@ import { Modal, useToast } from "./ui";
 import { Icon } from "./icons";
 import { RichTextClient } from "./RichTextClient";
 
-export type MediaItem = { id: string; url: string; filename: string; mime: string; size: number; width: number | null; height: number | null; alt: string; credit?: string };
+export type MediaItem = { id: string; url: string; filename: string; mime: string; size: number; width: number | null; height: number | null; alt: string };
 
 const kb = (n: number) => (n > 1_000_000 ? (n / 1_000_000).toFixed(1) + " MB" : Math.max(1, Math.round(n / 1000)) + " KB");
 
@@ -391,22 +391,6 @@ export function MediaLibrary({ initial }: { initial: (MediaItem & { createdAt: n
                       if (r.ok) {
                         setItems((xs) => xs.map((x) => (x.id === m.id ? { ...x, alt: e.target.value } : x)));
                         toast("Açıklama kaydedildi.");
-                      }
-                    }}
-                  />
-                ) : null}
-                {m.mime.startsWith("image/") ? (
-                  <input
-                    type="text"
-                    defaultValue={m.credit || ""}
-                    placeholder="Künye: Fotoğraf: Ad Soyad · CC BY 4.0 · Kaynak"
-                    aria-label="Fotoğraf künyesi"
-                    onBlur={async (e) => {
-                      if (e.target.value === (m.credit || "")) return;
-                      const r = await fetch(`/api/admin/media/${m.id}`, { method: "PATCH", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ credit: e.target.value }) });
-                      if (r.ok) {
-                        setItems((xs) => xs.map((x) => (x.id === m.id ? { ...x, credit: e.target.value } : x)));
-                        toast("Künye kaydedildi.");
                       }
                     }}
                   />

@@ -7,11 +7,8 @@ type Ctx = { params: Promise<{ id: string }> };
 export async function PATCH(req: Request, { params }: Ctx) {
   const u = await apiPerm("content");
   if (u instanceof NextResponse) return u;
-  const b = await readJson<{ alt?: string; credit?: string }>(req);
-  const data: { alt?: string; credit?: string } = {};
-  if (b.alt !== undefined) data.alt = String(b.alt || "").trim().slice(0, 300);
-  if (b.credit !== undefined) data.credit = String(b.credit || "").trim().slice(0, 300);
-  await prisma.media.update({ where: { id: (await params).id }, data });
+  const { alt } = await readJson<{ alt?: string }>(req);
+  await prisma.media.update({ where: { id: (await params).id }, data: { alt: String(alt || "").trim().slice(0, 300) } });
   return ok();
 }
 

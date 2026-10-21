@@ -208,8 +208,6 @@ model Category {
   description  String        @default("")
   icon         String        @default("chart")
   topics       String[]
-  coverId      String?
-  cover        Media?        @relation("CategoryCover", fields: [coverId], references: [id], onDelete: SetNull)
   sortOrder    Int           @default(0)
   active       Boolean       @default(true)
   surveys      Survey[]
@@ -268,8 +266,6 @@ model Media {
   width             Int?
   height            Int?
   alt               String        @default("")
-  credit            String        @default("") // fotoğrafçı · lisans · kaynak (künye)
-  sourceUrl         String        @default("")
   data              Bytes
   uploadedById      String?
   createdAt         DateTime      @default(now())
@@ -277,8 +273,6 @@ model Media {
   pageCovers        Page[]        @relation("PageCover")
   publicationCovers Publication[] @relation("PublicationCover")
   publicationPdfs   Publication[] @relation("PublicationPdf")
-  categoryCovers    Category[]    @relation("CategoryCover")
-  findingCovers     Finding[]     @relation("FindingCover")
 
   @@index([createdAt])
 }
@@ -328,8 +322,6 @@ model Finding {
   body         String    @default("") // kısa değerlendirme (biçimli metin)
   categoryId   String?
   category     Category? @relation(fields: [categoryId], references: [id], onDelete: SetNull)
-  coverId      String?
-  cover        Media?    @relation("FindingCover", fields: [coverId], references: [id], onDelete: SetNull)
   sourceTitle  String    @default("") // kaynak raporun adı
   sourceUrl    String    @default("")
   sourceSeries String    @default("") // örn. MASKDER Yayınları 03

@@ -269,8 +269,8 @@ export default async function Page({ searchParams }: { searchParams: Promise<{ s
             categories={cats}
             f={
               f
-                ? { id: f.id, slug: f.slug, title: f.title, summary: f.summary, body: f.body, categoryId: f.categoryId, coverId: f.coverId, sourceTitle: f.sourceTitle, sourceUrl: f.sourceUrl, sourceSeries: f.sourceSeries, sourceYear: f.sourceYear, isbn: f.isbn, method: f.method, stats: parseStats(f.stats), charts: parseCharts(f.charts), featured: f.featured, published: f.published, sortOrder: f.sortOrder }
-                : { title: "", summary: "", body: "", categoryId: null, coverId: null, sourceTitle: "", sourceUrl: "", sourceSeries: "", sourceYear: new Date().getFullYear(), isbn: "", method: "", stats: [], charts: [], featured: false, published: false, sortOrder: 0 }
+                ? { id: f.id, slug: f.slug, title: f.title, summary: f.summary, body: f.body, categoryId: f.categoryId, sourceTitle: f.sourceTitle, sourceUrl: f.sourceUrl, sourceSeries: f.sourceSeries, sourceYear: f.sourceYear, isbn: f.isbn, method: f.method, stats: parseStats(f.stats), charts: parseCharts(f.charts), featured: f.featured, published: f.published, sortOrder: f.sortOrder }
+                : { title: "", summary: "", body: "", categoryId: null, sourceTitle: "", sourceUrl: "", sourceSeries: "", sourceYear: new Date().getFullYear(), isbn: "", method: "", stats: [], charts: [], featured: false, published: false, sortOrder: 0 }
             }
           />
         </div>
@@ -416,11 +416,11 @@ export default async function Page({ searchParams }: { searchParams: Promise<{ s
       );
     }
   } else if (tab === "media") {
-    const items = await prisma.media.findMany({ orderBy: { createdAt: "desc" }, take: 300, select: { id: true, filename: true, mime: true, size: true, width: true, height: true, alt: true, credit: true, createdAt: true } });
+    const items = await prisma.media.findMany({ orderBy: { createdAt: "desc" }, take: 300, select: { id: true, filename: true, mime: true, size: true, width: true, height: true, alt: true, createdAt: true } });
     body = <MediaLibrary initial={items.map((m) => ({ ...m, url: `/medya/${m.id}`, createdAt: m.createdAt.getTime() }))} />;
   } else if (tab === "categories") {
     const cats = await prisma.category.findMany({ orderBy: { sortOrder: "asc" }, include: { _count: { select: { surveys: true } } } });
-    body = <CategoriesManager categories={cats.map((c) => ({ id: c.id, name: c.name, description: c.description, icon: c.icon, topics: c.topics, active: c.active, surveys: c._count.surveys, coverId: c.coverId }))} />;
+    body = <CategoriesManager categories={cats.map((c) => ({ id: c.id, name: c.name, description: c.description, icon: c.icon, topics: c.topics, active: c.active, surveys: c._count.surveys }))} />;
   } else if (tab === "site") {
     const [home, pages, contact, legal, ps] = await Promise.all([
       getHome(), getPages(), getContact(), getLegal(),

@@ -22,13 +22,6 @@ export function FindingStats({ f }: { f: PublicFinding }) {
 export function FindingCard({ f }: { f: PublicFinding }) {
   return (
     <article className="card stack finding-card" style={{ gap: 12 }}>
-      {f.cover ? (
-        <div className="fc-img">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={f.cover.src} alt={f.cover.alt} loading="lazy" />
-          {f.cover.credit ? <span>{f.cover.credit}</span> : null}
-        </div>
-      ) : null}
       <div className="row between" style={{ gap: 8 }}>
         {f.category ? (
           <Link className="cat-link row" style={{ gap: 6 }} href={`/arastirma-alanlari/${f.category.slug}`}>

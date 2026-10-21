@@ -19,8 +19,6 @@ export type Headline = {
   cta?: string;
   /** Oran yoksa sağ tarafta gösterilecek büyük bilgi */
   stat?: { big: string; small: string };
-  /** Konuya ait fotoğraf ve künyesi */
-  image?: { src: string; alt: string; credit: string } | null;
 };
 
 const INTERVAL = 4000;
@@ -83,7 +81,7 @@ export function HeadlineSlider({ items, label = "Öne çıkan haberler", variant
             <Link
               key={h.key}
               href={h.href}
-              className={"hl-slide " + h.tone + (h.intro ? " intro" : "") + (h.image ? " has-img" : "")}
+              className={"hl-slide " + h.tone + (h.intro ? " intro" : "")}
               aria-roledescription="slide"
               aria-label={`${k + 1} / ${n}: ${h.title}`}
               aria-hidden={k !== i}
@@ -101,13 +99,7 @@ export function HeadlineSlider({ items, label = "Öne çıkan haberler", variant
                 </span>
                 <span className="hl-src">{h.source}</span>
               </div>
-              <div className={h.image ? "hl-photo" : "hl-visual"} aria-hidden={h.image ? undefined : true}>
-                {h.image ? (
-                  // eslint-disable-next-line @next/next/no-img-element
-                  <img className="hl-img" src={h.image.src} alt={h.image.alt} draggable={false} loading={k === 0 ? "eager" : "lazy"} />
-                ) : null}
-                {h.image && h.image.credit ? <span className="hl-credit">{h.image.credit}</span> : null}
-                <div className={h.image ? "hl-chip" : "hl-chip-plain"} aria-hidden="true">
+              <div className="hl-visual" aria-hidden="true">
                 {h.value != null ? (
                   <svg viewBox="0 0 120 120">
                     <circle cx="60" cy="60" r="50" fill="none" stroke="var(--surface-2)" strokeWidth="12" />
@@ -132,11 +124,10 @@ export function HeadlineSlider({ items, label = "Öne çıkan haberler", variant
                     <b>{h.stat.big}</b>
                     <span>{h.stat.small}</span>
                   </div>
-                ) : h.image ? null : (
+                ) : (
                   // eslint-disable-next-line @next/next/no-img-element
                   <img src="/massam-logo.svg" alt="" draggable={false} />
                 )}
-                </div>
               </div>
             </Link>
           ))}
