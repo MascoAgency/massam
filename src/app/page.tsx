@@ -113,8 +113,8 @@ export default async function Home() {
       });
     });
   // Aktif araştırmalar bandı: yayındaki tüm platform anketleri (öne çıkarılanlar önce)
-  const liveSlides: Headline[] = ops
-    .filter((x) => x.open)
+  const liveSlides: Headline[] = [...open.filter((x) => h.featured.includes(x.id)), ...open.filter((x) => !h.featured.includes(x.id))]
+    .slice(0, 16)
     .map((x, k) => ({
       key: "live-" + x.id,
       label: "AKTİF ARAŞTIRMA",
@@ -234,7 +234,7 @@ export default async function Home() {
                 Aktif araştırmalar
                 <small>
                   <span className="live-dot" aria-hidden="true" />
-                  Şu anda sahada · {liveSlides.length} anket
+                  Şu anda sahada · {open.length} anket
                 </small>
               </h2>
             </div>
