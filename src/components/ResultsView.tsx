@@ -789,7 +789,7 @@ function Share({ s, url }: { s: SurveyLite; url: string }) {
         </div>
         <div className="callout">
           <Icon name="info" />
-          <span className="small">Katılımcıların hesap açması gerekmez; bağlantıyı veya QR kodu açan herkes yanıt verebilir. Diğer kanallardan toplanan verileri Yanıtlar sekmesinden CSV ile içe aktarabilirsiniz.</span>
+          <span className="small">Katılımcılar ad soyad, e-posta ve şifreyle üye olup e-postasını doğruladıktan sonra yanıt verir; her üye bir kez katılır. Aynı cihazdan veri toplama ekranı yalnızca sizin oturumunuzda çalışır. Diğer kanallardan toplanan verileri Yanıtlar sekmesinden CSV ile içe aktarabilirsiniz.</span>
         </div>
       </div>
       <div className="card stack" style={{ gap: 12, alignItems: "flex-start" }}>

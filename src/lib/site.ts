@@ -32,6 +32,7 @@ export async function getLegal(): Promise<LegalContent> {
     kvkk: v.kvkk?.trim() || DEFAULT_LEGAL.kvkk,
     cookies: v.cookies?.trim() || DEFAULT_LEGAL.cookies,
     terms: v.terms?.trim() || DEFAULT_LEGAL.terms,
+    privacy: v.privacy?.trim() || DEFAULT_LEGAL.privacy,
     updatedAt: v.updatedAt || "",
   };
 }

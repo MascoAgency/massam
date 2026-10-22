@@ -26,7 +26,7 @@ export default async function Page({ searchParams }: { searchParams: Promise<SP>
       <PageHead
         eyebrow="Anketler"
         title="Anketler"
-        lead="Araştırmalarımıza hesap açmadan, anonim olarak katılabilirsiniz. Katılıma açık anketleri inceleyin, size uygun olanı seçin."
+        lead="Araştırmalarımıza ücretsiz üyelikle katılabilirsiniz; yanıtlarınız kimliğinizle eşleştirilmeden saklanır. Katılıma açık anketleri inceleyin, size uygun olanı seçin."
       />
       <form className="card filters" method="get" role="search">
         <label className="f">

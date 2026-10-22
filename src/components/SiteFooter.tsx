@@ -39,7 +39,8 @@ export async function SiteFooter() {
         <div className="stack" style={{ gap: 8 }}>
           <b className="small">Kurumsal</b>
           <Link href="/hakkimizda">MASSAM hakkında</Link>
-          <Link href="/kvkk">Gizlilik ve kişisel verilerin korunması</Link>
+          <Link href="/kvkk">KVKK aydınlatma metni</Link>
+          <Link href="/gizlilik-sozlesmesi">Gizlilik sözleşmesi</Link>
           <Link href="/cerez-politikasi">Çerez politikası</Link>
           <Link href="/kullanim-kosullari">Kullanım koşulları</Link>
           {pages.map((p) => (

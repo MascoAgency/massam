@@ -131,7 +131,7 @@ KURALLAR
 - single ve multi sorularda 2-8 seçenek yaz; gerekiyorsa "Diğer" veya "Fikrim yok" ekle. Diğer türlerde options boş dizi olsun. Likert dışı sorularda scale=5, rating dışı sorularda max=10 yaz ve etiketleri boş bırak.
 - Yönlendirici, çift anlamlı veya iki şeyi birden soran madde yazma. Kişiyi tanımlayıcı bilgi (ad, telefon, T.C. kimlik no, e-posta) isteme.
 - Siyasi konularda tarafsız ifadeler kullan.
-- consentText: katılımın gönüllü ve anonim olduğunu, verilerin yalnızca toplu olarak bilimsel amaçla kullanılacağını belirten 2-3 cümle.
+- consentText: katılımın gönüllü olduğunu, katılımın üyelikle yapıldığını ancak yanıtların üyelik bilgileriyle eşleştirilmeden saklandığını, verilerin yalnızca toplu olarak bilimsel amaçla kullanılacağını belirten 2-3 cümle.
 - categorySlug: aşağıdaki listeden en uygun alan (uygun yoksa boş).
 - methodNote: önerilen örneklem, hedef katılımcı sayısı, uygulama süresi ve dikkat edilecek noktalar (4-6 cümle).
 - Tüm metinler Türkçe.

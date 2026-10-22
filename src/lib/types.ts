@@ -163,5 +163,6 @@ export interface LegalContent {
   kvkk: string;
   cookies: string;
   terms: string;
+  privacy: string;
   updatedAt: string; // yyyy-aa-gg
 }

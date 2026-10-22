@@ -47,31 +47,63 @@ model Plan {
 }
 
 model User {
-  id                 String               @id @default(cuid())
-  email              String               @unique
+  id                 String                   @id @default(cuid())
+  email              String                   @unique
   name               String
   passwordHash       String
-  role               Role                 @default(USER)
-  disabled           Boolean              @default(false)
-  institution        String               @default("")
-  title              String               @default("")
-  field              String               @default("")
-  planId             String               @default("free")
-  plan               Plan                 @relation("UserPlan", fields: [planId], references: [id])
+  role               Role                     @default(USER)
+  disabled           Boolean                  @default(false)
+  institution        String                   @default("")
+  title              String                   @default("")
+  field              String                   @default("")
+  emailVerifiedAt    DateTime? // e-posta doğrulandığı an
+  kvkkAcceptedAt     DateTime? // KVKK aydınlatma metni onayı
+  privacyAcceptedAt  DateTime? // gizlilik sözleşmesi onayı
+  planId             String                   @default("free")
+  plan               Plan                     @relation("UserPlan", fields: [planId], references: [id])
   requestedPlanId    String?
-  requestedPlan      Plan?                @relation("RequestedPlan", fields: [requestedPlanId], references: [id])
+  requestedPlan      Plan?                    @relation("RequestedPlan", fields: [requestedPlanId], references: [id])
   requestedAt        DateTime?
-  stripeCustomerId   String?              @unique
-  subscriptionId     String?              @unique
+  stripeCustomerId   String?                  @unique
+  subscriptionId     String?                  @unique
   subscriptionStatus String?
   currentPeriodEnd   DateTime?
-  createdAt          DateTime             @default(now())
-  updatedAt          DateTime             @updatedAt
+  createdAt          DateTime                 @default(now())
+  updatedAt          DateTime                 @updatedAt
   surveys            Survey[]
+  verifyTokens       EmailVerificationToken[]
+  participations     SurveyParticipation[]
   analyses           Analysis[]
   reports            Report[]
   usage              UsageEvent[]
   resetTokens        PasswordResetToken[]
+}
+
+/// E-posta doğrulama bağlantıları (yalnızca özeti saklanır)
+model EmailVerificationToken {
+  id        String    @id @default(cuid())
+  tokenHash String    @unique
+  userId    String
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  next      String    @default("")
+  expiresAt DateTime
+  usedAt    DateTime?
+  createdAt DateTime  @default(now())
+
+  @@index([userId])
+}
+
+/// Kişinin bir ankete katıldığı bilgisi. Yanıtla bağlantı kurulmaz; yalnızca aynı kişinin ikinci kez doldurmasını önler.
+model SurveyParticipation {
+  id        String   @id @default(cuid())
+  surveyId  String
+  survey    Survey   @relation(fields: [surveyId], references: [id], onDelete: Cascade)
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+
+  @@unique([surveyId, userId])
+  @@index([userId])
 }
 
 model PasswordResetToken {
@@ -85,31 +117,32 @@ model PasswordResetToken {
 }
 
 model Survey {
-  id          String       @id @default(cuid())
-  slug        String       @unique // herkese açık katılım bağlantısı: /s/{slug}
-  ownerId     String
-  owner       User         @relation(fields: [ownerId], references: [id], onDelete: Cascade)
-  title       String
-  description String       @default("")
-  thankYou    String       @default("")
-  status      SurveyStatus @default(draft)
-  archived    Boolean      @default(false)
-  isPlatform  Boolean      @default(false)
-  example     Boolean      @default(false)
-  questions   Json // Question[]
-  categoryId  String?
-  category    Category?    @relation(fields: [categoryId], references: [id], onDelete: SetNull)
-  purpose     String       @default("") // araştırmanın amacı
-  targetGroup String       @default("") // hedef katılımcı grubu
-  consentText String       @default("") // katılım öncesi bilgilendirme ve onay metni
-  startsAt    DateTime?
-  endsAt      DateTime?
-  purgedAt    DateTime? // saklama süresi dolduğunda yanıtlar silindi
-  createdAt   DateTime     @default(now())
-  updatedAt   DateTime     @updatedAt
-  responses   Response[]
-  analyses    Analysis[]
-  reports     Report[]
+  id             String                @id @default(cuid())
+  slug           String                @unique // herkese açık katılım bağlantısı: /s/{slug}
+  ownerId        String
+  owner          User                  @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+  title          String
+  description    String                @default("")
+  thankYou       String                @default("")
+  status         SurveyStatus          @default(draft)
+  archived       Boolean               @default(false)
+  isPlatform     Boolean               @default(false)
+  example        Boolean               @default(false)
+  questions      Json // Question[]
+  categoryId     String?
+  category       Category?             @relation(fields: [categoryId], references: [id], onDelete: SetNull)
+  purpose        String                @default("") // araştırmanın amacı
+  targetGroup    String                @default("") // hedef katılımcı grubu
+  consentText    String                @default("") // katılım öncesi bilgilendirme ve onay metni
+  startsAt       DateTime?
+  endsAt         DateTime?
+  purgedAt       DateTime? // saklama süresi dolduğunda yanıtlar silindi
+  createdAt      DateTime              @default(now())
+  updatedAt      DateTime              @updatedAt
+  responses      Response[]
+  participations SurveyParticipation[]
+  analyses       Analysis[]
+  reports        Report[]
 
   @@index([ownerId])
 }

@@ -34,7 +34,7 @@ function AuthShell({ children, title, points }: { children: ReactNode; title?: R
         <ul>
           {(points ?? [
             "Anketinizi dakikalar içinde hazırlayın",
-            "Bağlantı ve QR kodla hesapsız katılım",
+            "Doğrulanmış üyelerle güvenilir katılım",
             "Grafikler, segmentler ve kapsamlı analiz",
             "Akademik formatta PDF rapor",
           ]).map((p) => (
@@ -108,28 +108,33 @@ export function LoginForm({ next }: { next?: string }) {
           {busy ? <span className="spinner" /> : null} Giriş yap
         </button>
         <div className="auth-divider">veya</div>
-        <Link className="btn" href="/kayit" style={{ justifyContent: "center" }}>
-          Ücretsiz hesap oluştur
+        <Link className="btn" href={"/kayit" + (next ? `?next=${encodeURIComponent(next)}` : "")} style={{ justifyContent: "center" }}>
+          Üye ol
         </Link>
       </form>
     </AuthShell>
   );
 }
 
-export function RegisterForm() {
+export function RegisterForm({ next }: { next?: string }) {
   const [err, setErr] = useState("");
   const [busy, setBusy] = useState(false);
+  const target = next && next.startsWith("/") && !next.startsWith("//") ? next : "";
+  const participant = target.startsWith("/s/") || target.startsWith("/anketler");
   async function submit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const fd = new FormData(e.currentTarget);
     const body = Object.fromEntries(fd.entries()) as Record<string, string>;
+    if (!/\S+\s+\S+/.test((body.name || "").trim())) return setErr("Lütfen adınızı ve soyadınızı birlikte yazın.");
     if (body.password !== body.password2) return setErr("Şifreler eşleşmiyor.");
+    if (!fd.get("kvkk")) return setErr("Devam etmek için KVKK Aydınlatma Metni'ni onaylamanız gerekir.");
+    if (!fd.get("privacy")) return setErr("Devam etmek için Gizlilik Sözleşmesi'ni kabul etmeniz gerekir.");
     setBusy(true);
     setErr("");
     try {
-      await api("/api/register", "POST", body);
+      await api("/api/register", "POST", { ...body, kvkk: true, privacy: true, next: target });
       const r = await signIn("credentials", { email: body.email, password: body.password, redirect: false });
-      window.location.href = r && !r.error ? "/panel" : "/giris";
+      window.location.href = r && !r.error ? "/eposta-dogrulama" + (target ? `?next=${encodeURIComponent(target)}` : "") : "/giris";
     } catch (e) {
       setBusy(false);
       setErr((e as Error).message);
@@ -138,29 +143,45 @@ export function RegisterForm() {
   return (
     <AuthShell
       title={
-        <>
-          Ücretsiz planla <span>hemen başlayın.</span>
-        </>
+        participant ? (
+          <>
+            Ankete katılmak için <span>üye olun.</span>
+          </>
+        ) : (
+          <>
+            Ücretsiz planla <span>hemen başlayın.</span>
+          </>
+        )
       }
-      points={["3 anket, anket başına 100 katılımcı", "Ayda 3 analiz ve 2 PDF rapor", "Kredi kartı gerekmez", "İstediğiniz zaman plan yükseltme"]}
+      points={
+        participant
+          ? ["Ad soyad, e-posta ve şifre ile üyelik", "E-posta doğrulamasıyla güvenli katılım", "Her ankete bir kez katılım", "Yanıtlarınız kimliğinizle eşleştirilmeden saklanır"]
+          : ["3 anket, anket başına 100 katılımcı", "Ayda 3 analiz ve 2 PDF rapor", "Kredi kartı gerekmez", "İstediğiniz zaman plan yükseltme"]
+      }
     >
       <form onSubmit={submit}>
         <div>
-          <p className="eyebrow">Kayıt ol</p>
-          <h1>Hesap oluşturun</h1>
-          <p className="lead">Ad ve kurum bilginiz PDF raporların kapağında “Hazırlayan” olarak görünür.</p>
+          <p className="eyebrow">Üye ol</p>
+          <h1>{participant ? "Katılımcı üyeliği" : "Hesap oluşturun"}</h1>
+          <p className="lead">
+            {participant
+              ? "Anketlere katılım üyelikle yapılır. Kayıttan sonra e-posta adresinize bir doğrulama bağlantısı göndereceğiz."
+              : "Kayıttan sonra e-posta adresinize bir doğrulama bağlantısı göndereceğiz. Ad ve kurum bilginiz PDF raporların kapağında “Hazırlayan” olarak görünür."}
+          </p>
         </div>
         <label className="f">
           Ad soyad
           <input type="text" name="name" autoComplete="name" required />
         </label>
-        <label className="f">
-          Kurum / üniversite (isteğe bağlı)
-          <input type="text" name="institution" placeholder="Örn. MASKDER, Ankara Üniversitesi" />
-        </label>
+        {participant ? null : (
+          <label className="f">
+            Kurum / üniversite (isteğe bağlı)
+            <input type="text" name="institution" placeholder="Örn. MASKDER, Ankara Üniversitesi" />
+          </label>
+        )}
         <label className="f">
           E-posta
-          <input type="email" name="email" autoComplete="email" placeholder="ad@kurum.org" required />
+          <input type="email" name="email" autoComplete="email" placeholder="ad@ornek.com" required />
         </label>
         <div className="grid" style={{ gridTemplateColumns: "1fr 1fr", gap: 10 }}>
           <label className="f">
@@ -173,15 +194,27 @@ export function RegisterForm() {
           </label>
         </div>
         <p className="small muted" style={{ marginTop: -6 }}>En az 8 karakter.</p>
+        <label className="consent-check">
+          <input type="checkbox" name="kvkk" value="1" required />
+          <span>
+            <a href="/kvkk" target="_blank" rel="noopener">KVKK Aydınlatma Metni</a>&apos;ni okudum, kişisel verilerimin bu metin kapsamında işlenmesini onaylıyorum.
+          </span>
+        </label>
+        <label className="consent-check">
+          <input type="checkbox" name="privacy" value="1" required />
+          <span>
+            <a href="/gizlilik-sozlesmesi" target="_blank" rel="noopener">Gizlilik Sözleşmesi</a>&apos;ni okudum ve kabul ediyorum.
+          </span>
+        </label>
         <div className="hp" aria-hidden="true">
           <input type="text" name="website" tabIndex={-1} autoComplete="off" />
         </div>
         {err ? <p className="err-text" role="alert">{err}</p> : null}
         <button className="btn primary" type="submit" disabled={busy}>
-          {busy ? <span className="spinner" /> : null} Hesap oluştur
+          {busy ? <span className="spinner" /> : null} Üye ol
         </button>
         <p className="small muted" style={{ textAlign: "center" }}>
-          Zaten hesabınız var mı? <Link href="/giris">Giriş yapın</Link>
+          Zaten üye misiniz? <Link href={"/giris" + (target ? `?next=${encodeURIComponent(target)}` : "")}>Giriş yapın</Link>
         </p>
       </form>
     </AuthShell>

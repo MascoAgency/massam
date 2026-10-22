@@ -19,7 +19,7 @@ export default async function Page() {
       <div className="feature-grid">
         {(
           [
-            ["shield", "Anonim katılım", "Anketlere hesap açmadan katılırsınız; yanıtlarınız kimliğinizle ilişkilendirilmez."],
+            ["shield", "Güvenli katılım", "Anketlere doğrulanmış üyelikle katılırsınız; yanıtlarınız kimliğinizle ilişkilendirilmez."],
             ["clock", "Birkaç dakika", "Anketlerimizin çoğu 3-10 dakika sürer; tahmini süre her ankette belirtilir."],
             ["chart", "Sonuçları görün", "Katkı verdiğiniz araştırmaların sonuçları yayımlandığında herkese açık olarak paylaşılır."],
           ] as const

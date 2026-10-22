@@ -85,7 +85,7 @@ export default async function Home() {
       key: "intro",
       intro: true,
       kicker: "MASSAM Araştırma Platformu",
-      title: "MASSAM Araştırma Platformu yayında: anketlere anonim katılın, bulguları birlikte izleyin",
+      title: "MASSAM Araştırma Platformu yayında: üye olun, anketlere katılın, bulguları birlikte izleyin",
       text: "Saha araştırmalarımızın bulguları, katılıma açık anketler ve raporlar artık tek yerde. Kimlik bilgisi tutulmadan katılım; her veri yöntemi ve kaynağıyla birlikte.",
       value: null,
       href: "/hakkimizda",
@@ -147,7 +147,7 @@ export default async function Home() {
       stat: { big: `~${x.minutes} dk`, small: `${x.questions} soru · anonim` },
       href: `/s/${x.slug}`,
       cta: "Hemen katıl",
-      source: x.endsAt ? `Son katılım: ${fmtDate(x.endsAt)}` : "Katılıma açık · hesap gerekmez",
+      source: x.endsAt ? `Son katılım: ${fmtDate(x.endsAt)}` : "Katılıma açık · üyelikle katılım",
       tone: (["t", "e", "n"] as const)[k % 3],
     }));
   const ci = h.heroTitle.indexOf(",");
@@ -217,7 +217,7 @@ export default async function Home() {
             <div className="card">
               <span className="eyebrow">Platform</span>
               <p className="small muted" style={{ marginTop: 6 }}>
-                Anketlerimize hesap açmadan, anonim olarak katılabilirsiniz. Sonuçlar yayın onayı verildikten sonra herkese açık olarak paylaşılır.
+                Anketlerimize ad soyad, e-posta ve şifreyle üye olup e-postanızı doğruladıktan sonra katılabilirsiniz; yanıtlarınız kimliğinizle eşleştirilmeden saklanır. Sonuçlar yayın onayı verildikten sonra herkese açık olarak paylaşılır.
               </p>
             </div>
           )}

@@ -470,7 +470,7 @@ export function LegalForm({ l }: { l: LegalContent }) {
       onSubmit={async (e) => {
         e.preventDefault();
         const fd = new FormData(e.currentTarget);
-        await save("/api/admin/legal", "PUT", { kvkk: fd.get("kvkk"), cookies: fd.get("cookies"), terms: fd.get("terms") }, "Yasal metinler kaydedildi.");
+        await save("/api/admin/legal", "PUT", { kvkk: fd.get("kvkk"), cookies: fd.get("cookies"), terms: fd.get("terms"), privacy: fd.get("privacy") }, "Yasal metinler kaydedildi.");
       }}
     >
       <div>
@@ -485,6 +485,7 @@ export function LegalForm({ l }: { l: LegalContent }) {
       <MarkdownEditor name="kvkk" label="KVKK aydınlatma metni" defaultValue={l.kvkk} rows={12} />
       <MarkdownEditor name="cookies" label="Çerez politikası" defaultValue={l.cookies} rows={8} />
       <MarkdownEditor name="terms" label="Kullanım koşulları" defaultValue={l.terms} rows={10} />
+      <MarkdownEditor name="privacy" label="Gizlilik sözleşmesi (üyelikte onaylanır)" defaultValue={l.privacy} rows={10} />
       <div className="row">
         <button className="btn primary" type="submit">
           Yasal metinleri kaydet

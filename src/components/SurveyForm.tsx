@@ -127,7 +127,7 @@ export function SurveyForm({ survey: s, preview, onSubmit }: Props) {
               </label>
             </div>
           ) : (
-            <p className="small muted">Yanıtlarınız anonim olarak kaydedilir ve yalnızca toplu olarak, istatistiksel amaçla değerlendirilir.</p>
+            <p className="small muted">Yanıtlarınız kimliğinizle eşleştirilmeden kaydedilir ve yalnızca toplu olarak, istatistiksel amaçla değerlendirilir.</p>
           )}
           {err ? <p className="small" style={{ color: "var(--bad)" }}>Devam etmek için bilgilendirme metnini onaylayın.</p> : null}
           <div className="row between">
@@ -167,7 +167,7 @@ export function SurveyForm({ survey: s, preview, onSubmit }: Props) {
         </fieldset>
       ) : null}
       <p className="small muted" style={{ textAlign: "center" }}>
-        <span className="req" style={{ color: "var(--bad)" }}>*</span> zorunlu soru · Yanıtlarınız anonim olarak kaydedilir.
+        <span className="req" style={{ color: "var(--bad)" }}>*</span> zorunlu soru · Yanıtlarınız kimliğinizle eşleştirilmeden kaydedilir.
       </p>
     </div>
   );

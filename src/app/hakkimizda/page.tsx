@@ -9,7 +9,7 @@ export const dynamic = "force-dynamic";
 
 const PRINCIPLES: ["shield" | "chart" | "file" | "globe", string, string][] = [
   ["chart", "Bilimsel yöntem", "Sorular akademik ölçütlere göre hazırlanır; bulgular istatistiksel yöntemlerle değerlendirilir."],
-  ["shield", "Gizlilik", "Anketlere hesap açmadan, anonim olarak katılınır. Veriler KVKK kapsamında korunur."],
+  ["shield", "Gizlilik", "Anketlere doğrulanmış üyelikle katılınır; yanıtlar kimlikle eşleştirilmeden saklanır. Veriler KVKK kapsamında korunur."],
   ["file", "Şeffaflık", "Her sonuç sayfasında örneklem, yöntem ve araştırmanın sınırlılıkları açıkça belirtilir."],
   ["globe", "Erişilebilirlik", "Araştırma sonuçları ve raporlar herkesin erişebileceği biçimde yayımlanır."],
 ];

@@ -100,7 +100,7 @@ export default async function Page({ params }: Props) {
             <h3>Bilgilendirme</h3>
             <p className="small" style={{ whiteSpace: "pre-line" }}>
               {s.consentText ||
-                "Katılım gönüllülük esasına dayanır. Anket sırasında kimliğinizi belirleyecek bilgiler istenmez; yanıtlarınız anonim olarak kaydedilir ve yalnızca toplu olarak, istatistiksel amaçla değerlendirilir."}
+                "Katılım gönüllülük esasına dayanır. Katılım üyelikle yapılır; yanıtlarınız üyelik bilgilerinizle eşleştirilmeden kaydedilir ve yalnızca toplu olarak, istatistiksel amaçla değerlendirilir."}
             </p>
             <p className="small muted">
               Ayrıntılı bilgi için <Link href="/kvkk">KVKK aydınlatma metni</Link>.

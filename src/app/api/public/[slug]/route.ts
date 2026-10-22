@@ -5,10 +5,12 @@ import { sanitizeAnswers, isOpenNow } from "@/lib/survey";
 import { sha256 } from "@/lib/ids";
 import { lim } from "@/lib/format";
 import type { Question } from "@/lib/types";
+import { getCurrentUser } from "@/lib/session";
+import { isStaff } from "@/lib/roles";
 
 const PER_IP_PER_HOUR = 200; // seminer/stant gibi tek cihazdan ardışık katılıma izin verecek kadar geniş
 
-/** Herkese açık, hesapsız katılım: yanıt gönderme */
+/** Üye katılımı: e-postası doğrulanmış üye her ankete bir kez yanıt gönderir. Yanıt, kimlikle eşleştirilmeden kaydedilir. */
 export async function POST(req: Request, { params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
   const s = await prisma.survey.findUnique({ where: { slug } });
@@ -17,6 +19,13 @@ export async function POST(req: Request, { params }: { params: Promise<{ slug: s
 
   const b = await readJson<{ answers?: unknown; startedAt?: number; kiosk?: boolean; website?: string }>(req);
   if (b.website) return ok(); // bot tuzağı (gizli alan doldurulmuş)
+
+  const u = await getCurrentUser();
+  if (!u) return fail(401, "Ankete katılmak için üye girişi yapmanız gerekir.", { code: "auth" });
+  const kiosk = !!b.kiosk && (u.id === s.ownerId || isStaff(u.role));
+  if (!kiosk && !u.emailVerifiedAt) return fail(403, "Ankete katılmak için e-posta adresinizi doğrulamanız gerekir.", { code: "verify" });
+  if (!kiosk && (await prisma.surveyParticipation.findUnique({ where: { surveyId_userId: { surveyId: s.id, userId: u.id } }, select: { id: true } })))
+    return fail(409, "Bu ankete daha önce katıldınız.", { code: "already" });
 
   const questions = s.questions as unknown as Question[];
   const { answers, missing } = sanitizeAnswers(questions, b.answers);
@@ -37,16 +46,24 @@ export async function POST(req: Request, { params }: { params: Promise<{ slug: s
 
   const now = Date.now();
   const startedAt = typeof b.startedAt === "number" && b.startedAt > now - 86400_000 && b.startedAt <= now ? new Date(b.startedAt) : null;
-  await prisma.response.create({
+  const response = prisma.response.create({
     data: {
       surveyId: s.id,
       answers,
       startedAt,
       submittedAt: new Date(now),
       durationSec: startedAt ? Math.round((now - startedAt.getTime()) / 1000) : null,
-      source: b.kiosk ? "kiosk" : "web",
+      source: kiosk ? "kiosk" : "web",
       ipHash,
     },
   });
+  // Katılım kaydı ile yanıt arasında bağlantı tutulmaz; benzersiz kısıt ikinci katılımı engeller.
+  try {
+    if (kiosk) await response;
+    else await prisma.$transaction([response, prisma.surveyParticipation.create({ data: { surveyId: s.id, userId: u.id } })]);
+  } catch (e) {
+    if ((e as { code?: string }).code === "P2002") return fail(409, "Bu ankete daha önce katıldınız.", { code: "already" });
+    throw e;
+  }
   return ok({ ok: true }, { status: 201 });
 }

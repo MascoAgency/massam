@@ -90,7 +90,7 @@ export default async function Page({ params }: Props) {
             </span>
             Yöntem ve sınırlılıklar
           </h3>
-          {paragraphs(r.method || "Veriler, MASSAM Araştırma platformu üzerinden yürütülen çevrim içi anketle, gönüllü katılım esasına göre toplanmıştır. Katılımcılar anketin paylaşım bağlantısı veya QR kodu aracılığıyla, hesap açmadan ve anonim olarak yanıt vermiştir.").map((t, i) => (
+          {paragraphs(r.method || "Veriler, MASSAM Araştırma platformu üzerinden yürütülen çevrim içi anketle, gönüllü katılım esasına göre toplanmıştır. Katılımcılar anketin paylaşım bağlantısı veya QR kodu aracılığıyla, e-posta adresi doğrulanmış üyelikle ve her üye bir kez olmak üzere yanıt vermiştir; yanıtlar üyelik bilgileriyle eşleştirilmeden saklanmıştır.").map((t, i) => (
             <p className="small" key={i}>
               {t}
             </p>
