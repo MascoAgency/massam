@@ -6,7 +6,7 @@ import { fmtN } from "@/lib/format";
 import { PALETTE } from "@/lib/survey";
 import type { ChartQ } from "@/lib/public";
 
-const defaultKind = (q: ChartQ): ChartKind => (q.type === "single" ? "pie" : q.type === "multi" ? "bar" : "column");
+const defaultKind = (q: ChartQ): ChartKind => (q.type === "single" ? (q.counts.length > 8 ? "bar" : "pie") : q.type === "multi" ? "bar" : "column");
 
 /** Tek soru grafiği + tablo (yalnızca toplu sayılar) */
 export function QuestionChart({ q, compact }: { q: ChartQ; compact?: boolean }) {

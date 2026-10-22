@@ -173,6 +173,18 @@ export function SurveyForm({ survey: s, preview, onSubmit }: Props) {
 
 function QuestionInput({ q, a, set }: { q: Question; a: Answer | undefined; set: (v: Answer) => void }) {
   const name = "a-" + q.id;
+  // Uzun seçenek listeleri (ör. 81 il) açılır menüyle gösterilir
+  if (q.type === "single" && q.options!.length > 15)
+    return (
+      <select value={(a as string) || ""} onChange={(e) => set(e.target.value)} aria-label={q.title}>
+        <option value="">Seçiniz</option>
+        {q.options!.map((o, j) => (
+          <option key={j} value={o}>
+            {o}
+          </option>
+        ))}
+      </select>
+    );
   if (q.type === "single")
     return (
       <div className="stack" style={{ gap: 6 }} role="radiogroup">
@@ -198,6 +210,7 @@ function QuestionInput({ q, a, set }: { q: Question; a: Answer | undefined; set:
       </div>
     );
   }
+  if (q.type === "open" && q.short) return <input type="text" placeholder="Cevabınızı yazın" value={(a as string) || ""} onChange={(e) => set(e.target.value)} maxLength={120} aria-label={q.title} />;
   if (q.type === "open") return <textarea rows={5} placeholder="Cevabınızı yazın" value={(a as string) || ""} onChange={(e) => set(e.target.value)} maxLength={5000} aria-label={q.title} />;
   if (q.type === "likert") {
     const labels = LIKERT[(q.scale || 5) as 5 | 7];

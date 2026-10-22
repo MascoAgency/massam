@@ -12,6 +12,8 @@ export interface Question {
   max?: 5 | 10;
   minLabel?: string;
   maxLabel?: string;
+  /** Açık uçlu soruda tek satırlık kısa cevap (ör. ilçe) */
+  short?: boolean;
   /** Koşullu gösterim: yalnızca önceki bir tek/çoktan seçmeli soruda bu seçeneklerden biri işaretlenirse gösterilir */
   showIf?: { q: string; values: string[] };
 }

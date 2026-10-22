@@ -54,8 +54,9 @@ export function sanitizeQuestions(input: unknown): { questions?: Question[]; err
       const opts = Array.isArray(r.options) ? r.options.map((o) => String(o).trim().slice(0, 200)).filter(Boolean) : [];
       const uniq = [...new Set(opts)];
       if (uniq.length < 2) return { error: `S${i + 1}: en az iki farklı seçenek gerekli.` };
-      q.options = uniq.slice(0, 50);
+      q.options = uniq.slice(0, 100); // il listesi (81) gibi uzun listeler için
     }
+    if (type === "open" && r.short) q.short = true;
     if (type === "likert") q.scale = Number(r.scale) === 7 ? 7 : 5;
     if (type === "rating") {
       q.max = Number(r.max) === 5 ? 5 : 10;
