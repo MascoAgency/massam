@@ -23,7 +23,32 @@ export type Headline = {
   visual?: ReactNode;
   /** Kapak üzerindeki rozet (ör. YENİ) */
   badge?: string;
+  /** Haberle ilişkili küçük grafik (oran halkası yerine) */
+  chart?: { title: string; items: { label: string; value: number }[]; unit?: "%" | ""; highlight?: number };
 };
+
+const fmt = (v: number, unit = "%") => (unit === "%" ? "%" : "") + v.toLocaleString("tr-TR", { maximumFractionDigits: 1 });
+
+/** Haber slaytında gösterilen küçük yatay çubuk grafik */
+function MiniChart({ c, active }: { c: NonNullable<Headline["chart"]>; active: boolean }) {
+  const items = c.items.slice(0, 6);
+  const max = Math.max(...items.map((i) => i.value), 1);
+  const hi = c.highlight ?? items.findIndex((i) => i.value === max);
+  return (
+    <figure className={"hl-mini" + (active ? " on" : "")} aria-hidden="true">
+      <figcaption>{c.title}</figcaption>
+      {items.map((it, k) => (
+        <div className={"hl-mini-row" + (k === hi ? " hi" : "")} key={it.label}>
+          <span className="hl-mini-l">{it.label}</span>
+          <span className="hl-mini-t">
+            <i style={{ width: `${(it.value / max) * 100}%`, transitionDelay: `${k * 70}ms` }} />
+          </span>
+          <b>{fmt(it.value, c.unit)}</b>
+        </div>
+      ))}
+    </figure>
+  );
+}
 
 const INTERVAL = 4000;
 
@@ -85,7 +110,7 @@ export function HeadlineSlider({ items, label = "Öne çıkan haberler", variant
             <Link
               key={h.key}
               href={h.href}
-              className={"hl-slide " + h.tone + (h.intro ? " intro" : "") + (h.visual ? " with-art" : "")}
+              className={"hl-slide " + h.tone + (h.intro ? " intro" : "") + (h.visual ? " with-art" : h.chart && h.chart.items.length ? " with-chart" : "")}
               aria-roledescription="slide"
               aria-label={`${k + 1} / ${n}: ${h.title}`}
               aria-hidden={k !== i}
@@ -116,7 +141,9 @@ export function HeadlineSlider({ items, label = "Öne çıkan haberler", variant
                 </div>
               ) : (
               <div className="hl-visual" aria-hidden="true">
-                {h.value != null ? (
+                {h.chart && h.chart.items.length ? (
+                  <MiniChart c={h.chart} active={k === i} />
+                ) : h.value != null ? (
                   <svg viewBox="0 0 120 120">
                     <circle cx="60" cy="60" r="50" fill="none" stroke="var(--surface-2)" strokeWidth="12" />
                     <circle

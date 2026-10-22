@@ -91,6 +91,14 @@ export default async function Home() {
       href: "/hakkimizda",
       source: "Milli, Adalet, Siyaset ve Strateji Araştırmaları Merkezi",
       tone: "n",
+      chart: {
+        title: "Katılıma açık anketler · araştırma alanlarına göre",
+        unit: "",
+        items: cats
+          .map((c) => ({ label: c.name.replace(/ (Araştırmaları|ve Bölgesel Kalkınma)$/, ""), value: surveyCount.get(c.slug) || 0 }))
+          .filter((x) => x.value > 0)
+          .sort((a, b) => b.value - a.value),
+      },
     },
   ];
   const queues = findings.map((f, fi) => f.charts.filter((c) => c.insight).map((c) => ({ f, c, tone: (["t", "e", "n"] as const)[fi % 3] })));
@@ -106,8 +114,19 @@ export default async function Home() {
         key: x.f.id + k,
         kicker: `${x.f.category?.name || "Rapor verisi"} · ${x.c.title}`,
         title,
-        text: m && m[1].length > 30 ? m[2] : x.c.question,
+        text: m && m[1].length > 30 ? m[2].charAt(0).toLocaleUpperCase("tr-TR") + m[2].slice(1) : x.c.question,
         value: pm ? parseFloat(pm[1].replace(",", ".")) : null,
+        // Haberin dayandığı grafik: manşetteki oranla eşleşen seçenek vurgulanır
+        chart: {
+          title: x.c.title,
+          items: x.c.items,
+          unit: "%",
+          highlight: (() => {
+            const v = pm ? parseFloat(pm[1].replace(",", ".")) : null;
+            const idx = v == null ? -1 : x.c.items.findIndex((it) => Math.abs(it.value - v) < 0.6);
+            return idx >= 0 ? idx : undefined;
+          })(),
+        },
         href: `/bulgular/${x.f.slug}`,
         source: `Kaynak: MASKDER, ${x.f.sourceTitle}${x.f.sourceYear ? ` (${x.f.sourceYear})` : ""}`,
         tone: x.tone,
