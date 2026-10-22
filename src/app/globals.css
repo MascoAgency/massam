@@ -1008,3 +1008,11 @@ a:hover .art-motif,.hl-slide:hover .art-motif{transform:scale(1.04)}
 @media (max-width:760px){.hl-slide.with-art{grid-template-columns:1fr;grid-template-rows:200px auto;min-height:0}.hl-slide.with-art .hl-artpanel{order:-1}.hl-slide.with-art .hl-copy{padding:20px 20px 16px}}
 @media (prefers-reduced-motion:reduce){.hl-badge{animation:none}.art-motif{transition:none}}
 @media (max-width:760px){.headlines.live .hl-slide p{display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}}
+
+/* anket kapak fotoğrafları */
+.survey-art{object-fit:cover;background:var(--navy);transition:transform .6s ease}
+a:hover > .survey-art,.hl-slide:hover .survey-art{transform:scale(1.04)}
+.sc-art,.survey-hero-art,.op-art,.hl-artpanel{position:relative}
+.sc-art::after,.survey-hero-art::after,.hl-artpanel::after{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(0deg,rgba(5,7,12,.5) 0%,rgba(5,7,12,0) 45%),linear-gradient(90deg,rgba(11,31,58,.25),rgba(11,31,58,0) 40%)}
+.sc-cta,.sha-cta,.hl-badge,.hl-artstat{z-index:3}
+@media (prefers-reduced-motion:reduce){.survey-art{transition:none}}
