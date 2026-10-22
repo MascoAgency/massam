@@ -4,6 +4,7 @@ import { Icon } from "./icons";
 import { useToast } from "./ui";
 import { LIKERT, hasAnswer, visibleQuestions, estMinutes } from "@/lib/survey";
 import type { Answer, Question } from "@/lib/types";
+import { SurveyArt, artKeyFor } from "./SurveyArt";
 
 interface Props {
   survey: { title: string; description: string; questions: Question[]; purpose?: string; targetGroup?: string; consentText?: string };
@@ -84,6 +85,7 @@ export function SurveyForm({ survey: s, preview, onSubmit }: Props) {
           <span>Önizleme modu. Yanıtlar kaydedilmez.</span>
         </div>
       ) : null}
+      {step < 0 ? <SurveyArt art={artKeyFor(s.title || "")} label={s.title} className="take-art" /> : null}
       <div className="take-head stack" style={{ gap: 10 }}>
         <p className="eyebrow">
           {/* eslint-disable-next-line @next/next/no-img-element */}

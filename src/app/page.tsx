@@ -14,6 +14,7 @@ import { FindingCard, sourceLine } from "@/components/FindingBlocks";
 import { FindingChartCard, FindingShowcase } from "@/components/FindingCharts";
 import { FieldMap } from "@/components/FieldMap";
 import { HeadlineSlider, type Headline } from "@/components/HeadlineSlider";
+import { SurveyArt, artKeyFor } from "@/components/SurveyArt";
 
 export const dynamic = "force-dynamic";
 
@@ -118,13 +119,15 @@ export default async function Home() {
     .map((x, k) => ({
       key: "live-" + x.id,
       label: "AKTİF ARAŞTIRMA",
+      badge: Date.now() - x.updatedAt < 30 * 86400000 ? "YENİ ANKET" : "SAHADA",
+      visual: <SurveyArt art={artKeyFor(x.title, x.category?.slug)} label={x.title} />,
       kicker: x.category?.name || "MASSAM Araştırma",
       title: x.title,
       text: x.description.length > 240 ? x.description.slice(0, 237) + "…" : x.description,
       value: null,
       stat: { big: `~${x.minutes} dk`, small: `${x.questions} soru · anonim` },
-      href: `/anketler/${x.slug}`,
-      cta: "Ankete katıl",
+      href: `/s/${x.slug}`,
+      cta: "Hemen katıl",
       source: x.endsAt ? `Son katılım: ${fmtDate(x.endsAt)}` : "Katılıma açık · hesap gerekmez",
       tone: (["t", "e", "n"] as const)[k % 3],
     }));
@@ -225,16 +228,16 @@ export default async function Home() {
         </div>
       ) : null}
 
-      {/* 6.3 Aktif araştırmalar bandı */}
+      {/* 6.3 Yeni anketler bandı */}
       {show("surveys") && liveSlides.length ? (
-        <section className="stack" style={{ gap: 12 }}>
+        <section className="stack live-section" style={{ gap: 14 }}>
           <div className="live-head">
             <div className="section-title" style={{ borderBottom: 0, paddingBottom: 0 }}>
               <h2>
-                Aktif araştırmalar
+                Yeni anketler
                 <small>
                   <span className="live-dot" aria-hidden="true" />
-                  Şu anda sahada · {open.length} anket
+                  Aktif araştırmalar · şu anda sahada · {open.length} anket
                 </small>
               </h2>
             </div>
@@ -242,7 +245,7 @@ export default async function Home() {
               Tüm anketler <Icon name="arrow" />
             </Link>
           </div>
-          <HeadlineSlider items={liveSlides} label="Aktif araştırmalar" variant="live" />
+          <HeadlineSlider items={liveSlides} label="Yeni anketler" variant="live" />
         </section>
       ) : null}
 
@@ -263,11 +266,9 @@ export default async function Home() {
               <div className="ops-list">
                 {ops.slice(0, 4).map((s, i) => (
                   <div className="op" key={s.id}>
-                    <span className="id">
-                      ANK
-                      <br />
-                      {String(i + 1).padStart(2, "0")}
-                    </span>
+                    <Link className="op-art" href={s.open ? `/s/${s.slug}` : `/anketler/${s.slug}`} aria-label={s.title} tabIndex={-1}>
+                      <SurveyArt art={artKeyFor(s.title, s.category?.slug)} label={s.title} />
+                    </Link>
                     <div style={{ minWidth: 0 }}>
                       <h3>{s.title}</h3>
                       <div className="meta">

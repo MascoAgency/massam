@@ -7,6 +7,7 @@ import { fmtDateTime, fmtN } from "@/lib/format";
 import { Icon } from "@/components/icons";
 import { PageHead } from "@/components/PublicCards";
 import type { Question } from "@/lib/types";
+import { SurveyArt, artKeyFor } from "@/components/SurveyArt";
 
 export const dynamic = "force-dynamic";
 type Props = { params: Promise<{ slug: string }> };
@@ -42,6 +43,18 @@ export default async function Page({ params }: Props) {
           </Link>
         ) : null}
       </PageHead>
+      {open ? (
+        <Link className="survey-hero-art" href={`/s/${s.slug}`} aria-label={"Ankete başla: " + s.title}>
+          <SurveyArt art={artKeyFor(s.title, s.category?.slug)} label={s.title} />
+          <span className="sha-cta">
+            Ankete başla <Icon name="arrow" />
+          </span>
+        </Link>
+      ) : (
+        <div className="survey-hero-art">
+          <SurveyArt art={artKeyFor(s.title, s.category?.slug)} label={s.title} />
+        </div>
+      )}
       <div className="kv-grid">
         <div className="kv-item">
           <span>Durum</span>

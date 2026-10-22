@@ -1,5 +1,5 @@
 "use client";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState, type ReactNode } from "react";
 import Link from "next/link";
 import { Icon } from "./icons";
 
@@ -19,6 +19,10 @@ export type Headline = {
   cta?: string;
   /** Oran yoksa sağ tarafta gösterilecek büyük bilgi */
   stat?: { big: string; small: string };
+  /** Sağ tarafta büyük kapak çizimi (ör. anket görseli) */
+  visual?: ReactNode;
+  /** Kapak üzerindeki rozet (ör. YENİ) */
+  badge?: string;
 };
 
 const INTERVAL = 4000;
@@ -81,7 +85,7 @@ export function HeadlineSlider({ items, label = "Öne çıkan haberler", variant
             <Link
               key={h.key}
               href={h.href}
-              className={"hl-slide " + h.tone + (h.intro ? " intro" : "")}
+              className={"hl-slide " + h.tone + (h.intro ? " intro" : "") + (h.visual ? " with-art" : "")}
               aria-roledescription="slide"
               aria-label={`${k + 1} / ${n}: ${h.title}`}
               aria-hidden={k !== i}
@@ -99,6 +103,18 @@ export function HeadlineSlider({ items, label = "Öne çıkan haberler", variant
                 </span>
                 <span className="hl-src">{h.source}</span>
               </div>
+              {h.visual ? (
+                <div className="hl-artpanel">
+                  {h.visual}
+                  {h.badge ? <span className="hl-badge">{h.badge}</span> : null}
+                  {h.stat ? (
+                    <span className="hl-artstat" aria-hidden="true">
+                      <b>{h.stat.big}</b>
+                      <span>{h.stat.small}</span>
+                    </span>
+                  ) : null}
+                </div>
+              ) : (
               <div className="hl-visual" aria-hidden="true">
                 {h.value != null ? (
                   <svg viewBox="0 0 120 120">
@@ -129,6 +145,7 @@ export function HeadlineSlider({ items, label = "Öne çıkan haberler", variant
                   <img src="/massam-logo.svg" alt="" draggable={false} />
                 )}
               </div>
+              )}
             </Link>
           ))}
         </div>

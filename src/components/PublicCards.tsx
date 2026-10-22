@@ -2,6 +2,7 @@ import Link from "next/link";
 import { Icon, type IconName } from "./icons";
 import { fmtDate, fmtN } from "@/lib/format";
 import type { PublicResultCard, PublicSurveyCard } from "@/lib/public";
+import { SurveyArt, artKeyFor } from "./SurveyArt";
 
 const ICONS: IconName[] = ["vote", "users", "heart", "coin", "shield", "book", "cpu", "building", "globe", "chart", "file", "home", "alert"];
 export const catIcon = (name: string): IconName => (ICONS.includes(name as IconName) ? (name as IconName) : "chart");
@@ -9,6 +10,10 @@ export const catIcon = (name: string): IconName => (ICONS.includes(name as IconN
 export function SurveyCard({ s }: { s: PublicSurveyCard }) {
   return (
     <article className="card stack survey-card" style={{ gap: 10 }}>
+      <Link className="sc-art" href={s.open ? `/s/${s.slug}` : `/anketler/${s.slug}`} aria-label={(s.open ? "Ankete katıl: " : "Ayrıntılar: ") + s.title} tabIndex={-1}>
+        <SurveyArt art={artKeyFor(s.title, s.category?.slug)} label={s.title} />
+        {s.open ? <span className="sc-cta">Ankete katıl →</span> : null}
+      </Link>
       <div className="row between" style={{ gap: 8 }}>
         <span className={"pill " + (s.open ? "open" : s.statusLabel === "Yakında" ? "draft" : "plain")}>{s.statusLabel}</span>
         <span className="small muted row" style={{ gap: 4 }}>
