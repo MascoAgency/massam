@@ -1035,3 +1035,11 @@ a:hover > .survey-art,.hl-slide:hover .survey-art{transform:scale(1.04)}
 .hl-mini-row.hi b,.hl-mini-row.hi .hl-mini-l{color:var(--head);font-weight:700}
 @media (max-width:700px){.hl-slide.with-chart{grid-template-columns:1fr}.hl-slide.with-chart .hl-visual{display:block}}
 @media (prefers-reduced-motion:reduce){.hl-mini-t i{transition:none;transform:none}}
+
+/* yayın sayfası: kapak + metin */
+.pub-layout{display:grid;grid-template-columns:minmax(0,300px) minmax(0,1fr);gap:32px;align-items:start}
+.pub-cover-col{position:sticky;top:150px;display:flex;flex-direction:column;gap:12px}
+.pub-cover{display:block;width:100%;height:auto;border-radius:6px;border:1px solid var(--line);box-shadow:0 22px 50px -26px rgba(11,31,58,.55);transition:transform .25s}
+.pub-cover-col a:hover .pub-cover{transform:translateY(-3px)}
+@media (max-width:800px){.pub-layout{grid-template-columns:1fr}.pub-cover-col{position:static;max-width:280px}}
+.report-row .pub-thumb{width:66px;height:92px;object-fit:cover;object-position:top;border-radius:4px;box-shadow:0 8px 18px -12px rgba(11,31,58,.6)}

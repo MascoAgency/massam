@@ -55,14 +55,32 @@ export default async function Page({ params }: Props) {
           </div>
         ) : null}
       </div>
-      {p.coverId ? (
-        // eslint-disable-next-line @next/next/no-img-element
-        <img className="cover-img" src={`/medya/${p.coverId}`} alt={p.cover?.alt || ""} style={{ maxWidth: 900 }} />
-      ) : null}
-      {p.body ? (
-        <article style={{ maxWidth: 860 }}>
-          <RichText text={p.body} />
-        </article>
+      {p.coverId || p.body ? (
+        <div className={p.coverId ? "pub-layout" : ""}>
+          {p.coverId ? (
+            <aside className="pub-cover-col">
+              {pdf ? (
+                <a href={pdf} target={p.pdfUrl ? "_blank" : undefined} rel="noopener" aria-label="Raporu aç (PDF)">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img className="pub-cover" src={`/medya/${p.coverId}`} alt={p.cover?.alt || ""} />
+                </a>
+              ) : (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img className="pub-cover" src={`/medya/${p.coverId}`} alt={p.cover?.alt || ""} />
+              )}
+              {pdf ? (
+                <a className="btn primary" href={pdf} target={p.pdfUrl ? "_blank" : undefined} rel="noopener" style={{ justifyContent: "center" }}>
+                  <Icon name="dl" /> Raporun tamamı (PDF)
+                </a>
+              ) : null}
+            </aside>
+          ) : null}
+          {p.body ? (
+            <article style={{ maxWidth: 860, minWidth: 0 }}>
+              <RichText text={p.body} />
+            </article>
+          ) : null}
+        </div>
       ) : null}
       {p.report?.published && p.report.slug ? (
         <div className="callout">
