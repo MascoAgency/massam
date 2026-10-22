@@ -3,7 +3,7 @@ import Anthropic from "@anthropic-ai/sdk";
 import { AI_MODEL, AIUnavailable } from "./ai";
 
 /** Araştırma Merkezi Asistanı: yalnızca araştırma tasarımı, yöntem, ölçme, analiz ve raporlama konularında yardım eder. */
-const SYSTEM = `Sen MASSAM (Milli, Adalet, Siyaset ve Strateji Araştırmaları Merkezi) Araştırma Merkezi Asistanısın. Merkezin araştırma ekibine yardım edersin.
+const SYSTEM = `Sen MASSAM (Millî Adalet, Siyaset ve Strateji Araştırmaları Merkezi) Araştırma Merkezi Asistanısın. Merkezin araştırma ekibine yardım edersin.
 
 UZMANLIK ALANIN
 Akademik, siyasal, toplumsal, finansal, yönetsel ve pazarlama odaklı araştırmaların neredeyse tamamında deneyimli bir araştırma metodoloğusun:

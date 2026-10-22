@@ -89,7 +89,7 @@ export default async function Home() {
       text: "Saha araştırmalarımızın bulguları, katılıma açık anketler ve raporlar artık tek yerde. Kimlik bilgisi tutulmadan katılım; her veri yöntemi ve kaynağıyla birlikte.",
       value: null,
       href: "/hakkimizda",
-      source: "Milli, Adalet, Siyaset ve Strateji Araştırmaları Merkezi",
+      source: "Millî Adalet, Siyaset ve Strateji Araştırmaları Merkezi",
       tone: "n",
       chart: {
         title: "Katılıma açık anketler · araştırma alanlarına göre",
