@@ -1063,3 +1063,34 @@ a:hover > .survey-art,.hl-slide:hover .survey-art{transform:scale(1.04)}
 .join-gate-points li{display:flex;gap:8px;align-items:flex-start}
 .join-gate-points svg{width:18px;height:18px;flex:none;color:var(--tur-3);margin-top:2px}
 @media (max-width:720px){.join-gate{grid-template-columns:1fr}.join-gate-art{min-height:0;aspect-ratio:16/9}}
+
+/* ── Sade düzen: süsleyici gölge, parıltı, nabız animasyonu ve görsel üstü katmanlar kaldırıldı ──
+   Kutular yalnızca ince çizgiyle ayrılır; görseller yuvarlatılmış, içe alınmış bir çerçevede durur.
+   İşlevsel gölgeler (odak halkası, açılır pencere, bildirim, mobil menü) korunur. */
+.card,.feature,.step,.announce,.cta-band,.media-card,.stat-tile,.kpi,.qcard,.tq,.tabs,.admin-side,.auth-shell,.qr-box,.desk,.quote-card,.take-head,.seg button[aria-pressed="true"]{box-shadow:none}
+a.card:hover,.desk:hover,a.feature:hover,.feed a.it:hover,.step:hover,a.feature.cat-card:hover{transform:none;box-shadow:none;border-color:var(--navy)}
+.btn,.btn:hover,.btn.primary,.mainnav a.navlink.cta-solid,.headlines.live .hl-more{box-shadow:none}
+.brand-logo,.auth-side .auth-brand img,.asst-av{box-shadow:none}
+.hl-visual img,.hl-stat{box-shadow:none;border:1px solid var(--line)}
+.pub-cover,.report-row .pub-thumb,.hero-img{box-shadow:none;border:1px solid var(--line)}
+.pub-cover:hover{transform:none}
+.live-dot,.hl-badge,.hl-artstat,.sc-cta,.sha-cta{display:none}
+.sc-art::after,.survey-hero-art::after,.hl-artpanel::after{content:none}
+
+/* Yeni anketler bandı: kalın turkuaz çerçeve ve parıltı yerine sıradan kart */
+.headlines.live{border:1px solid var(--line);border-top:1px solid var(--line);box-shadow:none}
+.hl-slide.with-art::before{content:none}
+.hl-slide.with-art{grid-template-columns:minmax(0,1fr) minmax(0,46%);min-height:360px}
+.hl-slide.with-art .hl-artpanel{margin:14px 14px 14px 0;border-radius:var(--r-sm);background:var(--surface-2)}
+.headlines.live .hl-more{background:var(--navy);color:#fff;font-size:.95rem;padding:10px 16px;border-radius:var(--r-sm)}
+.headlines.live .hl-slide:hover .hl-more{background:var(--tur-3)}
+
+/* Kart görselleri: kenara taşmayan, yuvarlatılmış çerçeve */
+.survey-card .sc-art{margin:0 0 4px;border-radius:var(--r-sm);border:1px solid var(--line)}
+.survey-hero-art{border-radius:var(--r)}
+.op-art{border-radius:var(--r-sm)}
+.join-gate-art{border-radius:var(--r-sm)}
+.join-gate{padding:14px;gap:6px;border-top:1px solid var(--line)}
+.join-gate-body{padding:14px 18px}
+.verify-card{border-top:1px solid var(--line)}
+@media (max-width:760px){.hl-slide.with-art .hl-artpanel{margin:12px 12px 0}}

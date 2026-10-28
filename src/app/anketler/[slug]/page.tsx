@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { prisma } from "@/lib/db";
-import { isOpenNow, estMinutes } from "@/lib/survey";
+import { isOpenNow } from "@/lib/survey";
 import { fmtDateTime, fmtN } from "@/lib/format";
 import { Icon } from "@/components/icons";
 import { PageHead } from "@/components/PublicCards";
@@ -33,7 +33,6 @@ export default async function Page({ params }: Props) {
   if (!s) notFound();
   const qs = (s.questions as unknown as Question[]) || [];
   const open = isOpenNow(s);
-  const minutes = estMinutes(qs);
   return (
     <div className="stack" style={{ gap: 28 }}>
       <PageHead eyebrow={s.category?.name || "Anket"} title={s.title}>
@@ -46,9 +45,6 @@ export default async function Page({ params }: Props) {
       {open ? (
         <Link className="survey-hero-art" href={`/s/${s.slug}`} aria-label={"Ankete başla: " + s.title}>
           <SurveyArt art={artKeyFor(s.title, s.category?.slug)} label={s.title} />
-          <span className="sha-cta">
-            Ankete başla <Icon name="arrow" />
-          </span>
         </Link>
       ) : (
         <div className="survey-hero-art">
@@ -56,14 +52,6 @@ export default async function Page({ params }: Props) {
         </div>
       )}
       <div className="kv-grid">
-        <div className="kv-item">
-          <span>Durum</span>
-          <b>{open ? "Katılıma açık" : s.startsAt && s.startsAt.getTime() > Date.now() ? "Yakında" : "Tamamlandı"}</b>
-        </div>
-        <div className="kv-item">
-          <span>Tahmini süre</span>
-          <b>Yaklaşık {minutes} dakika</b>
-        </div>
         <div className="kv-item">
           <span>Soru sayısı</span>
           <b>{qs.length}</b>

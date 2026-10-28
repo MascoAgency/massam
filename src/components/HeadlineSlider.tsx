@@ -126,7 +126,7 @@ export function HeadlineSlider({ items, label = "Öne çıkan haberler", variant
                 <span className="hl-more">
                   {h.cta || (h.intro ? "Platformu tanıyın" : "Araştırmanın ayrıntıları")} <Icon name="arrow" />
                 </span>
-                <span className="hl-src">{h.source}</span>
+                {h.source ? <span className="hl-src">{h.source}</span> : null}
               </div>
               {h.visual ? (
                 <div className="hl-artpanel">

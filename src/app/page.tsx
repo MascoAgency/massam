@@ -137,17 +137,15 @@ export default async function Home() {
     .slice(0, 16)
     .map((x, k) => ({
       key: "live-" + x.id,
-      label: "AKTİF ARAŞTIRMA",
-      badge: Date.now() - x.updatedAt < 30 * 86400000 ? "YENİ ANKET" : "SAHADA",
+      label: "ANKET",
       visual: <SurveyArt art={artKeyFor(x.title, x.category?.slug)} label={x.title} />,
       kicker: x.category?.name || "MASSAM Araştırma",
       title: x.title,
       text: x.description.length > 240 ? x.description.slice(0, 237) + "…" : x.description,
       value: null,
-      stat: { big: `~${x.minutes} dk`, small: `${x.questions} soru · anonim` },
       href: `/s/${x.slug}`,
-      cta: "Hemen katıl",
-      source: x.endsAt ? `Son katılım: ${fmtDate(x.endsAt)}` : "Katılıma açık · üyelikle katılım",
+      cta: "Ankete katıl",
+      source: "",
       tone: (["t", "e", "n"] as const)[k % 3],
     }));
   const ci = h.heroTitle.indexOf(",");
@@ -252,13 +250,7 @@ export default async function Home() {
         <section className="stack live-section" style={{ gap: 14 }}>
           <div className="live-head">
             <div className="section-title" style={{ borderBottom: 0, paddingBottom: 0 }}>
-              <h2>
-                Yeni anketler
-                <small>
-                  <span className="live-dot" aria-hidden="true" />
-                  Aktif araştırmalar · şu anda sahada · {open.length} anket
-                </small>
-              </h2>
+              <h2>Yeni anketler</h2>
             </div>
             <Link className="btn" href="/anketler">
               Tüm anketler <Icon name="arrow" />
@@ -291,17 +283,12 @@ export default async function Home() {
                     <div style={{ minWidth: 0 }}>
                       <h3>{s.title}</h3>
                       <div className="meta">
-                        {s.category ? s.category.name + " · " : ""}~{s.minutes} dk · anonim
-                        {s.endsAt ? " · " + fmtDate(s.endsAt) + " kapanır" : ""}
+                        {s.category ? s.category.name : "MASSAM Araştırma"}
                       </div>
                     </div>
-                    {s.open ? (
-                      <Link className="btn signal sm" href={`/anketler/${s.slug}`}>
-                        Katıl
-                      </Link>
-                    ) : (
-                      <span className="pill draft">Yakında</span>
-                    )}
+                    <Link className={"btn sm" + (s.open ? " signal" : "")} href={`/anketler/${s.slug}`}>
+                      {s.open ? "Katıl" : "Ayrıntılar"}
+                    </Link>
                   </div>
                 ))}
               </div>

@@ -2,7 +2,7 @@
 import { useMemo, useState } from "react";
 import { Icon } from "./icons";
 import { useToast } from "./ui";
-import { LIKERT, hasAnswer, visibleQuestions, estMinutes } from "@/lib/survey";
+import { LIKERT, hasAnswer, visibleQuestions } from "@/lib/survey";
 import type { Answer, Question } from "@/lib/types";
 import { SurveyArt, artKeyFor } from "./SurveyArt";
 
@@ -24,7 +24,6 @@ export function SurveyForm({ survey: s, preview, onSubmit }: Props) {
   const visible = useMemo(() => visibleQuestions(s.questions, ans), [s.questions, ans]);
   const total = visible.length;
   const q = step >= 0 ? visible[Math.min(step, total - 1)] : null;
-  const minutes = estMinutes(s.questions);
   const needConsent = !!s.consentText?.trim();
 
   const set = (id: string, v: Answer) => {
@@ -95,7 +94,6 @@ export function SurveyForm({ survey: s, preview, onSubmit }: Props) {
         <h1>{s.title || "Adsız anket"}</h1>
         <div className="row small muted" style={{ gap: 14 }}>
           <span>{s.questions.length} soru</span>
-          <span>Yaklaşık {minutes} dakika</span>
           {step >= 0 ? <span>Soru {Math.min(step + 1, total)} / {total}</span> : null}
         </div>
         <div className="progress" aria-label={`İlerleme %${pct}`} role="progressbar" aria-valuenow={pct} aria-valuemin={0} aria-valuemax={100}>

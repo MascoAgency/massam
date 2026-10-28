@@ -12,17 +12,7 @@ export function SurveyCard({ s }: { s: PublicSurveyCard }) {
     <article className="card stack survey-card" style={{ gap: 10 }}>
       <Link className="sc-art" href={s.open ? `/s/${s.slug}` : `/anketler/${s.slug}`} aria-label={(s.open ? "Ankete katıl: " : "Ayrıntılar: ") + s.title} tabIndex={-1}>
         <SurveyArt art={artKeyFor(s.title, s.category?.slug)} label={s.title} />
-        {s.open ? <span className="sc-cta">Ankete katıl →</span> : null}
       </Link>
-      <div className="row between" style={{ gap: 8 }}>
-        <span className={"pill " + (s.open ? "open" : s.statusLabel === "Yakında" ? "draft" : "plain")}>{s.statusLabel}</span>
-        <span className="small muted row" style={{ gap: 4 }}>
-          <span style={{ width: 15, height: 15, display: "inline-grid" }}>
-            <Icon name="clock" />
-          </span>
-          ~{s.minutes} dk
-        </span>
-      </div>
       {s.category ? (
         <Link className="cat-link" href={`/arastirma-alanlari/${s.category.slug}`}>
           {s.category.name}
