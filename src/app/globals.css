@@ -10,9 +10,10 @@
   --header-bg:rgba(255,255,255,.94);
   --shadow-sm:0 1px 2px rgba(11,31,58,.05);
   --shadow:0 18px 40px -24px rgba(11,31,58,.28),0 2px 6px rgba(11,31,58,.04);
-  --f-display:var(--font-display), "Space Grotesk", var(--font-sans), system-ui, sans-serif;
-  --f-body:var(--font-sans), "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
-  --f-mono:var(--font-mono), "IBM Plex Mono", ui-monospace, Menlo, monospace;
+  --f-display:var(--font-display), "Source Serif 4", Georgia, "Times New Roman", serif;
+  --f-body:var(--font-sans), "Source Sans 3", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --f-mono:var(--f-body);
+  --f-code:var(--font-mono), "IBM Plex Mono", ui-monospace, Menlo, monospace;
   --r:10px; --r-sm:7px;
 }
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
@@ -42,7 +43,7 @@
 *{box-sizing:border-box}
 [hidden]{display:none!important}
 html,body{overflow-x:clip}
-body{background:var(--bg);color:var(--fg);font-family:var(--f-body);font-size:15px;line-height:1.6;-webkit-font-smoothing:antialiased;font-feature-settings:"cv11","ss01"}
+body{background:var(--bg);color:var(--fg);font-family:var(--f-body);font-size:15px;line-height:1.6;-webkit-font-smoothing:antialiased;font-feature-settings:"kern","liga"}
 h1,h2,h3{font-family:var(--f-display);font-weight:700;line-height:1.15;text-wrap:balance;margin:0;letter-spacing:-.022em}
 h1{font-size:clamp(1.75rem,3.6vw,2.5rem)}
 h2{font-size:1.5rem}
@@ -303,7 +304,7 @@ td.num,th.num{text-align:right;font-variant-numeric:tabular-nums}
 .qr-box{background:#fff;padding:14px;border-radius:14px;display:inline-block;border:1px solid var(--line);box-shadow:var(--shadow-sm)}
 .qr-box img{display:block;width:180px;height:180px;image-rendering:pixelated}
 .linkbox{display:flex;gap:6px}
-.linkbox input{font-family:var(--f-mono);font-size:.82rem}
+.linkbox input{font-family:var(--f-code);font-size:.82rem}
 hr.sep{border:0;border-top:1px solid var(--line);margin:4px 0}
 
 /* --- tam sürüm eklemeleri (Next.js) --- */
@@ -488,7 +489,7 @@ main{padding-bottom:48px}
 .md-figure figcaption{font-size:.84rem;color:var(--muted)}
 .md-quote{margin:0;padding:12px 16px;border-left:3px solid var(--accent);background:var(--surface-2);border-radius:0 10px 10px 0;font-style:italic}
 /* --- içerik düzenleyici ve medya --- */
-.md-editor textarea{font-family:var(--f-mono);font-size:.88rem;line-height:1.6;min-height:220px}
+.md-editor textarea{font-family:var(--f-code);font-size:.88rem;line-height:1.6;min-height:220px}
 .md-toolbar{display:flex;flex-wrap:wrap;gap:4px;padding:6px;border:1px solid var(--line-2);border-bottom:0;border-radius:var(--r-sm) var(--r-sm) 0 0;background:var(--surface-2)}
 .md-toolbar+textarea{border-top-left-radius:0;border-top-right-radius:0}
 .md-toolbar button{min-width:34px;height:32px;padding:0 9px;border:1px solid transparent;border-radius:7px;background:var(--surface);cursor:pointer;font-weight:700;font-size:.84rem;color:var(--ink-2);display:inline-flex;align-items:center;gap:6px}
@@ -1094,3 +1095,10 @@ a.card:hover,.desk:hover,a.feature:hover,.feed a.it:hover,.step:hover,a.feature.
 .join-gate-body{padding:14px 18px}
 .verify-card{border-top:1px solid var(--line)}
 @media (max-width:760px){.hl-slide.with-art .hl-artpanel{margin:12px 12px 0}}
+
+/* Resmî yazı düzeni: serif başlıklar, sans künye etiketleri */
+body{font-size:16px}
+h1,h2,h3,.wordmark,.brand-text b,.site-footer .footer-brand b{font-weight:600;letter-spacing:-.005em}
+h1{letter-spacing:-.012em}
+.kpi b,.stat-tile b,.hl-stat b,.kv-item b,.mini-stats b,.card.stat b,.figure b,.stat b{font-variant-numeric:lining-nums tabular-nums;font-weight:600}
+.mono{font-variant-numeric:tabular-nums}

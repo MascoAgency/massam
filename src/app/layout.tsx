@@ -9,26 +9,14 @@ import { getCurrentUser } from "@/lib/session";
 import { effectivePlan } from "@/lib/plans";
 import { isStaff } from "@/lib/roles";
 
-// Inter yazı tipi proje içinden sunulur (Google Fonts erişimine bağlı kalmadan derlenir); Türkçe karakterleri içerir
-const sans = localFont({
-  src: [
-    { path: "./fonts/Inter-Regular.ttf", weight: "400", style: "normal" },
-    { path: "./fonts/Inter-Medium.ttf", weight: "500", style: "normal" },
-    { path: "./fonts/Inter-SemiBold.ttf", weight: "600", style: "normal" },
-    { path: "./fonts/Inter-Bold.ttf", weight: "700", style: "normal" },
-    { path: "./fonts/Inter-ExtraBold.ttf", weight: "800", style: "normal" },
-  ],
-  variable: "--font-sans",
-  display: "swap",
-});
-
-// Başlıklar: Space Grotesk · künye ve rakamlar: IBM Plex Mono (ikisi de OFL lisanslı, Türkçe karakterli)
-const display = localFont({ src: "./fonts/SpaceGrotesk.ttf", weight: "300 700", variable: "--font-display", display: "swap" });
+// Yazı tipleri proje içinden sunulur (Google Fonts erişimine bağlı kalmadan derlenir); hepsi OFL lisanslı ve Türkçe karakterli
+// Başlıklar: Source Serif 4 · metin ve künye: Source Sans 3 · kod alanları: IBM Plex Mono
+const sans = localFont({ src: "./fonts/SourceSans3.ttf", weight: "200 900", variable: "--font-sans", display: "swap" });
+const display = localFont({ src: "./fonts/SourceSerif4.ttf", weight: "200 900", variable: "--font-display", display: "swap" });
 const mono = localFont({
   src: [
     { path: "./fonts/IBMPlexMono-Regular.ttf", weight: "400", style: "normal" },
     { path: "./fonts/IBMPlexMono-Medium.ttf", weight: "500", style: "normal" },
-    { path: "./fonts/IBMPlexMono-SemiBold.ttf", weight: "600", style: "normal" },
   ],
   variable: "--font-mono",
   display: "swap",
