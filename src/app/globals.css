@@ -1102,3 +1102,11 @@ h1,h2,h3,.wordmark,.brand-text b,.site-footer .footer-brand b{font-weight:600;le
 h1{letter-spacing:-.012em}
 .kpi b,.stat-tile b,.hl-stat b,.kv-item b,.mini-stats b,.card.stat b,.figure b,.stat b{font-variant-numeric:lining-nums tabular-nums;font-weight:600}
 .mono{font-variant-numeric:tabular-nums}
+
+/* Katılımcı bilgileri: ad soyad istenmediği notu ve demografik alanlar */
+.demo-notice{display:flex;flex-direction:column;gap:4px;border:1px solid var(--line);border-left:3px solid var(--navy);background:var(--surface-2);border-radius:var(--r-sm);padding:12px 14px;font-size:.9rem;line-height:1.5;color:var(--fg)}
+.demo-notice b{color:var(--head)}
+.demo-row{grid-template-columns:1fr 1.6fr;gap:10px}
+.demo-gender{border:0;margin:0;padding:0;min-width:0}
+.demo-gender legend{padding:0;margin-bottom:6px;font-size:.84rem;font-weight:600;color:var(--ink-2)}
+@media (max-width:520px){.demo-row{grid-template-columns:1fr}}

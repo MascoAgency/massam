@@ -96,7 +96,7 @@ export function AdminUsers({ users, plans, me }: { users: UserRow[]; plans: Plan
               {list.map((u) => (
                 <tr key={u.id} style={u.disabled ? { opacity: 0.55 } : undefined}>
                   <td>
-                    <b>{u.name || "Adsız"}</b> {u.role !== "USER" ? <span className="pill plain accent">{ROLE_LABEL[u.role as RoleName]}</span> : null}
+                    <b>{u.name || "Katılımcı"}</b> {u.role !== "USER" ? <span className="pill plain accent">{ROLE_LABEL[u.role as RoleName]}</span> : null}
                     <div className="small muted">{u.email}</div>
                   </td>
                   <td>{u.institution || "—"}</td>

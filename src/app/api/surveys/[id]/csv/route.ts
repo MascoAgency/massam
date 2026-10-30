@@ -12,11 +12,12 @@ export async function GET(_req: Request, { params }: { params: Promise<{ id: str
   if (!s) return fail(404, "Anket bulunamadı.");
   const qs = s.questions as unknown as Question[];
   const rs = await prisma.response.findMany({ where: { surveyId: s.id }, orderBy: { submittedAt: "asc" } });
-  const lines = [["Yanıt No", "Tarih", ...qs.map((q) => q.title)].map(csvCell).join(";")];
+  const lines = [["Yanıt No", "Tarih", "Yaş grubu", "Cinsiyet", "Eğitim durumu", ...qs.map((q) => q.title)].map(csvCell).join(";")];
   rs.forEach((r, i) => {
     const a = r.answers as Record<string, Answer>;
+    const d = (r.demographics as { ageGroup?: string; gender?: string; education?: string } | null) ?? {};
     lines.push(
-      [i + 1, r.submittedAt.toLocaleString("tr-TR", { timeZone: "Europe/Istanbul" }), ...qs.map((q) => (Array.isArray(a[q.id]) ? (a[q.id] as string[]).join(" | ") : a[q.id] ?? ""))]
+      [i + 1, r.submittedAt.toLocaleString("tr-TR", { timeZone: "Europe/Istanbul" }), d.ageGroup ?? "", d.gender ?? "", d.education ?? "", ...qs.map((q) => (Array.isArray(a[q.id]) ? (a[q.id] as string[]).join(" | ") : a[q.id] ?? ""))]
         .map(csvCell)
         .join(";"),
     );

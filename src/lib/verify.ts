@@ -20,11 +20,12 @@ export async function sendVerification(user: { id: string; email: string; name: 
   await prisma.emailVerificationToken.create({ data: { userId: user.id, tokenHash: sha256(token), next: safeNext(next), expiresAt: new Date(Date.now() + 24 * 3600_000) } });
   const link = `${appUrl()}/eposta-dogrula?token=${token}`;
   const name = user.name.replace(/</g, "&lt;");
+  const hi = user.name ? `Merhaba ${user.name}` : "Merhaba";
   await sendMail(
     user.email,
     "MASSAM Araştırma — e-posta adresinizi doğrulayın",
-    `Merhaba ${user.name},\n\nMASSAM Araştırma üyeliğinizi tamamlamak ve anketlere katılabilmek için e-posta adresinizi doğrulayın (bağlantı 24 saat geçerlidir):\n${link}\n\nBu üyeliği siz oluşturmadıysanız bu e-postayı yok sayabilirsiniz.\n\nMASSAM Araştırma`,
-    `<p>Merhaba ${name},</p><p>MASSAM Araştırma üyeliğinizi tamamlamak ve anketlere katılabilmek için e-posta adresinizi doğrulayın. Bağlantı 24 saat geçerlidir.</p><p><a href="${link}" style="display:inline-block;background:#0B1F3A;color:#fff;padding:12px 20px;border-radius:6px;text-decoration:none;font-weight:600">E-postamı doğrula</a></p><p style="color:#5A6680;font-size:13px">Düğme çalışmazsa bu bağlantıyı tarayıcınıza yapıştırın:<br>${link}</p><p>Bu üyeliği siz oluşturmadıysanız bu e-postayı yok sayabilirsiniz.</p><p>MASSAM Araştırma</p>`,
+    `${hi},\n\nMASSAM Araştırma üyeliğinizi tamamlamak ve anketlere katılabilmek için e-posta adresinizi doğrulayın (bağlantı 24 saat geçerlidir):\n${link}\n\nBu üyeliği siz oluşturmadıysanız bu e-postayı yok sayabilirsiniz.\n\nMASSAM Araştırma`,
+    `<p>${name ? `Merhaba ${name}` : "Merhaba"},</p><p>MASSAM Araştırma üyeliğinizi tamamlamak ve anketlere katılabilmek için e-posta adresinizi doğrulayın. Bağlantı 24 saat geçerlidir.</p><p><a href="${link}" style="display:inline-block;background:#0B1F3A;color:#fff;padding:12px 20px;border-radius:6px;text-decoration:none;font-weight:600">E-postamı doğrula</a></p><p style="color:#5A6680;font-size:13px">Düğme çalışmazsa bu bağlantıyı tarayıcınıza yapıştırın:<br>${link}</p><p>Bu üyeliği siz oluşturmadıysanız bu e-postayı yok sayabilirsiniz.</p><p>MASSAM Araştırma</p>`,
   );
   return { sent: true as const };
 }

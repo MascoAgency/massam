@@ -18,8 +18,8 @@ export async function POST(req: Request) {
       await sendMail(
         user.email,
         "MASSAM Araştırma — şifre sıfırlama",
-        `Merhaba ${user.name},\n\nŞifrenizi sıfırlamak için aşağıdaki bağlantıyı açın (1 saat geçerlidir):\n${link}\n\nBu talebi siz yapmadıysanız bu e-postayı yok sayabilirsiniz.\n\nMASSAM Araştırma`,
-        `<p>Merhaba ${user.name.replace(/</g, "&lt;")},</p><p>Şifrenizi sıfırlamak için aşağıdaki bağlantıyı açın (1 saat geçerlidir):</p><p><a href="${link}">Şifremi sıfırla</a></p><p>Bu talebi siz yapmadıysanız bu e-postayı yok sayabilirsiniz.</p><p>MASSAM Araştırma</p>`,
+        `Merhaba${user.name ? " " + user.name : ""},\n\nŞifrenizi sıfırlamak için aşağıdaki bağlantıyı açın (1 saat geçerlidir):\n${link}\n\nBu talebi siz yapmadıysanız bu e-postayı yok sayabilirsiniz.\n\nMASSAM Araştırma`,
+        `<p>Merhaba${user.name ? " " + user.name.replace(/</g, "&lt;") : ""},</p><p>Şifrenizi sıfırlamak için aşağıdaki bağlantıyı açın (1 saat geçerlidir):</p><p><a href="${link}">Şifremi sıfırla</a></p><p>Bu talebi siz yapmadıysanız bu e-postayı yok sayabilirsiniz.</p><p>MASSAM Araştırma</p>`,
       ).catch((err) => console.error("Şifre sıfırlama e-postası gönderilemedi:", err));
     }
   }

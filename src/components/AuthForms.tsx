@@ -4,6 +4,7 @@ import { useState, type ReactNode } from "react";
 import Link from "next/link";
 import { signIn } from "next-auth/react";
 import { api } from "./ui";
+import { DEMOGRAPHICS_NOTICE, EDUCATIONS, GENDERS, MIN_AGE, MAX_AGE } from "@/lib/demographics";
 
 function safeNext(n?: string) {
   return n && n.startsWith("/") && !n.startsWith("//") ? n : "/panel";
@@ -125,14 +126,15 @@ export function RegisterForm({ next }: { next?: string }) {
     e.preventDefault();
     const fd = new FormData(e.currentTarget);
     const body = Object.fromEntries(fd.entries()) as Record<string, string>;
-    if (!/\S+\s+\S+/.test((body.name || "").trim())) return setErr("Lütfen adınızı ve soyadınızı birlikte yazın.");
+    if (!participant && !/\S+\s+\S+/.test((body.name || "").trim())) return setErr("Lütfen adınızı ve soyadınızı birlikte yazın.");
+    if (participant && !body.gender) return setErr("Cinsiyet seçeneklerinden birini işaretleyin.");
     if (body.password !== body.password2) return setErr("Şifreler eşleşmiyor.");
     if (!fd.get("kvkk")) return setErr("Devam etmek için KVKK Aydınlatma Metni'ni onaylamanız gerekir.");
     if (!fd.get("privacy")) return setErr("Devam etmek için Gizlilik Sözleşmesi'ni kabul etmeniz gerekir.");
     setBusy(true);
     setErr("");
     try {
-      await api("/api/register", "POST", { ...body, kvkk: true, privacy: true, next: target });
+      await api("/api/register", "POST", { ...body, kvkk: true, privacy: true, participant, next: target });
       const r = await signIn("credentials", { email: body.email, password: body.password, redirect: false });
       window.location.href = r && !r.error ? "/eposta-dogrulama" + (target ? `?next=${encodeURIComponent(target)}` : "") : "/giris";
     } catch (e) {
@@ -155,7 +157,7 @@ export function RegisterForm({ next }: { next?: string }) {
       }
       points={
         participant
-          ? ["Ad soyad, e-posta ve şifre ile üyelik", "E-posta doğrulamasıyla güvenli katılım", "Her ankete bir kez katılım", "Yanıtlarınız kimliğinizle eşleştirilmeden saklanır"]
+          ? ["Ad soyad istenmez", "E-posta, yaş, cinsiyet ve eğitim durumu ile üyelik", "Her ankete bir kez katılım", "Yanıtlarınız e-postanızla eşleştirilmeden saklanır"]
           : ["3 anket, anket başına 100 katılımcı", "Ayda 3 analiz ve 2 PDF rapor", "Kredi kartı gerekmez", "İstediğiniz zaman plan yükseltme"]
       }
     >
@@ -169,20 +171,25 @@ export function RegisterForm({ next }: { next?: string }) {
               : "Kayıttan sonra e-posta adresinize bir doğrulama bağlantısı göndereceğiz. Ad ve kurum bilginiz PDF raporların kapağında “Hazırlayan” olarak görünür."}
           </p>
         </div>
-        <label className="f">
-          Ad soyad
-          <input type="text" name="name" autoComplete="name" required />
-        </label>
-        {participant ? null : (
-          <label className="f">
-            Kurum / üniversite (isteğe bağlı)
-            <input type="text" name="institution" placeholder="Örn. MASKDER, Ankara Üniversitesi" />
-          </label>
+        {participant ? (
+          <DemographicsNotice />
+        ) : (
+          <>
+            <label className="f">
+              Ad soyad
+              <input type="text" name="name" autoComplete="name" required />
+            </label>
+            <label className="f">
+              Kurum / üniversite (isteğe bağlı)
+              <input type="text" name="institution" placeholder="Örn. MASKDER, Ankara Üniversitesi" />
+            </label>
+          </>
         )}
         <label className="f">
           E-posta
-          <input type="email" name="email" autoComplete="email" placeholder="ad@ornek.com" required />
+          <input type="email" name="email" autoComplete="email" placeholder="ornek@eposta.com" required />
         </label>
+        {participant ? <DemographicFields /> : null}
         <div className="grid" style={{ gridTemplateColumns: "1fr 1fr", gap: 10 }}>
           <label className="f">
             Şifre
@@ -216,6 +223,87 @@ export function RegisterForm({ next }: { next?: string }) {
         <p className="small muted" style={{ textAlign: "center" }}>
           Zaten üye misiniz? <Link href={"/giris" + (target ? `?next=${encodeURIComponent(target)}` : "")}>Giriş yapın</Link>
         </p>
+      </form>
+    </AuthShell>
+  );
+}
+
+/** Katılımcıdan neden yaş, cinsiyet ve eğitim istendiğini, ad soyad istenmediğini açıklar */
+export function DemographicsNotice() {
+  return (
+    <div className="demo-notice" role="note">
+      <b>Ad soyad bilgisi istenmez.</b>
+      <span>{DEMOGRAPHICS_NOTICE.replace("Ad soyad bilgisi kesinlikle istenmez. ", "")} Yanıtlarınız e-posta adresinizle eşleştirilmez; yanıtınıza yalnızca yaş grubunuz, cinsiyetiniz ve eğitim durumunuz eklenir.</span>
+    </div>
+  );
+}
+
+export function DemographicFields({ value }: { value?: { age?: number; gender?: string; education?: string } }) {
+  return (
+    <>
+      <div className="grid demo-row">
+        <label className="f">
+          Yaşınız
+          <input type="number" name="age" inputMode="numeric" min={MIN_AGE} max={MAX_AGE} defaultValue={value?.age} required />
+        </label>
+        <label className="f">
+          Eğitim durumu
+          <select name="education" defaultValue={value?.education ?? ""} required>
+            <option value="" disabled>Seçin</option>
+            {EDUCATIONS.map((x) => <option key={x}>{x}</option>)}
+          </select>
+        </label>
+      </div>
+      <fieldset className="f demo-gender">
+        <legend>Cinsiyet</legend>
+        <div className="row" style={{ gap: 16, flexWrap: "wrap" }}>
+          {GENDERS.map((x) => (
+            <label key={x} className="consent-check">
+              <input type="radio" name="gender" value={x} defaultChecked={value?.gender === x} required /> <span>{x}</span>
+            </label>
+          ))}
+        </div>
+      </fieldset>
+    </>
+  );
+}
+
+/** Profilinde katılımcı bilgileri eksik üyeler (eski üyeler, araştırmacılar) ankete başlamadan önce doldurur */
+export function DemographicsForm({ next, value }: { next?: string; value?: { age?: number; gender?: string; education?: string } }) {
+  const [err, setErr] = useState("");
+  const [busy, setBusy] = useState(false);
+  const target = next && next.startsWith("/") && !next.startsWith("//") ? next : "/anketler";
+  async function submit(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    const body = Object.fromEntries(new FormData(e.currentTarget).entries()) as Record<string, string>;
+    if (!body.gender) return setErr("Cinsiyet seçeneklerinden birini işaretleyin.");
+    setBusy(true);
+    setErr("");
+    try {
+      await api("/api/profile/demographics", "POST", body);
+      window.location.href = target;
+    } catch (e) {
+      setBusy(false);
+      setErr((e as Error).message);
+    }
+  }
+  return (
+    <AuthShell
+      title={<>Katılımcı <span>bilgileriniz.</span></>}
+      points={["Ad soyad istenmez", "Bilgiler yalnızca toplu analizde kullanılır", "Yanıtlarınız e-postanızla eşleştirilmez", "Bir kez doldurursunuz, tüm anketlerde geçerlidir"]}
+    >
+      <form onSubmit={submit}>
+        <div>
+          <p className="eyebrow">Ankete katılım</p>
+          <h1>Katılımcı bilgileri</h1>
+          <p className="lead">Ankete başlamadan önce yaşınızı, cinsiyetinizi ve eğitim durumunuzu bir kez belirtmeniz gerekir.</p>
+        </div>
+        <DemographicsNotice />
+        <DemographicFields value={value} />
+        {err ? <p className="err-text" role="alert">{err}</p> : null}
+        <button className="btn primary" type="submit" disabled={busy}>
+          {busy ? <span className="spinner" /> : null} Kaydet ve devam et
+        </button>
       </form>
     </AuthShell>
   );

@@ -33,7 +33,7 @@ export const UC_SECIM = "En fazla üç seçenek işaretleyiniz.";
 export const CONSENT = (konu: string) =>
   `Bu anket, MASSAM Araştırma tarafından ${konu} konusunda bilimsel amaçla yürütülen bir araştırmanın parçasıdır.\n\n` +
   "• Katılım tamamen gönüllüdür ve yalnızca 18 yaşını doldurmuş kişilere açıktır.\n" +
-  "• Ankete katılım üyelikle yapılır. Ad soyad ve e-posta bilgileriniz yalnızca üyelik doğrulaması ve her üyenin bir kez katılmasını sağlamak için kullanılır; anket yanıtlarınız bu bilgilerle eşleştirilmeden, ayrı olarak kaydedilir. Ankette telefon, T.C. kimlik numarası gibi kimlik bilgileri sorulmaz.\n" +
+  "• Ankete katılım üyelikle yapılır ve ad soyad bilgisi kesinlikle istenmez. E-posta adresiniz yalnızca üyelik doğrulaması ve her üyenin bir kez katılmasını sağlamak için kullanılır. Yaş, cinsiyet ve eğitim durumunuz yalnızca araştırma metodolojisinin ve politika önerilerinin sağlamlığı için istenir. Anket yanıtlarınız e-posta adresinizle eşleştirilmeden, ayrı olarak kaydedilir. Ankette telefon, T.C. kimlik numarası gibi kimlik bilgileri sorulmaz.\n" +
   "• Yanıtlar anonim olarak kaydedilir, yalnızca toplu istatistikler hâlinde analiz edilir ve raporlanır; tek tek yanıtlar hiçbir şekilde paylaşılmaz.\n" +
   "• Zorunlu olmayan soruları boş bırakabilir, ankete istediğiniz anda son verebilirsiniz.\n" +
   "Devam ederek bu koşulları okuduğunuzu ve araştırmaya gönüllü olarak katıldığınızı onaylamış olursunuz.";

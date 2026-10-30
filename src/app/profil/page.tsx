@@ -4,6 +4,7 @@ import { requireUser } from "@/lib/session";
 import { fmtDate, fmtN } from "@/lib/format";
 import { ProfileForm, PasswordForm } from "@/components/ProfileForms";
 import { ROLE_LABEL } from "@/lib/roles";
+import { ageOf, hasDemographics } from "@/lib/demographics";
 
 export const metadata = { title: "Profil" };
 export const dynamic = "force-dynamic";
@@ -19,7 +20,22 @@ export default async function Page() {
   return (
     <div className="stack" style={{ maxWidth: 760 }}>
       <div className="page-head"><div><p className="eyebrow">Hesap</p><h1>Profil</h1></div></div>
-      <ProfileForm u={{ name: u.name, institution: u.institution, title: u.title, field: u.field }} />
+      {/* Katılımcı üyeliğinde ad soyad tutulmaz; araştırmacı bilgileri yalnızca adı olan hesaplarda düzenlenir */}
+      {u.name ? <ProfileForm u={{ name: u.name, institution: u.institution, title: u.title, field: u.field }} /> : null}
+      <div className="card stack" style={{ gap: 10 }}>
+        <h3>Katılımcı bilgileri</h3>
+        {hasDemographics(u) ? (
+          <div className="small" style={{ display: "grid", gridTemplateColumns: "140px 1fr", gap: 6 }}>
+            <span className="muted">Yaş</span><span>{ageOf(u.birthYear!)}</span>
+            <span className="muted">Cinsiyet</span><span>{u.gender}</span>
+            <span className="muted">Eğitim durumu</span><span>{u.education}</span>
+          </div>
+        ) : (
+          <p className="small muted">Henüz belirtilmedi. Anketlere katılmadan önce bir kez doldurmanız gerekir.</p>
+        )}
+        <p className="small muted">Ad soyad bilgisi istenmez. Bu bilgiler yalnızca araştırma metodolojisinin ve politika önerilerinin sağlamlığı için kullanılır; yanıtlarınıza yalnızca yaş grubunuz, cinsiyetiniz ve eğitim durumunuz eklenir.</p>
+        <div><Link className="btn" href="/katilimci-bilgileri?next=/profil">{hasDemographics(u) ? "Düzenle" : "Bilgileri doldur"}</Link></div>
+      </div>
       <div className="card stack" style={{ gap: 10 }}>
         <h3>Giriş ve güvenlik</h3>
         <div className="small" style={{ display: "grid", gridTemplateColumns: "140px 1fr", gap: 6 }}>

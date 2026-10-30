@@ -59,6 +59,10 @@ model User {
   emailVerifiedAt    DateTime? // e-posta doğrulandığı an
   kvkkAcceptedAt     DateTime? // KVKK aydınlatma metni onayı
   privacyAcceptedAt  DateTime? // gizlilik sözleşmesi onayı
+  birthYear          Int? // katılımcı profili: yaş (doğum yılı olarak saklanır)
+  gender             String?
+  education          String?
+  demographicsAt     DateTime?
   planId             String                   @default("free")
   plan               Plan                     @relation("UserPlan", fields: [planId], references: [id])
   requestedPlanId    String?
@@ -148,15 +152,16 @@ model Survey {
 }
 
 model Response {
-  id          String    @id @default(cuid())
-  surveyId    String
-  survey      Survey    @relation(fields: [surveyId], references: [id], onDelete: Cascade)
-  answers     Json // { [questionId]: string | string[] | number }
-  startedAt   DateTime?
-  submittedAt DateTime  @default(now())
-  durationSec Int?
-  source      String    @default("web") // web | kiosk | csv | ornek
-  ipHash      String?
+  id           String    @id @default(cuid())
+  surveyId     String
+  survey       Survey    @relation(fields: [surveyId], references: [id], onDelete: Cascade)
+  answers      Json // { [questionId]: string | string[] | number }
+  startedAt    DateTime?
+  submittedAt  DateTime  @default(now())
+  durationSec  Int?
+  source       String    @default("web") // web | kiosk | csv | ornek
+  ipHash       String?
+  demographics Json? // { ageGroup, gender, education } — üyeye bağlantı içermez
 
   @@index([surveyId, submittedAt])
   @@index([surveyId, ipHash, submittedAt])

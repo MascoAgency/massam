@@ -9,6 +9,7 @@ import { getCurrentUser } from "@/lib/session";
 import { isStaff } from "@/lib/roles";
 import { SurveyArt, artKeyFor } from "@/components/SurveyArt";
 import { Icon } from "@/components/icons";
+import { hasDemographics } from "@/lib/demographics";
 
 export const dynamic = "force-dynamic";
 
@@ -65,10 +66,11 @@ export default async function Page({ params, searchParams }: Props) {
             <div className="join-gate-body">
               <p className="eyebrow">Ankete katılım</p>
               <h1>{s.title}</h1>
-              <p>Bu ankete katılmak için üye girişi yapmanız gerekir. Üyelik ad soyad, e-posta ve şifre ile yapılır; e-posta adresinizi doğruladıktan sonra ankete hemen başlayabilirsiniz.</p>
+              <p>Bu ankete katılmak için üye girişi yapmanız gerekir. Üyelik e-posta, şifre, yaş, cinsiyet ve eğitim durumu ile yapılır; ad soyad istenmez. E-posta adresinizi doğruladıktan sonra ankete hemen başlayabilirsiniz.</p>
               <ul className="join-gate-points">
                 <li><Icon name="shield" /> Her üye her ankete bir kez katılır; bu, sonuçların güvenilirliğini korur.</li>
-                <li><Icon name="eye" /> Anket yanıtlarınız ad ve e-posta bilginizle eşleştirilmeden, ayrı saklanır.</li>
+                <li><Icon name="eye" /> Anket yanıtlarınız e-posta adresinizle eşleştirilmeden, ayrı saklanır.</li>
+                <li><Icon name="chart" /> Yaş, cinsiyet ve eğitim bilgisi yalnızca araştırma metodolojisinin ve politika önerilerinin sağlamlığı için istenir.</li>
               </ul>
               <div className="row" style={{ gap: 8, flexWrap: "wrap" }}>
                 <a className="btn signal" href={`/kayit${q}`}>Üye ol ve katıl <Icon name="arrow" /></a>
@@ -81,6 +83,7 @@ export default async function Page({ params, searchParams }: Props) {
       );
     }
     if (!u.emailVerifiedAt) redirect(`/eposta-dogrulama?next=${encodeURIComponent(here)}`);
+    if (!hasDemographics(u)) redirect(`/katilimci-bilgileri?next=${encodeURIComponent(here)}`);
     const done = await prisma.surveyParticipation.findUnique({ where: { surveyId_userId: { surveyId: s.id, userId: u.id } }, select: { createdAt: true } });
     if (done)
       return (

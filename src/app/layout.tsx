@@ -30,7 +30,7 @@ export const viewport: Viewport = { width: "device-width", initialScale: 1, them
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
   const u = await getCurrentUser();
-  const nav = u ? { name: u.name, planName: (await effectivePlan(u)).name, isAdmin: isStaff(u.role) } : null;
+  const nav = u ? { name: u.name || u.email.split("@")[0], planName: (await effectivePlan(u)).name, isAdmin: isStaff(u.role) } : null;
   return (
     <html lang="tr" className={`${sans.variable} ${display.variable} ${mono.variable}`}>
       <body>

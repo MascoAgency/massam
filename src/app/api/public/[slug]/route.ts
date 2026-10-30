@@ -7,6 +7,7 @@ import { lim } from "@/lib/format";
 import type { Question } from "@/lib/types";
 import { getCurrentUser } from "@/lib/session";
 import { isStaff } from "@/lib/roles";
+import { snapshot } from "@/lib/demographics";
 
 const PER_IP_PER_HOUR = 200; // seminer/stant gibi tek cihazdan ardışık katılıma izin verecek kadar geniş
 
@@ -26,6 +27,8 @@ export async function POST(req: Request, { params }: { params: Promise<{ slug: s
   if (!kiosk && !u.emailVerifiedAt) return fail(403, "Ankete katılmak için e-posta adresinizi doğrulamanız gerekir.", { code: "verify" });
   if (!kiosk && (await prisma.surveyParticipation.findUnique({ where: { surveyId_userId: { surveyId: s.id, userId: u.id } }, select: { id: true } })))
     return fail(409, "Bu ankete daha önce katıldınız.", { code: "already" });
+  const demographics = kiosk ? null : snapshot(u);
+  if (!kiosk && !demographics) return fail(403, "Ankete katılmadan önce yaş, cinsiyet ve eğitim bilgilerinizi tamamlayın.", { code: "profile" });
 
   const questions = s.questions as unknown as Question[];
   const { answers, missing } = sanitizeAnswers(questions, b.answers);
@@ -55,6 +58,7 @@ export async function POST(req: Request, { params }: { params: Promise<{ slug: s
       durationSec: startedAt ? Math.round((now - startedAt.getTime()) / 1000) : null,
       source: kiosk ? "kiosk" : "web",
       ipHash,
+      ...(demographics ? { demographics } : {}),
     },
   });
   // Katılım kaydı ile yanıt arasında bağlantı tutulmaz; benzersiz kısıt ikinci katılımı engeller.

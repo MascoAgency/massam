@@ -215,7 +215,7 @@ export default async function Home() {
             <div className="card">
               <span className="eyebrow">Platform</span>
               <p className="small muted" style={{ marginTop: 6 }}>
-                Anketlerimize ad soyad, e-posta ve şifreyle üye olup e-postanızı doğruladıktan sonra katılabilirsiniz; yanıtlarınız kimliğinizle eşleştirilmeden saklanır. Sonuçlar yayın onayı verildikten sonra herkese açık olarak paylaşılır.
+                Anketlerimize e-posta, yaş, cinsiyet ve eğitim durumunuzla üye olup e-postanızı doğruladıktan sonra katılabilirsiniz; ad soyad istenmez, yanıtlarınız e-posta adresinizle eşleştirilmeden saklanır. Sonuçlar yayın onayı verildikten sonra herkese açık olarak paylaşılır.
               </p>
             </div>
           )}
