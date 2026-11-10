@@ -8,5 +8,5 @@ export function Wordmark({ className = "" }: { className?: string }) {
   );
 }
 
-export const TAGLINE = "Millî Adalet, Siyaset ve Strateji Araştırmaları Merkezi";
+export const TAGLINE = "Millî, Adil, Siyasal Araştırmalar Merkezi";
 export const TAGLINE_SHORT = "Araştırma, Veri ve Politika Merkezi";

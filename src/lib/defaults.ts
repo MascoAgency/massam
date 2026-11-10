@@ -246,7 +246,7 @@ export const DEFAULT_LEGAL: import("./types").LegalContent = {
   ].join("\n\n"),
   privacy: [
     "## Taraflar ve konu",
-    "Bu gizlilik sözleşmesi, MASSAM (Millî Adalet, Siyaset ve Strateji Araştırmaları Merkezi) Araştırma platformunu işleten MASKDER ile platforma üye olan kişi (“Üye”) arasında, üyelik ve anket katılımı sırasında elde edilen bilgilerin gizliliğine ilişkin karşılıklı hak ve yükümlülükleri düzenler. Üye, üyelik formunda bu sözleşmeyi onaylayarak hükümlerini kabul eder.",
+    "Bu gizlilik sözleşmesi, MASSAM (Millî, Adil, Siyasal Araştırmalar Merkezi) Araştırma platformunu işleten MASKDER ile platforma üye olan kişi (“Üye”) arasında, üyelik ve anket katılımı sırasında elde edilen bilgilerin gizliliğine ilişkin karşılıklı hak ve yükümlülükleri düzenler. Üye, üyelik formunda bu sözleşmeyi onaylayarak hükümlerini kabul eder.",
     "## Toplanan bilgiler",
     "Üyelik bilgileri: e-posta adresi, şifre, yaş (doğum yılı olarak), cinsiyet ve eğitim durumu. Katılımcı üyeliğinde ad-soyad bilgisi kesinlikle istenmez. Yaş, cinsiyet ve eğitim durumu yalnızca araştırma metodolojisinin ve politika önerilerinin sağlamlığı için, örneklemin dağılımını izlemek ve sonuçları gruplara göre karşılaştırmak amacıyla istenir. Şifre açık olarak saklanmaz; yalnızca geri döndürülemez biçimde özetlenmiş hâli tutulur. E-posta adresi, üyelik sırasında gönderilen doğrulama bağlantısıyla teyit edilir.",
     "Katılım kaydı: Üyenin hangi ankete hangi tarihte katıldığı bilgisi. Bu kayıt yalnızca her üyenin her ankete bir kez katılmasını sağlamak için tutulur.",
