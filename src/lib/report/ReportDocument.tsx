@@ -1,7 +1,8 @@
 import path from "path";
 import React from "react";
-import { Document, Page, Text, View, StyleSheet, Font, Svg, Path, Rect, Defs, LinearGradient, Stop, Circle, Ellipse, Line, Polyline, Polygon, ClipPath, G } from "@react-pdf/renderer";
+import { Document, Page, Text, View, StyleSheet, Font, Svg, Path, Rect, Defs, LinearGradient, Stop, Circle, Polygon, ClipPath, G } from "@react-pdf/renderer";
 import type { ReportSnapshot } from "./types";
+import { EMBLEM } from "./massam-emblem";
 import type { Question } from "../types";
 import type { QStats } from "../stats";
 import { TYPE_LABEL, PALETTE, numericQ } from "../survey";
@@ -215,39 +216,35 @@ function QuestionBlock({ q, i, x, snap }: { q: Question; i: number; x: QStats; s
   );
 }
 
-/** MASSAM amblemi (public/massam-logo.svg ile aynı çizim, PDF için vektör olarak) */
+/** MASSAM amblemi (public/massam-amblem.svg ile aynı çizim, PDF için vektör olarak) */
 function MassamEmblem({ size }: { size: number }) {
-  const pts = "50,122 78,100 122,78 156,44";
-  const star = "9,0 3.51,1.46 6.36,6.36 1.46,3.51 0,9 -1.46,3.51 -6.36,6.36 -3.51,1.46 -9,0 -3.51,-1.46 -6.36,-6.36 -1.46,-3.51 0,-9 1.46,-3.51 6.36,-6.36 3.51,-1.46"
-    .split(" ")
-    .map((p) => p.split(",").map(Number))
-    .map(([x, y]) => `${(156 + x * 1.4).toFixed(2)},${(44 + y * 1.4).toFixed(2)}`)
-    .join(" ");
+  const { C: c, land, tr, star } = EMBLEM;
   return (
     <Svg width={size} height={size} viewBox="0 0 200 200" style={{ marginRight: 8 }}>
       <Defs>
         <ClipPath id="massam-pdf-c">
           <Circle cx="100" cy="100" r="96" />
         </ClipPath>
+        <ClipPath id="massam-pdf-l">
+          <Rect x="0" y="0" width="100" height="200" />
+        </ClipPath>
+        <ClipPath id="massam-pdf-r">
+          <Rect x="100" y="0" width="100" height="200" />
+        </ClipPath>
       </Defs>
       <G clipPath="url(#massam-pdf-c)">
-        <Rect x="0" y="0" width="100" height="200" fill="#1B2A5C" />
-        <Rect x="100" y="0" width="100" height="200" fill="#5FB0D6" />
-        <Ellipse cx="100" cy="100" rx="44" ry="96" fill="none" stroke="#FFFFFF" strokeOpacity={0.16} strokeWidth={2} />
-        <Line x1="0" y1="56" x2="200" y2="56" stroke="#FFFFFF" strokeOpacity={0.16} strokeWidth={2} />
-        <Line x1="0" y1="144" x2="200" y2="144" stroke="#FFFFFF" strokeOpacity={0.16} strokeWidth={2} />
-        <Rect x="40" y="140" width="20" height="60" rx="3" fill="#FFFFFF" />
-        <Rect x="68" y="116" width="20" height="84" rx="3" fill="#FFFFFF" />
-        <Rect x="112" y="92" width="20" height="108" rx="3" fill="#1B2A5C" />
-        <Rect x="140" y="70" width="20" height="130" rx="3" fill="#1B2A5C" />
+        <Rect x="0" y="0" width="100" height="200" fill={c.seaL} />
+        <Rect x="100" y="0" width="100" height="200" fill={c.seaR} />
+        <G clipPath="url(#massam-pdf-l)">
+          <Path d={land} fill={c.landL} />
+        </G>
+        <G clipPath="url(#massam-pdf-r)">
+          <Path d={land} fill={c.landR} />
+        </G>
+        <Path d={tr} fill={c.tr} />
+        <Polygon points={star} fill="#C8102E" />
       </G>
-      <Circle cx="100" cy="100" r="96" fill="none" stroke="#5FB0D6" strokeWidth={3} />
-      <Polyline points={pts} fill="none" stroke="#1B2A5C" strokeWidth={10} strokeLinecap="round" strokeLinejoin="round" />
-      <Polyline points={pts} fill="none" stroke="#FFFFFF" strokeWidth={4} strokeLinecap="round" strokeLinejoin="round" />
-      <Circle cx="50" cy="122" r="6" fill="#FFFFFF" stroke="#1B2A5C" strokeWidth={3} />
-      <Circle cx="78" cy="100" r="6" fill="#FFFFFF" stroke="#1B2A5C" strokeWidth={3} />
-      <Circle cx="122" cy="78" r="6" fill="#FFFFFF" stroke="#1B2A5C" strokeWidth={3} />
-      <Polygon points={star} fill="#FFFFFF" stroke="#1B2A5C" strokeWidth={1.2} />
+      <Circle cx="100" cy="100" r="96" fill="none" stroke={c.rim} strokeWidth={1.5} />
     </Svg>
   );
 }

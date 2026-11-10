@@ -20,7 +20,7 @@ export async function SiteFooter() {
         <div className="stack" style={{ gap: 12 }}>
           <span className="footer-brand">
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/massam-logo.svg" alt="MASSAM amblemi" />
+            <img src="/massam-amblem.svg" alt="MASSAM amblemi" />
             <b>
               <Wordmark className="on-dark" /> Araştırma
             </b>

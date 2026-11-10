@@ -17,7 +17,7 @@ function AuthShell({ children, title, points }: { children: ReactNode; title?: R
       <aside className="auth-side" aria-label="MASSAM Araştırma">
         <div className="auth-brand">
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/massam-logo.svg" alt="MASSAM amblemi" />
+          <img src="/massam-amblem.svg" alt="MASSAM amblemi" />
           <span>
             <b>
               <Wordmark className="on-dark" />

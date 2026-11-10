@@ -83,7 +83,7 @@ export function TopNav({ user }: { user: { name: string; planName: string; isAdm
       <div className="top-in">
         <Link className="brand" href="/" aria-label="MASSAM Araştırma ana sayfa">
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img className="brand-logo" src="/massam-logo.svg" alt="MASSAM amblemi" width={40} height={40} />
+          <img className="brand-logo" src="/massam-amblem.svg" alt="MASSAM amblemi" width={40} height={40} />
           <span className="brand-div" aria-hidden="true" />
           <span className="brand-text">
             <b>
