@@ -736,7 +736,7 @@ a.feature.cat-card:hover{border-color:var(--tur);box-shadow:none}
 .ops-hero h1 .t{color:var(--tur-2)}
 .ops-hero h1 .e{color:var(--efl-2)}
 .ops-hero .lead{color:var(--ink-2);max-width:58ch;margin:0 0 16px}
-.field-map{position:relative;background:var(--surface) radial-gradient(circle at 1px 1px,var(--line) 1px,transparent 0) 0 0/14px 14px;border:1px solid var(--line);border-radius:var(--r);padding:8px}
+.field-map{position:relative;margin:0;background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:14px 14px 10px}
 .field-map svg{display:block;width:100%;height:auto}
 .map-leg{display:flex;gap:14px;flex-wrap:wrap;font-family:var(--f-mono);font-size:.62rem;color:var(--muted);padding:4px 6px 0}
 .map-leg i{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:5px;vertical-align:-1px}
@@ -1110,3 +1110,36 @@ h1{letter-spacing:-.012em}
 .demo-gender{border:0;margin:0;padding:0;min-width:0}
 .demo-gender legend{padding:0;margin-bottom:6px;font-size:.84rem;font-weight:600;color:var(--ink-2)}
 @media (max-width:520px){.demo-row{grid-template-columns:1fr}}
+
+/* Saha haritası: gerçek il sınırları */
+.field-map path{transition:fill .15s}
+.field-map path:hover{fill:var(--line-2)}
+.fm-label{font-family:var(--f-body);font-size:30px;fill:var(--head);paint-order:stroke;stroke:var(--surface);stroke-width:6px;stroke-linejoin:round}
+.fm-name{font-weight:600}
+.fm-n{font-weight:400;fill:var(--muted);font-variant-numeric:tabular-nums}
+.map-leg .map-src{margin-left:auto;color:var(--muted);opacity:.85}
+
+/* Yayın tipografisi: düşünce kuruluşu ve uluslararası politika yayınlarındaki ölçek
+   Serif başlıklar, okumaya uygun metin puntosu, dar harf aralıklı sade künye etiketleri */
+body{font-size:16.5px;line-height:1.6}
+h1{font-size:clamp(2rem,3.4vw,2.75rem);line-height:1.12;font-weight:600;letter-spacing:-.015em}
+h2{font-size:clamp(1.4rem,2.2vw,1.7rem);line-height:1.2;font-weight:600}
+h3{font-size:1.18rem;line-height:1.3;font-weight:600;letter-spacing:-.005em}
+.lead,.hero p.lead,.ops-hero .lead{font-size:1.125rem;line-height:1.6}
+.auth-main .lead{font-size:.98rem}
+.prose{font-family:var(--f-display);font-size:1.125rem;line-height:1.7;max-width:68ch;color:var(--fg)}
+.prose p{line-height:1.7}
+.prose h2,.prose.md h2{font-size:1.5rem;margin-top:18px}
+.prose h3,.prose.md h3{font-size:1.22rem;margin-top:12px}
+.prose li{line-height:1.65}
+.md-quote{font-family:var(--f-display);font-style:italic}
+/* Künye ve etiketler: geniş aralıklı minik büyük harf yerine okunur küçük başlık */
+.eyebrow,.hl-kicker,.pub-type,.cat-link,.section-title h2 small,.kv-item span,.kpi span,.hl-stat span,.feed .h,.meta-row,.brief-file dt,.admin-side .side-label,.showcase-tabs button span{font-family:var(--f-body);font-size:.75rem;letter-spacing:.07em;font-weight:600}
+.brand-text small{font-family:var(--f-body);font-size:.66rem;letter-spacing:.09em}
+.cls-band,.cls-set span,.staff-band{font-family:var(--f-body);font-size:.7rem;letter-spacing:.12em}
+.utility,.site-footer-bottom{font-family:var(--f-body);font-size:.78rem;letter-spacing:.02em}
+.map-leg{font-family:var(--f-body);font-size:.78rem;letter-spacing:0}
+th{font-family:var(--f-body);font-size:.72rem;letter-spacing:.06em}
+.pill,.seg button{font-family:var(--f-body);font-size:.74rem;letter-spacing:.03em}
+.ops-list .id,.timeline .ev b,.judg li::before,.step .mono,.qnum{font-family:var(--f-body);font-size:.74rem;letter-spacing:.02em}
+.kpi b,.stat-tile b,.hl-stat b{font-size:2.1rem;letter-spacing:-.01em}
