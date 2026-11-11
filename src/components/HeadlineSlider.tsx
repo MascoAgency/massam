@@ -41,7 +41,7 @@ function MiniChart({ c, active }: { c: NonNullable<Headline["chart"]>; active: b
         <div className={"hl-mini-row" + (k === hi ? " hi" : "")} key={it.label}>
           <span className="hl-mini-l">{it.label}</span>
           <span className="hl-mini-t">
-            <i style={{ width: `${(it.value / max) * 100}%`, transitionDelay: `${k * 70}ms` }} />
+            <i style={{ width: `${(it.value / max) * 100}%`, transitionDelay: `${700 + k * 70}ms` }} />
           </span>
           <b>{fmt(it.value, c.unit)}</b>
         </div>
@@ -110,7 +110,7 @@ export function HeadlineSlider({ items, label = "Öne çıkan haberler", variant
             <Link
               key={h.key}
               href={h.href}
-              className={"hl-slide " + h.tone + (h.intro ? " intro" : "") + (h.visual ? " with-art" : h.chart && h.chart.items.length ? " with-chart" : "")}
+              className={"hl-slide " + h.tone + (k === i ? " is-on" : "") + (h.intro ? " intro" : "") + (h.visual ? " with-art" : h.chart && h.chart.items.length ? " with-chart" : "")}
               aria-roledescription="slide"
               aria-label={`${k + 1} / ${n}: ${h.title}`}
               aria-hidden={k !== i}
@@ -131,6 +131,11 @@ export function HeadlineSlider({ items, label = "Öne çıkan haberler", variant
               {h.visual ? (
                 <div className="hl-artpanel">
                   {h.visual}
+                  {h.chart && h.chart.items.length ? (
+                    <div className="hl-artchart">
+                      <MiniChart c={h.chart} active={k === i} />
+                    </div>
+                  ) : null}
                   {h.badge ? <span className="hl-badge">{h.badge}</span> : null}
                   {h.stat ? (
                     <span className="hl-artstat" aria-hidden="true">

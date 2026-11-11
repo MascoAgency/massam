@@ -14,7 +14,7 @@ import { FindingCard, sourceLine } from "@/components/FindingBlocks";
 import { FindingChartCard, FindingShowcase } from "@/components/FindingCharts";
 import { FieldMap } from "@/components/FieldMap";
 import { HeadlineSlider, type Headline } from "@/components/HeadlineSlider";
-import { SurveyArt, artKeyFor } from "@/components/SurveyArt";
+import { SurveyArt, artKeyFor, type ArtKey } from "@/components/SurveyArt";
 
 export const dynamic = "force-dynamic";
 
@@ -79,6 +79,9 @@ export default async function Home() {
   allFindings.forEach((f) => f.category && findingCount.set(f.category.slug, (findingCount.get(f.category.slug) || 0) + f.charts.length));
   const surveyCount = new Map<string, number>();
   open.forEach((s) => s.category && surveyCount.set(s.category.slug, (surveyCount.get(s.category.slug) || 0) + 1));
+  // Aynı rapordan gelen ardışık manşetlerde fotoğraf tekrarını azaltmak için konuyla ilişkili yedek görseller
+  const ALT_ART: Partial<Record<ArtKey, ArtKey[]>> = { yerel: ["yerel", "genel", "sosyal"], siyaset: ["siyaset", "ogrenci", "sosyal"], istihdam: ["istihdam", "neet"], ogrenci: ["ogrenci", "egitim"] };
+  const slideArt = (a: ArtKey, round: number) => { const pool = ALT_ART[a]; return pool ? pool[round % pool.length] : a; };
   // Manşet bandı: ilk haber platformun tanıtımı, ardından rapor verilerinden haberleştirilmiş bulgular (raporlar arasında sırayla)
   const headlines: Headline[] = [
     {
@@ -91,6 +94,7 @@ export default async function Home() {
       href: "/hakkimizda",
       source: "Millî, Adil, Siyasal Araştırmalar Merkezi",
       tone: "n",
+      visual: <SurveyArt art="genel" label="MASSAM Araştırma" eager />,
       chart: {
         title: "Katılıma açık anketler · araştırma alanlarına göre",
         unit: "",
@@ -127,6 +131,7 @@ export default async function Home() {
             return idx >= 0 ? idx : undefined;
           })(),
         },
+        visual: <SurveyArt art={slideArt(artKeyFor(`${x.f.sourceTitle} ${x.c.title}`, x.f.category?.slug), k)} label={x.f.category?.name} />,
         href: `/bulgular/${x.f.slug}`,
         source: `Kaynak: MASKDER, ${x.f.sourceTitle}${x.f.sourceYear ? ` (${x.f.sourceYear})` : ""}`,
         tone: x.tone,

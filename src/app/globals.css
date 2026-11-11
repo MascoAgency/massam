@@ -1166,3 +1166,30 @@ th{font-family:var(--f-body);font-size:.72rem;letter-spacing:.06em}
 .area-more svg{width:14px;height:14px;transition:transform .15s}
 .area-card:hover .area-more svg{transform:translateX(3px)}
 @media (prefers-reduced-motion:reduce){.area-photo .survey-art,.area-more svg{transition:none}}
+
+/* Karşılama bandı: her slaytta konu fotoğrafı, bulgu grafiği fotoğrafın üzerinde kart */
+.hl-artpanel{display:flex;flex-direction:column;justify-content:flex-end}
+.hl-artchart{position:relative;z-index:1;line-height:normal;padding:16px;max-width:400px;width:100%;margin-left:auto}
+.hl-artchart .hl-mini{border:1px solid var(--line);border-top:3px solid var(--tur);background:color-mix(in srgb,var(--surface) 94%,transparent)}
+.hl-slide.e .hl-artchart .hl-mini{border-top-color:var(--efl)}
+.hl-slide.n .hl-artchart .hl-mini{border-top-color:var(--navy)}
+.hl-artchart .hl-mini figcaption{font-family:var(--f-body)}
+.hl-artchart .hl-mini-row b{font-family:var(--f-body);font-variant-numeric:tabular-nums}
+@media (max-width:760px){.hl-slide.with-art{grid-template-columns:minmax(0,1fr);grid-template-rows:auto auto}.hl-slide.with-art .hl-artpanel{order:-1;margin:12px 12px 0;min-height:220px;padding-top:110px}.hl-artchart{padding:10px;max-width:none}}
+
+/* Karşılama bandı animasyonları: bant açılışta belirir, etkin slaytın metni sırayla yükselir,
+   fotoğraf yavaşça yaklaşır, grafik kartı alttan gelir ve çubuklar dolar */
+@keyframes hl-in{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
+@keyframes hl-rise{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+@keyframes hl-ken{from{transform:scale(1.14) translate(-1.5%,-1%)}to{transform:scale(1.02) translate(0,0)}}
+@keyframes hl-card{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:none}}
+.headlines{animation:hl-in .9s cubic-bezier(.2,.7,.2,1) both}
+.hl-slide.is-on .hl-copy>*{animation:hl-rise .75s cubic-bezier(.2,.7,.2,1) both}
+.hl-slide.is-on .hl-copy>*:nth-child(1){animation-delay:.15s}
+.hl-slide.is-on .hl-copy>*:nth-child(2){animation-delay:.27s}
+.hl-slide.is-on .hl-copy>*:nth-child(3){animation-delay:.39s}
+.hl-slide.is-on .hl-copy>*:nth-child(4){animation-delay:.51s}
+.hl-slide.is-on .hl-copy>*:nth-child(5){animation-delay:.6s}
+.hl-slide.is-on .hl-artpanel .survey-art{animation:hl-ken 9s cubic-bezier(.25,.6,.3,1) both}
+.hl-slide.is-on .hl-artchart{animation:hl-card .85s .35s cubic-bezier(.2,.7,.2,1) both}
+@media (prefers-reduced-motion:reduce){.headlines,.hl-slide.is-on .hl-copy>*,.hl-slide.is-on .hl-artpanel .survey-art,.hl-slide.is-on .hl-artchart{animation:none}}
