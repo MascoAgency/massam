@@ -1143,3 +1143,26 @@ th{font-family:var(--f-body);font-size:.72rem;letter-spacing:.06em}
 .pill,.seg button{font-family:var(--f-body);font-size:.74rem;letter-spacing:.03em}
 .ops-list .id,.timeline .ev b,.judg li::before,.step .mono,.qnum{font-family:var(--f-body);font-size:.74rem;letter-spacing:.02em}
 .kpi b,.stat-tile b,.hl-stat b{font-size:2.1rem;letter-spacing:-.01em}
+
+/* Araştırma alanları: fotoğraflı, çerçeveli alan kartları */
+.area-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,340px),1fr));gap:20px}
+.area-card{display:flex;flex-direction:column;background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:10px;color:inherit;text-decoration:none;transition:border-color .15s}
+.area-card:hover{border-color:var(--navy)}
+.area-photo{display:block;line-height:0;border-radius:var(--r-sm);overflow:hidden;background:var(--surface-2)}
+.area-photo .survey-art{width:100%;aspect-ratio:16/9;object-fit:cover;transition:transform .4s ease}
+.area-card:hover .area-photo .survey-art{transform:scale(1.03)}
+.area-body{display:flex;flex-direction:column;gap:10px;padding:16px 12px 8px;flex:1}
+.area-head{display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--line);padding-bottom:10px}
+.area-no{font-family:var(--f-display);font-size:1.5rem;font-weight:600;color:var(--tur-3);line-height:1;font-variant-numeric:lining-nums}
+.area-ic{width:34px;height:34px;display:grid;place-items:center;border:1px solid var(--line);border-radius:50%;color:var(--navy)}
+.area-ic svg{width:17px;height:17px}
+.area-card h2{font-size:1.32rem;line-height:1.25;margin:2px 0 0}
+.area-card p{color:var(--ink-2);font-size:.95rem;line-height:1.6}
+.area-topics{list-style:none;margin:2px 0 0;padding:0;display:flex;flex-direction:column;gap:6px}
+.area-topics li{position:relative;padding-left:16px;font-size:.88rem;line-height:1.45;color:var(--fg)}
+.area-topics li::before{content:"";position:absolute;left:0;top:.62em;width:8px;height:1px;background:var(--tur-3)}
+.area-foot{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-top:auto;padding-top:12px;border-top:1px solid var(--line);font-size:.82rem;color:var(--muted)}
+.area-more{display:inline-flex;align-items:center;gap:6px;color:var(--navy);font-weight:600}
+.area-more svg{width:14px;height:14px;transition:transform .15s}
+.area-card:hover .area-more svg{transform:translateX(3px)}
+@media (prefers-reduced-motion:reduce){.area-photo .survey-art,.area-more svg{transition:none}}

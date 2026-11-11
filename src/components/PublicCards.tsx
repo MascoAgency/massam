@@ -60,21 +60,6 @@ export function ResultCard({ r }: { r: PublicResultCard }) {
   );
 }
 
-export function CategoryCard({ c }: { c: { slug: string; name: string; description: string; icon: string; topics: string[] } }) {
-  return (
-    <Link className="feature cat-card" href={`/arastirma-alanlari/${c.slug}`}>
-      <span className="ic">
-        <Icon name={catIcon(c.icon)} />
-      </span>
-      <h3>{c.name}</h3>
-      <p>{c.description}</p>
-      <span className="small cat-more">
-        Alanı incele <Icon name="arrow" />
-      </span>
-    </Link>
-  );
-}
-
 export function PageHead({ eyebrow, title, lead, children }: { eyebrow: string; title: string; lead?: string; children?: React.ReactNode }) {
   return (
     <div className="page-head">
