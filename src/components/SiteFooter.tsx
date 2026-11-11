@@ -70,6 +70,7 @@ export async function SiteFooter() {
         <span>KAMUYA AÇIK · ANONİM TOPLU VERİ · Kişisel veriler KVKK kapsamında korunur</span>
         <span>© {new Date().getFullYear()} MASSAM · {TAGLINE}</span>
       </div>
+      <p className="site-footer-org">MASSAM bir MASKDER kuruluşudur.</p>
     </footer>
   );
 }

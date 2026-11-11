@@ -1193,3 +1193,6 @@ th{font-family:var(--f-body);font-size:.72rem;letter-spacing:.06em}
 .hl-slide.is-on .hl-artpanel .survey-art{animation:hl-ken 9s cubic-bezier(.25,.6,.3,1) both}
 .hl-slide.is-on .hl-artchart{animation:hl-card .85s .35s cubic-bezier(.2,.7,.2,1) both}
 @media (prefers-reduced-motion:reduce){.headlines,.hl-slide.is-on .hl-copy>*,.hl-slide.is-on .hl-artpanel .survey-art,.hl-slide.is-on .hl-artchart{animation:none}}
+
+/* Kuruluş satırı */
+.site-footer-org{margin:0;padding:12px 16px 20px;border-top:1px solid rgba(255,255,255,.08);text-align:center;font-family:var(--f-display);font-size:.88rem;letter-spacing:.02em;color:rgba(255,255,255,.82)}
