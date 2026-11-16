@@ -1,7 +1,7 @@
 import { ILLER, TR_H, TR_W, project } from "@/lib/geo/tr-iller";
 
 /** Saha haritası: Türkiye il sınırları (gerçek izdüşüm ve ölçüler) ve saha çalışması yapılan iller */
-export type FieldSite = { name: string; lon?: number; lat?: number; n: number; group: "t" | "e"; anchor?: "start" | "middle" | "end"; dx?: number; dy?: number; compact?: boolean };
+export type FieldSite = { name: string; lon?: number; lat?: number; n: number; group: "t" | "e" | "g"; anchor?: "start" | "middle" | "end"; dx?: number; dy?: number; compact?: boolean };
 
 /** MASKDER saha araştırmalarında görüşme yapılan iller (rapor tablolarından); koordinatlar il merkezidir */
 export const FIELD_SITES: FieldSite[] = [
@@ -10,6 +10,8 @@ export const FIELD_SITES: FieldSite[] = [
   { name: "Bursa", lon: 29.06, lat: 40.19, n: 171, group: "t", anchor: "end", dx: -16, dy: 34 },
   { name: "Bolu", lon: 31.61, lat: 40.73, n: 82, group: "t", dx: 16, dy: -14 },
   { name: "Hatay", lon: 36.16, lat: 36.2, n: 288, group: "e", dx: 22, dy: 10 },
+  // Siyasi Bilinç Araştırması (MASKDER Yayınları 02): İstanbul Medipol Üniversitesi, MASK Meclis katılımcıları, tam sayım; n raporun yüzdelerinden (146 kişi)
+  { name: "Gençlerde Siyasal Bilinç", lon: 29.09, lat: 41.09, n: 146, group: "g", dx: 16, dy: -54 },
 ];
 
 /** Diğer saha illeri: ortalama görüşme sayılarıyla; konum il merkezinden (centroid), etikette yalnızca sayı gösterilir */
@@ -25,8 +27,8 @@ const EXTRA: [string, number, "t" | "e"][] = [
 const CENTER = new Map(ILLER.map((il) => [il.name, il.c]));
 FIELD_SITES.push(...EXTRA.map(([name, n, group]) => ({ name, n, group, compact: true })));
 
-const COLOR = { t: "var(--tur-2)", e: "var(--efl-2)" } as const;
-const FILL = { t: "var(--tur-soft)", e: "var(--efl-soft)" } as const;
+const COLOR = { t: "var(--tur-2)", e: "var(--efl-2)", g: "var(--bad)" } as const;
+const FILL = { t: "var(--tur-soft)", e: "var(--efl-soft)", g: "var(--bad-soft)" } as const;
 
 export function FieldMap({ sites = FIELD_SITES, legend = true }: { sites?: FieldSite[]; legend?: boolean }) {
   const max = Math.max(...sites.map((s) => s.n));
@@ -81,7 +83,11 @@ export function FieldMap({ sites = FIELD_SITES, legend = true }: { sites?: Field
             Afet saha araştırması
           </span>
           <span>
-            Daire alanı: görüşme sayısı · {sites.length} il · toplam {sites.reduce((a, s) => a + s.n, 0).toLocaleString("tr-TR")} görüşme
+            <i style={{ background: COLOR.g }} />
+            Gençlerde Siyasal Bilinç Araştırması (İstanbul)
+          </span>
+          <span>
+            Daire alanı: görüşme sayısı · {sites.filter((s) => CENTER.has(s.name)).length} il · toplam {sites.reduce((a, s) => a + s.n, 0).toLocaleString("tr-TR")} görüşme
           </span>
           <span className="map-src">Sınırlar: geoBoundaries, © OpenStreetMap katkıcıları</span>
         </figcaption>
