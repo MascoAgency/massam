@@ -2,7 +2,7 @@
 import { useEffect, useRef } from "react";
 
 /**
- * Sayfa zemininde fareye tepki veren nokta ağı: imleç yaklaştıkça noktalar büyür ve turkuaz/eflatun tonuna döner,
+ * Sayfa zemininde fareye tepki veren 8 köşeli yıldız ağı: imleç yaklaştıkça yıldızlar büyür ve mavi tonlara döner,
  * yakın noktalar ince çizgilerle imlece bağlanır ("tarama" etkisi). Dokunmatik cihazlarda ve
  * hareket azaltma tercihinde çalışmaz; yalnızca fare hareket ederken çizim yapar.
  */
@@ -34,6 +34,16 @@ export function CursorField() {
       draw();
     };
 
+    // amblemdeki 8 köşeli yıldız: dış ve iç yarıçap sırayla, 16 köşe
+    const star = (cx: number, cy: number, r: number) => {
+      ctx.beginPath();
+      for (let k = 0; k < 16; k++) {
+        const a = (k * Math.PI) / 8, rr = k % 2 ? r * 0.39 : r;
+        ctx.lineTo(cx + Math.cos(a) * rr, cy + Math.sin(a) * rr);
+      }
+      ctx.closePath();
+    };
+
     const draw = () => {
       ctx.clearRect(0, 0, w, h);
       const x0 = Math.max(0, Math.floor((pos.x - R) / GAP)), x1 = Math.ceil((pos.x + R) / GAP);
@@ -46,8 +56,7 @@ export function CursorField() {
           const t = 1 - d / R;
           ctx.globalAlpha = 0.15 + t * 0.75;
           ctx.fillStyle = (gx + gy) % 5 === 0 ? col.efl : col.tur;
-          ctx.beginPath();
-          ctx.arc(x, y, 1 + t * 2.2, 0, Math.PI * 2);
+          star(x, y, 2 + t * 3.6);
           ctx.fill();
           if (t > 0.55) {
             ctx.globalAlpha = (t - 0.55) * 0.9;
