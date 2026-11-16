@@ -232,16 +232,15 @@ function MassamEmblem({ size }: { size: number }) {
       </Defs>
       <G clipPath="url(#massam-pdf-c)">
         <Rect x="0" y="0" width="100" height="200" fill="#1B2A5C" />
-        <Rect x="100" y="0" width="100" height="200" fill="#5FB0D6" />
-        <Ellipse cx="100" cy="100" rx="44" ry="96" fill="none" stroke="#FFFFFF" strokeOpacity={0.16} strokeWidth={2} />
-        <Line x1="0" y1="56" x2="200" y2="56" stroke="#FFFFFF" strokeOpacity={0.16} strokeWidth={2} />
-        <Line x1="0" y1="144" x2="200" y2="144" stroke="#FFFFFF" strokeOpacity={0.16} strokeWidth={2} />
+        <Rect x="100" y="0" width="100" height="200" fill="#1B2A5C" />
+        <Ellipse cx="100" cy="100" rx="44" ry="96" fill="none" stroke="#FFFFFF" strokeOpacity={0.18} strokeWidth={2} />
+        <Line x1="0" y1="56" x2="200" y2="56" stroke="#FFFFFF" strokeOpacity={0.18} strokeWidth={2} />
+        <Line x1="0" y1="144" x2="200" y2="144" stroke="#FFFFFF" strokeOpacity={0.18} strokeWidth={2} />
         <Rect x="40" y="140" width="20" height="60" rx="3" fill="#FFFFFF" />
         <Rect x="68" y="116" width="20" height="84" rx="3" fill="#FFFFFF" />
-        <Rect x="112" y="92" width="20" height="108" rx="3" fill="#1B2A5C" />
-        <Rect x="140" y="70" width="20" height="130" rx="3" fill="#1B2A5C" />
+        <Rect x="112" y="92" width="20" height="108" rx="3" fill="#FFFFFF" />
+        <Rect x="140" y="70" width="20" height="130" rx="3" fill="#FFFFFF" />
       </G>
-      <Circle cx="100" cy="100" r="96" fill="none" stroke="#5FB0D6" strokeWidth={3} />
       <Polyline points={pts} fill="none" stroke="#1B2A5C" strokeWidth={10} strokeLinecap="round" strokeLinejoin="round" />
       <Polyline points={pts} fill="none" stroke="#FFFFFF" strokeWidth={4} strokeLinecap="round" strokeLinejoin="round" />
       <Circle cx="50" cy="122" r="6" fill="#FFFFFF" stroke="#1B2A5C" strokeWidth={3} />
