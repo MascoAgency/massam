@@ -1248,3 +1248,4 @@ input:focus,select:focus,textarea:focus{outline:2px solid var(--frame);outline-o
 @media (prefers-reduced-motion:reduce){.btn:hover,a.card:hover,.area-card:hover,a.media-card:hover{transform:none}}
 .headlines,.headlines.live{border-top:3px solid var(--frame)}
 .btn.onnavy{border-color:#fff}
+.fm-cn{font-family:var(--f-body);font-size:13.5px;font-weight:700;fill:#fff;font-variant-numeric:tabular-nums;pointer-events:none}
