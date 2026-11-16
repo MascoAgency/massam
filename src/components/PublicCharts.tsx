@@ -112,7 +112,7 @@ export function AgreeCompare({ items }: { items: { label: string; agree: number 
     const th = chartTheme();
     return {
       type: "bar",
-      data: { labels: items.map((i) => wrapLabel(i.label, 40)), datasets: [{ data: items.map((i) => +i.agree.toFixed(1)), backgroundColor: items.map((_, k) => PALETTE[k % PALETTE.length]), borderRadius: 4, maxBarThickness: 28 }] },
+      data: { labels: items.map((i) => wrapLabel(i.label, 40)), datasets: [{ data: items.map((i) => +i.agree.toFixed(1)), backgroundColor: items.map((_, k) => PALETTE[k % PALETTE.length]), borderRadius: 0, maxBarThickness: 28 }] },
       options: {
         indexAxis: "y",
         responsive: true,

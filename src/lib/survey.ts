@@ -14,7 +14,7 @@ export const LIKERT: Record<5 | 7, string[]> = {
   7: ["Kesinlikle katılmıyorum", "Katılmıyorum", "Biraz katılmıyorum", "Kararsızım", "Biraz katılıyorum", "Katılıyorum", "Kesinlikle katılıyorum"],
 };
 
-export const PALETTE = ["#0B1F3A", "#14B8C4", "#9B7FD1", "#3C5A85", "#0E8C96", "#CDBDEB", "#9FE3E8", "#6F52A8"];
+export const PALETTE = ["#1B2A5C", "#5B7FC4", "#A9BCE3", "#2F4A8A", "#7F9BD3", "#0F1A3D", "#C9D5EE", "#46619E"];
 
 export const newId = () => Date.now().toString(36) + Math.random().toString(36).slice(2, 8);
 

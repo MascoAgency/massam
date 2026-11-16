@@ -19,7 +19,7 @@ export function CursorField() {
     const target = { x: -999, y: -999 }, pos = { x: -999, y: -999 };
     let raf = 0, active = false, idle = 0;
     const css = (n: string) => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
-    let col = { dot: "#C6D0DD", tur: "#14B8C4", efl: "#9B7FD1" };
+    let col = { dot: "#C6D0DD", tur: "#5B7FC4", efl: "#7F9BD3" };
 
     const resize = () => {
       dpr = Math.min(2, window.devicePixelRatio || 1);

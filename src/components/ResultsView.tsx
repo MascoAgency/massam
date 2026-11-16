@@ -618,7 +618,7 @@ function Compare({ s, rs, filterBar }: { s: SurveyLite; rs: Resp[]; filterBar: R
     const th = chartTheme();
     return {
       type: "bar",
-      data: { labels: seg.groups.map((g) => wrapLabel(g.label, 14)), datasets: [{ data: seg.groups.map((g) => g.mean), backgroundColor: seg.groups.map((_, i) => PALETTE[i % PALETTE.length]), borderRadius: 3, maxBarThickness: 48 }] },
+      data: { labels: seg.groups.map((g) => wrapLabel(g.label, 14)), datasets: [{ data: seg.groups.map((g) => g.mean), backgroundColor: seg.groups.map((_, i) => PALETTE[i % PALETTE.length]), borderRadius: 0, maxBarThickness: 48 }] },
       options: {
         responsive: true,
         maintainAspectRatio: false,

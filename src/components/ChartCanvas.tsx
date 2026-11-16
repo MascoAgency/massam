@@ -29,14 +29,14 @@ export function chartTheme() {
     grid: css("--line") || "#DCE3EC",
     bg: css("--surface") || "#ffffff",
     head: css("--head") || "#05070C",
-    accent: css("--tur-2") || "#0E8C96",
-    tur: css("--tur") || "#14B8C4",
-    turMid: css("--tur-mid") || "#9FE3E8",
-    efl: css("--efl") || "#9B7FD1",
-    efl2: css("--efl-2") || "#6F52A8",
-    eflMid: css("--efl-mid") || "#CDBDEB",
-    navy: css("--navy") || "#0B1F3A",
-    navy3: css("--navy-3") || "#1E3A64",
+    accent: css("--tur-2") || "#2F4A8A",
+    tur: css("--tur") || "#5B7FC4",
+    turMid: css("--tur-mid") || "#A9BCE3",
+    efl: css("--efl") || "#7F9BD3",
+    efl2: css("--efl-2") || "#2F4A8A",
+    eflMid: css("--efl-mid") || "#C9D5EE",
+    navy: css("--navy") || "#1B2A5C",
+    navy3: css("--navy-3") || "#2F4A8A",
     soft: css("--surface-2") || "#EEF2F8",
   };
 }
@@ -89,7 +89,7 @@ export function makeChartConfig(kind: ChartKind, labels: string[], values: numbe
   const catAxis = { ticks: { color: th.fg, autoSkip: false }, grid: { display: false }, border: { color: th.grid } };
   return {
     type: "bar",
-    data: { labels: labels.map((l) => wrapLabel(l, horiz ? 28 : 14)), datasets: [{ data: values, backgroundColor: mono ? th.accent : colors, borderRadius: 3, maxBarThickness: 44 }] },
+    data: { labels: labels.map((l) => wrapLabel(l, horiz ? 28 : 14)), datasets: [{ data: values, backgroundColor: mono ? th.accent : colors, borderRadius: 0, maxBarThickness: 44 }] },
     options: { ...base, indexAxis: horiz ? "y" : "x", scales: horiz ? { x: valAxis, y: catAxis } : { x: catAxis, y: valAxis } },
   } as ChartConfiguration;
 }

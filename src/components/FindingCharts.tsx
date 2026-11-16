@@ -69,7 +69,7 @@ function configFor(c: FindingChart): ChartConfiguration {
   const catAxis = { ticks: { color: th.head, autoSkip: false, font: { size: 11.5 } }, grid: { display: false }, border: { color: th.grid } };
   return {
     type: "bar",
-    data: { labels: labels.map((l) => wrapLabel(l, horiz ? 30 : 14)), datasets: [{ data: values, backgroundColor: colors, borderRadius: 3, maxBarThickness: horiz ? 24 : 46 }] },
+    data: { labels: labels.map((l) => wrapLabel(l, horiz ? 30 : 14)), datasets: [{ data: values, backgroundColor: colors, borderRadius: 0, maxBarThickness: horiz ? 24 : 46 }] },
     options: { ...base, indexAxis: horiz ? "y" : "x", layout: { padding: horiz ? { right: 48 } : { top: 18 } }, plugins: { legend: { display: false }, tooltip }, scales: horiz ? { x: valAxis, y: catAxis } : { x: catAxis, y: valAxis } },
     plugins: [valueLabels],
   } as ChartConfiguration;

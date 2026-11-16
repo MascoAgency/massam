@@ -26,20 +26,20 @@ function registerFonts() {
   fontsReady = true;
 }
 
-const INK = "#05070C", NAVY = "#0B1F3A", ACCENT = "#0E8C96", MUTED = "#5b6474", LINE = "#e2e6ee";
+const INK = "#05070C", NAVY = "#1B2A5C", ACCENT = "#2F4A8A", MUTED = "#5b6474", LINE = "#e2e6ee";
 
 const s = StyleSheet.create({
   page: { fontFamily: "Inter", fontSize: 9.5, lineHeight: 1.5, color: INK, paddingTop: 40, paddingBottom: 48, paddingHorizontal: 40 },
-  cover: { position: "relative", marginTop: -40, marginHorizontal: -40, paddingTop: 34, paddingBottom: 26, paddingHorizontal: 40, marginBottom: 14, backgroundColor: "#13294B", color: "#ffffff" },
+  cover: { position: "relative", marginTop: -40, marginHorizontal: -40, paddingTop: 34, paddingBottom: 26, paddingHorizontal: 40, marginBottom: 14, backgroundColor: "#22346E", color: "#ffffff" },
   coverBg: { position: "absolute", top: 0, left: 0, right: 0, bottom: 0, width: "100%", height: "100%" },
-  brandline: { flexDirection: "row", alignItems: "center", fontSize: 8, letterSpacing: 0.8, textTransform: "uppercase", color: "#9FE3E8", fontWeight: 600 },
+  brandline: { flexDirection: "row", alignItems: "center", fontSize: 8, letterSpacing: 0.8, textTransform: "uppercase", color: "#A9BCE3", fontWeight: 600 },
   logo: { width: 26, height: 26, borderRadius: 13, marginRight: 8 },
   h1: { fontWeight: 800, fontSize: 22, letterSpacing: -0.4, color: "#ffffff", marginTop: 12, marginBottom: 6, lineHeight: 1.2 },
   h2: { fontWeight: 700, fontSize: 14, letterSpacing: -0.2, color: NAVY, marginTop: 16, marginBottom: 6, paddingBottom: 3, borderBottomWidth: 1.6, borderBottomColor: ACCENT },
   h3: { fontWeight: 700, fontSize: 10.5, marginBottom: 4, color: NAVY },
   p: { marginBottom: 6 },
   kvRow: { flexDirection: "row", marginBottom: 2 },
-  kvK: { width: 110, color: "#9FE3E8", fontWeight: 600 },
+  kvK: { width: 110, color: "#A9BCE3", fontWeight: 600 },
   q: { paddingTop: 8, paddingBottom: 10, borderBottomWidth: 0.8, borderBottomColor: LINE },
   meta: { fontSize: 8, color: MUTED, marginBottom: 4 },
   table: { borderWidth: 0.8, borderColor: LINE, marginVertical: 4 },
@@ -47,7 +47,7 @@ const s = StyleSheet.create({
   th: { backgroundColor: "#EEF2F8", color: "#45464d", fontWeight: 600, fontSize: 8.5, padding: 3.5 },
   td: { padding: 3.5, fontSize: 8.8 },
   num: { textAlign: "right", width: 48 },
-  comment: { backgroundColor: "#E3F7F8", borderLeftWidth: 2.5, borderLeftColor: ACCENT, padding: 6, marginTop: 5 },
+  comment: { backgroundColor: "#E7EBF4", borderLeftWidth: 2.5, borderLeftColor: ACCENT, padding: 6, marginTop: 5 },
   li: { flexDirection: "row", marginBottom: 2.5 },
   bullet: { width: 10, color: ACCENT },
   foot: { marginTop: 18, fontSize: 8, color: MUTED, borderTopWidth: 0.8, borderTopColor: LINE, paddingTop: 6 },
@@ -280,9 +280,9 @@ export function ReportDocument({ snap }: { snap: ReportSnapshot }) {
           <Svg style={s.coverBg} viewBox="0 0 100 100" preserveAspectRatio="none">
             <Defs>
               <LinearGradient id="brand" x1="0" y1="0" x2="1" y2="0.6">
-                <Stop offset="0" stopColor="#0B1F3A" />
-                <Stop offset="0.48" stopColor="#13294B" />
-                <Stop offset="1" stopColor="#1E3A64" />
+                <Stop offset="0" stopColor="#1B2A5C" />
+                <Stop offset="0.48" stopColor="#22346E" />
+                <Stop offset="1" stopColor="#2F4A8A" />
               </LinearGradient>
             </Defs>
             <Rect x="0" y="0" width="100" height="100" fill="url(#brand)" />
